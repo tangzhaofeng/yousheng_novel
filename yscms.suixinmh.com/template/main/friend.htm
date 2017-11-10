@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	
+	<title>漫阅读文化管理平台</title>
+    <meta name="keywords" content="漫阅读文化管理平台"/>
+    <meta name="description" content="漫阅读文化管理平台"/>
+    <script type="text/javascript" src="Js/jquery.min.js"></script>
+	<script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+	<link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+				<div class="box-con">
+					<div class="box-filter">
+                        <form method="post" action="<!--{echo $doMain;}-->index.php?c=do&a=friendAdd">
+							<div class="form-con i-col-2" style="width:100px;"><input class="form-control" placeholder="站点名" style="width:115px;" id="web_name" name="web_name" ></div>
+                            <div class="form-con i-col-4" >
+                                <input class="form-control" name="url" type="text" placeholder="链接地址">
+                            </div>
+							<div class="form-con i-col-2" style="width:108px;"><input type="submit" class="btn" value="发布链接"></div>
+                        </form>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>站点</th>
+									<th>链接</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($friendList as $k =>$v)}-->
+								<tr>
+									<td><!--{echo $v['id'];}--></td>
+									<td ><!--{echo $v['web_name'];}--></td>
+									<td><!--{echo $v['url'];}--></td>
+									<td>
+										<a class="delDo btn" data-href="<!--{echo $doMain;}-->index.php?c=do&a=delFriend" data-id="<!--{echo $v['id'];}-->"><i class="icon ai-delete"></i>删除</a>
+									</td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+	<script type="text/javascript" src="Js/ai.js"></script>
+	<script type="text/javascript" src="Js/jquery-confirm.js"></script>
+    <script>
+	$(function(){
+		$('.delDo').click(function(){
+			var url=$(this).attr("data-href");
+			var id=$(this).attr("data-id");
+			if (confirm("你确定删除吗？")) {  
+				$.ajax({
+					type:"POST",
+					url:url,
+					data:{id:id},
+					dataType: "json",
+					success:function(data){
+						if(data.res){
+							 location.replace(location.href);
+						}else{
+							alert(data);
+						}
+					}
+				 });
+			}  
+		});
+	});
+    </script>
+</body>
+</html>

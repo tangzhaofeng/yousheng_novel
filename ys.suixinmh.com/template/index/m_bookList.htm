@@ -1,0 +1,74 @@
+<!--{layout:public/m_header}-->
+<body style=" padding:45px 0px 0px 0px;">
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+    <ul class="orderBy">
+        <li class="type clearfix">
+            <div class="liLeft">类型</div>
+            <div class="liRight"><span><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=0&serial=<!--{echo $serial;}-->&time=<!--{echo $time;}-->" <!--{if(empty($type))}-->class="haver"<!--{/if}-->>全部</a></span>
+            <!--{foreach ($bookType as $k =>$v)}-->
+                <!--{foreach ($v['minType'] as $mk =>$mv)}-->
+                <span><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $mv['id'];}-->&serial=<!--{echo $serial;}-->&time=<!--{echo $time;}-->" <!--{if($type==$mv["id"])}-->class="haver"<!--{/if}-->><!--{echo $mv["typeName"];}--></a></span>
+                <!--{/foreach}-->
+            <!--{/foreach}-->
+            </div>
+        </li>
+        <li class="jindu clearfix">
+            <div class="liLeft">进度</div>
+            <div class="liRight">
+            <span class="haver"><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $mv['id'];}-->&serial=&time=<!--{echo $time;}-->" <!--{if($serial=='')}-->class="haver"<!--{/if}-->>全部</a></span>
+            <span><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $type;}-->&serial=0&time=<!--{echo $time;}-->" <!--{if($serial=='0')}-->class="haver"<!--{/if}-->>连载</a></span>
+            <span><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $type;}-->&serial=1&time=<!--{echo $time;}-->" <!--{if($serial=='1')}-->class="haver"<!--{/if}-->>完成</a></span>
+            </div>
+        </li>
+        <li class="upTime clearfix">
+            <div class="liLeft">更新</div>
+            <div class="liRight">
+            <span class="haver"><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $type;}-->&serial=<!--{echo $serial;}-->&time=0" <!--{if(empty($time))}-->class="haver"<!--{/if}-->>全部</a></span>
+            <span><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $type;}-->&serial=<!--{echo $serial;}-->&time=1" <!--{if($time==1)}-->class="haver"<!--{/if}-->>一天</a></span>
+            <span><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $type;}-->&serial=<!--{echo $serial;}-->&time=3" <!--{if($time==3)}-->class="haver"<!--{/if}-->>三天</a></span>
+            <span><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $type;}-->&serial=<!--{echo $serial;}-->&time=7" <!--{if($time==7)}-->class="haver"<!--{/if}-->>一周</a></span>
+            </div>
+        </li>
+    </ul>
+    <div class="lanmuBox" style="margin-top:6px;">
+        <div class="ulShuBox">
+            <ul id="newsBook">
+            <!--{foreach ($bookList as $k =>$v)}-->
+                <li data-url="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->">
+                    <div class="bookImg"><img src="<!--{if(!empty($v['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->"></div>
+                    <div class="bookInfo">
+                        <div class="bookName"><!--{echo $v['book_name'];}--></div>
+                        <div class="bookother">
+                            <span class="renqi"><!--{if($v['is_serial']==0)}-->连载<!--{else}-->完本<!--{/if}--></span>
+                            <span class="renqi">人气<!--{echo $v['clickCount'];}--></span>
+                            <span class="renqi">点赞<!--{echo $v['give'];}--></span>
+                            <span class="renqi">收藏<!--{echo $v['book_case'];}--></span>
+                        </div>
+                        <div class="bookother">
+                        <!--{foreach ($v['type'] as $kt=>$vt)}-->
+                            <span class="bookType"><!--{echo $vt['typeName'];}--></span>
+                        <!--{/foreach}-->
+                        </div>
+                        <div class="bookDesc"><!--{echo $v['descriptions'];}--></div>
+                    </div>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+        <div class="pagesBox">
+            <div class="backurl"><a href="<!--{echo $backurl;}-->"><!--{echo $backtext;}--></a></div>
+            <div class="nexturl"><a href="<!--{echo $nexturl;}-->"><!--{echo $nexttext;}--></a></div>
+        </div>
+
+    </div>
+</div>
+<script>
+	$(document).on("click","#newsBook li",function(){
+		var url=$(this).attr("data-url");
+		window.location=url;
+	});
+</script>
+</body>
+</html>

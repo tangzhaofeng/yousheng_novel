@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+				<div class="box-con">
+					<div class="box-filter">
+						<form name="login" method="get" action="<!--{echo $this->doMain;}-->index.php">
+                            <input type="hidden" name="c" value="main">
+                            <input type="hidden" name="a" value="authorList">
+                          <div class="form-con i-col-2" style="width:138px;">
+								<select class="form-control" name="state">
+                                  <option value="">选择类型</option>
+                                  <option <!--{if($state=='0')}--> selected <!--{/if}--> value="0" >未审核</option>
+                                  <option <!--{if($state=='1')}--> selected <!--{/if}--> value="1" >已审核</option>
+							  </select>
+							</div>
+							<div class="form-con i-col-2" style="width:160px;"><input class="form-control" style="width:160px;" id="nickName" name="nickName" value="<!--{echo $nickName;}-->" placeholder="作者笔名" ></div>
+                            <div class="form-con i-col-2" style="width:55px;"><input class="btn btn-add" style="width:55px;" type="submit" value="搜索"></div>
+						</form>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>编号</th>
+									<th>笔名</th>
+									<th>真名</th>
+									<th>手机</th>
+									<th>QQ</th>
+									<th>VIP</th>
+									<th>注册时间</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($authorList as $k =>$v)}-->
+								<tr>
+                                    <td><!--{echo $v['author_id'];}--></td>
+                                    <td><!--{echo $v['nickName'];}--></td>
+                                    <td><!--{echo $v['realName'];}--></td>
+                                    <td>
+                                    <!--{echo $v['phone'];}-->
+                                    </td>
+                                    <td><!--{echo $v['qq'];}--></td>
+                                    <td>
+                                    <!--{if($v['vip']==0)}-->有权VIP<!--{/if}-->
+                                    <!--{if($v['vip']==1)}-->无权VIP<!--{/if}-->
+                                    </td>
+                                    <td><!--{echo date("Y-m-d H:i:s",$v['createTime']);}--></td>
+                                    <td>
+                                    <!--{if($v['state']==0)}-->待审核<!--{/if}-->
+                                    <!--{if($v['state']==1)}-->已通过<!--{/if}-->
+                                    </td>
+                                    <td><a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=authorSet&authorId=<!--{echo $v['author_id'];}-->"><i class="icon ai-article"></i>去审核</a></td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+					<div class="paging">
+						<div>
+							<!--{echo $page_html;}-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+</body>
+</html>

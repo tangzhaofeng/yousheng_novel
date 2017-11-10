@@ -1,0 +1,23 @@
+<!--{layout:public/user_header}-->
+<body style="padding:45px 0px 0px 0px">
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+    <!--{if(empty($list))}-->
+    <div class="noDate">暂无数据</div>
+    <!--{else}-->
+    <ul class="userBook">
+        <!--{foreach ($list as $k =>$v)}-->
+        <li data-url="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="<!--{if(!empty($v['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->"><div class="name"><!--{echo $v['book_name'];}--></div></li>
+        <!--{/foreach}-->
+    </ul>
+    <!--{/if}-->
+</div>
+</body>
+<script>
+	$(document).on("click",".userBook li",function(){
+		var url=$(this).attr("data-url");
+		window.location=url;
+	});
+</script>
+</html>

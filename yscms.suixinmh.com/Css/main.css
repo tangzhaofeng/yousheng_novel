@@ -1,0 +1,32 @@
+#table-5{width:100%; margin-top:0px; background:#FFF}
+#table-5 thead th{background:#4d5f84; border:0; height:32px; line-height:32px;color:#fff;}
+#table-5 td{color: #000; height:25px;text-align:center; border-bottom:1px solid #E4E4E4}
+#table-5 td, #table-5 th{padding:5px 0px;font-size:14px;font-family:Verdana;}
+
+.soWhere{position:fixed;top:0px; width:100%; height:46px; background:#00bb9c}
+.soWhere input{border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; border:0}
+.soWhere select{border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px; border:0}
+.userId{position:absolute;top:9px; left:6px; padding:0PX 6PX; width:100px; height:28px; line-height:28PX; background:#FFF}
+.userRegType{position:absolute;top:9px; left:112px; padding:0PX 6PX; width:125px; height:28px; line-height:28PX; background:#FFF}
+.userRegSource{position:absolute;top:9px; left:243px; padding:0PX 6PX; width:125px; height:28px; line-height:28PX; background:#FFF}
+.userCount{position:absolute;top:0px; right:300px; padding:0px; width:100px; height:46px;}
+.userCount .number{height:26px;line-height:32px; text-align:center; font-size:20px; color:#FFF}
+.userCount .text{height:20px; line-height:18px;text-align:center;font-size:10px;color:#FFF}
+.userMoney{position:absolute;top:0px; right:200px; padding:0px; width:100px; height:46px;}
+.userMoney .number{height:26px;line-height:32px; text-align:center; font-size:20px; color:#FFF}
+.userMoney .text{height:20px; line-height:18px;text-align:center;font-size:10px;color:#FFF}
+.userStartTime{position:absolute;top:9px; left:374px; padding:0PX 6PX; width:150px; height:28px; line-height:28PX; background:#FFF}
+.userEndTime{position:absolute;top:9px; left:530px; padding:0PX 6PX; width:150px; height:28px; line-height:28PX; background:#FFF}
+.userSubmit{position:absolute;top:9px; left:686px; padding:0PX 6PX; width:45px; height:28px; line-height:28PX; background:#033; color:#FFF}
+
+.bookName{position:absolute;top:9px; left:6px; padding:0PX 6PX; width:150px; height:28px; line-height:28PX; background:#FFF}
+.bookSubmit{position:absolute;top:9px; left:162px; padding:0PX 6PX; width:45px; height:28px; line-height:28PX; background:#033; color:#FFF}
+.bookPushBox{position:absolute;top:9px; left:225px; padding:0PX 6PX; width:90px; height:28px; line-height:28PX; background:#FFF}
+.bookPushSort{position:absolute;top:9px; left:320px; padding:0PX 6PX; width:45px; height:28px; line-height:28PX; background:#FFF}
+.bookPushType{position:absolute;top:9px; left:370px; padding:0PX 6PX; width:90px; height:28px; line-height:28PX; background:#FFF}
+.bookPushSubmit{position:absolute;top:9px; left:465px; padding:0PX 6PX; width:75px; height:28px; line-height:28PX; background:#033; color:#FFF}
+
+.bookMenu{position:absolute;top:8px;right:0px; width:595px; height:30px;}
+.bookMenu li{width:80px; height:30px; line-height:30px; margin-right:5px; background:#000; color:#FFF; text-align:center;-moz-border-radius:6px;border-radius:6px; float:left;}
+.bookMenu li a{color:#FFF;}
+

@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+				<div class="box-con">
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>标题</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+                            <!--{foreach ($list as $k =>$v)}-->
+								<tr>
+									<td><!--{echo $v['id'];}--></td>
+                                    <td><!--{echo $v['title'];}--></td>
+                                    <td><a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=editOther&lm=<!--{echo $v['lm'];}-->"><i class="icon ai-article"></i>编辑</a></td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+</body>
+</html>

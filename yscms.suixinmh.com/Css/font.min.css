@@ -1,0 +1,74 @@
+@font-face{
+	font-family: "ai-font";
+    src: url('../font/ai-font.eot'); /* IE9*/
+    src: url('../font/ai-font.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../font/ai-font.woff') format('woff'), /* chrome、firefox */
+    url('../font/ai-font.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('../font/ai-font.svg#ai-font') format('svg'); /* iOS 4.1- */
+	font-weight: normal;
+	font-style: normal;
+}
+.icon{
+	display: inline-block;
+    font: normal normal normal 14px/1 ai-font;
+    font-size: inherit;
+    text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.ai-module:before { content: "\e602"; }
+.ai-article:before { content: "\e603"; }
+.ai-code:before { content: "\e604"; }
+.ai-edit:before { content: "\e605"; }
+.ai-copy:before { content: "\e606"; }
+.ai-set:before { content: "\e601"; }
+.ai-user:before { content: "\e608"; }
+.ai-home:before { content: "\e600"; }
+.ai-img-list:before { content: "\e616"; }
+.ai-users:before { content: "\e613"; }
+.ai-list:before { content: "\e607"; }
+.ai-ca:before { content: "\e614"; }
+.ai-img:before { content: "\e615"; }
+.ai-share:before { content: "\e632"; }
+.ai-hot:before { content: "\e633"; }
+.ai-link:before { content: "\e631"; }
+.ai-app:before { content: "\e609"; }
+.ai-delete:before { content: "\e621"; }
+.ai-weixin:before { content: "\e612"; }
+.ai-qq:before { content: "\e611"; }
+.ai-ios:before { content: "\e610"; }
+.ai-warn:before { content: "\e620"; }
+.ai-cart:before { content: "\e622"; }
+.ai-new:before { content: "\e624"; }
+.ai-phone:before { content: "\e623"; }
+.ai-search:before { content: "\e634"; }
+.ai-password:before { content: "\e628"; }
+.ai-qrcode:before { content: "\e625"; }
+.ai-out:before { content: "\e626"; }
+.ai-kind:before { content: "\e627"; }
+.ai-arrow-down:before { content: "\e629"; }
+.ai-close:before { content: "\e619"; }
+.ai-top:before { content: "\e630"; }
+.ai-rew-right:before { content: "\e617"; }
+.ai-rew-left:before { content: "\e618"; }
+.ai-moments:before { content: "\e635"; }
+.ai-message:before { content: "\e637"; }
+.ai-connection:before { content: "\e636"; }
+.ai-like:before { content: "\e638"; }
+.ai-safe:before { content: "\e639"; }
+.ai-mark:before { content: "\e640"; }
+.ai-tel:before { content: "\e641"; }
+.ai-eye:before { content: "\e642"; }
+.ai-video:before { content: "\e643"; }
+.ai-camera:before { content: "\e644"; }
+.ai-i:before { content: "\e645"; }
+.ai-bind-cel:before { content: "\e646"; }
+.ai-keyboard:before { content: "\e647"; }
+.ai-wallet:before { content: "\e648"; }
+.ai-up-img:before { content: "\e649"; }
+.ai-profit:before { content: "\e650"; }
+.ai-triangle:before { content: "\e651"; }
+.ai-seat:before { content: "\e652"; }
+.ai-spin:before { content: "\e653"; }
+.ai-open:before { content: "\e654"; }
+.ai-mail:before { content: "\e655"; }

@@ -1,0 +1,29 @@
+<!--{layout:public/m_header}-->
+<body style=" padding:45px 0px 0px 0px;">
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+    <!--{foreach ($bookType as $k =>$v)}-->
+    <div class="BigType"><!--{echo $v["typeName"];}--></div>
+    <div class="typePageBox clearfix">
+        <!--{foreach ($v['minType'] as $mk =>$mv)}-->
+        <div class="TypeBox"><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookList&type=<!--{echo $mv['id'];}-->"><!--{echo $mv["typeName"];}--><span><!--{echo $mv["bookCount"];}--></span></a></div>
+        <!--{/foreach}-->
+        <!--{if(!empty($v['minType']) && (3-count($v['minType'])%3)<3)}-->
+        <!--{for ($i=0; $i<(3-count($v['minType'])%3);$i++)}-->  
+            <div class="TypeBox"></div>
+        <!--{/for}-->
+        <!--{/if}-->
+    </div>
+    <!--{/foreach}-->
+</div>
+<!--
+--><!--{layout:public/m_footer}-->
+<script>
+	$(document).on("click",".lm_menu_C li",function(){
+		var url=$(this).attr("data-url");
+		window.location=url;
+	});
+</script>
+</body>
+</html>

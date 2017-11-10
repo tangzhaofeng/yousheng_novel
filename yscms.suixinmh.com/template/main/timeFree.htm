@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	
+	<title>漫阅读文化管理平台</title>
+    <meta name="keywords" content="漫阅读文化管理平台"/>
+    <meta name="description" content="漫阅读文化管理平台"/>
+    <script type="text/javascript" src="Js/jquery.min.js"></script>
+	<script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+	<link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+				<div class="box-con">
+					<div class="box-filter">
+                        <form method="post" action="<!--{echo $doMain;}-->index.php?c=main&a=booktimeFree">
+							<div class="form-con i-col-2" style="width:100px;"><input class="form-control" style="width:115px;" id="userStartTime" name="start_time" value="<!--{echo $startTime;}-->" placeholder="开始时间" readonly onClick="jeDate({dateCell:'#userStartTime',isTime:true,format:'YYYY-MM-DD'})"></div>
+							<div class="form-con i-col-2" style="width:100px;"><input type="text" id="userEndTime" style="width:115px;" class="form-control" name="end_time" value="<!--{echo $endTime;}-->" placeholder="结束时间" readonly onClick="jeDate({dateCell:'#userEndTime',isTime:true,format:'YYYY-MM-DD'})"></div>
+                            <div class="form-con i-col-2" style="width:88px;">
+                                <input class="form-control" style="width:88px;" name="book_id" type="text" placeholder="限免ID">
+                            </div>
+                            <div class="form-con i-col-2" style="width:66px;">
+                                <input class="form-control" style="width:66px;" name="sort" type="text" placeholder="排序">
+                            </div>
+							<div class="form-con i-col-2" style="width:108px;"><input type="submit" class="btn" value="加入限免"></div>
+                        </form>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>主图</th>
+									<th>图书名</th>
+									<th>排序</th>
+									<th>开始时间</th>
+									<th>结束时间</th>
+                                    <th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($TimeFree as $k =>$v)}-->
+								<tr>
+									<td><!--{echo $v['id'];}--></td>
+									<td><img src="http://author.xiaoshuokong.com/Uploads/bookPic/<!--{echo $v['book_pic'];}-->" style="width:52px;"></td>
+									<td ><!--{echo $v['book_name'];}--></td>
+									<td><!--{echo $v['sort'];}--></td>
+									<td><!--{echo date("Y-m-d",$v['start_time']);}--></td>
+									<td><!--{echo date("Y-m-d",$v['end_time']);}--></td>
+                                    <td>
+                                    <!--{echo $v['state'];}-->
+                                    </td>
+									<td>
+										<a class="delDo btn" data-href="<!--{echo $doMain;}-->index.php?c=main&a=deltimeFree" data-id="<!--{echo $v['id'];}-->"><i class="icon ai-delete"></i>删除</a>
+									</td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+	<script type="text/javascript" src="Js/ai.js"></script>
+	<script type="text/javascript" src="Js/jquery-confirm.js"></script>
+    <script>
+	$(function(){
+		$('.delDo').click(function(){
+			var url=$(this).attr("data-href");
+			var id=$(this).attr("data-id");
+			if (confirm("你确定删除吗？")) {  
+				$.ajax({
+					type:"POST",
+					url:url,
+					data:{id:id},
+					dataType: "json",
+					success:function(data){
+						if(data.res){
+							 location.replace(location.href);
+						}else{
+							alert(data);
+						}
+					}
+				 });
+			}  
+		});
+	});
+    </script>
+</body>
+</html>

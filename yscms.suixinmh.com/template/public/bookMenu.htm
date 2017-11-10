@@ -1,0 +1,31 @@
+<div class="soWhere">
+<form action="<!--{echo $this->doMain;}-->index.php">
+<input type="hidden" name="c" value="index">
+<input type="hidden" name="a" value="bookList">
+<input type="text" class="bookName" name="book_name" value="<!--{echo $userWhere['user_id'];}-->" placeholder="图书名称">
+<input class="bookSubmit" type="submit" value="搜索">
+</form>
+<form action="<!--{echo $this->doMain;}-->index.php?c=index&a=bookPush" method="post">
+<input type="text" class="bookPushBox" name="book_id" placeholder="推荐图书Id">
+<input type="text" class="bookPushSort" name="sort" placeholder="排序">
+<select name="pushType" class="bookPushType">
+  <option value="main">首页特推</option>
+  <option value="man">首页男版</option>
+  <option value="woman">首页女版</option>
+  <option value="hot">首页热门</option>
+  <option value="new">首页最新</option>
+  <option value="soman">男版推荐</option>
+  <option value="sowoman">女版推荐</option>
+</select>
+<input class="bookPushSubmit" type="submit" value="确认推荐">
+</form>
+<ul class="bookMenu clearfix">
+    <li><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=pushbook&tag=main">首页特推</a></li>
+    <li><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=pushbook&tag=man">首页男版</a></li>
+    <li><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=pushbook&tag=woman">首页女版</a></li>
+    <li><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=pushbook&tag=hot">首页热门</a></li>
+    <li><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=pushbook&tag=new">首页最新</a></li>
+    <li><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=pushbook&tag=soman">男版推荐</a></li>
+    <li><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=pushbook&tag=sowoman">女版推荐</a></li>
+</ul>
+</div>

@@ -1,0 +1,22 @@
+    <div class="loginBox">
+        <ul>
+            <li><input type="text" name="phone" id="phone" class="loginUser" placeholder="手机号"></li>
+            <li class="nborder"><input type="password" id="password" class="loginPassword" name="" placeholder="用户密码"></li>
+        </ul>
+    </div>
+    <div class="loginOrpassw">
+        <div class="yesLogin"><input name="keep" id="keep" type="checkbox" value="1" checked> 记住密码</div>
+        <div class="yesReg"><a href="<!--{echo $doMain;}-->index.php?c=index&a=reg&toUrl=<!--{echo urlencode($thisUrl);}-->">手机号注册</a></div>
+        <div class="yesPassw"><a href="<!--{echo $doMain;}-->index.php?c=index&a=forgotUser">忘记密码？</a></div>
+    </div>
+    <div class="submitBox" id="submitLogin"><a>登录</a></div>
+    <div class="otherLogin">
+    <!--{if(empty($isWeiXin))}-->
+        <span class="qqLogin"><a href="<!--{echo $doMain;}-->index.php?c=login&a=qq&toUrl=<!--{echo urlencode($thisUrl);}-->"></a></span>
+    <!--{else}-->
+        <span class="weixinLogin"><a href="<!--{echo $doMain;}-->index.php?c=login&a=weixin&toUrl=<!--{echo urlencode($thisUrl);}-->"></a></span>
+    <!--{/if}-->
+    </div>
+    <div class="regHerf">
+    <!--{if(empty($isWeiXin))}-->QQ快捷登录<!--{else}-->微信快捷登录<!--{/if}-->
+    </div>

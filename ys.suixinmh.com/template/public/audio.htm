@@ -1,0 +1,97 @@
+<div class="mp-list-box">
+    <div class="mp-list-table">
+        <ul class="mp-list"></ul>
+    </div>
+</div>
+<!--{if(!empty($pageCount))}-->
+<div class="pagesBox" style="background:#FFF">
+    <div class="backurl"><a href="<!--{echo $backurl;}-->"><!--{echo $backtext;}--></a></div>
+    <div class="nexturl"><a href="<!--{echo $nexturl;}-->"><!--{echo $nexttext;}--></a></div>
+</div>
+<!--{/if}-->
+<div class="mp" style="display:none">
+    <div class="mp-info">
+        <p class="mp-name">章节</p>
+        <p class="mp-singer" style="display:none">录音</p>
+        <p class="pTime"><span class="mp-time-current">00:00</span>/<span class="mp-time-all">00:00</span></p>
+    </div>
+    <div class="mp-pro">
+		<div class="mp-pro-current"></div>
+	</div>
+    <div class="mp-btn">
+        <button class="mp-prev" title="上一首"></button>
+        <button class="mp-pause" title="播放"></button>
+        <button class="mp-next" title="下一首"></button>
+        <button class="mp-mode" title="播放模式"></button>
+        <button class="mp-vol-img" title="静音"></button>
+        <div class="mp-vol" style="display:none">
+			<div class="mp-vol-range" data-range_min="0" data-range_max="100" data-cur_min="80">
+				<div class="mp-vol-current"></div>
+				<div class="mp-vol-circle"></div>
+			</div>
+		</div>
+    </div>
+</div>
+<div class="noMoney" style="display:none"></div>
+<script src="Js/jquery.min.js"></script>
+<script src="Js/mplayer.js"></script>
+<script src="Js/mplayer-list.js"></script>
+<script src="Js/mplayer-functions.js"></script>
+<script src="Js/jquery.nstSlider.min.js"></script>
+<script src="Js/jquery.history.js"></script>
+<script>
+$(document).on('click','.musicBox',function(){
+	var url=$(this).attr("data-url");
+	window.location.href=url;
+});
+var modeText = ['顺序播放','单曲循环','随机播放','列表循环'];
+var mplayerSong=<!--{echo $chapterList;}-->;
+var player = new MPlayer({
+	//列表容器
+	listSelector:'.mp-list-box',
+	//播放器容器
+	containerSelector:'.mp',
+	//播放列表
+	songList:mplayerSong,
+	//自动播放
+	autoPlay:<!--{echo empty($play)?'false':'true';}-->,
+	//播放模式(0->顺序播放,1->单曲循环,2->随机播放,3->列表循环(默认))
+	playMode:0,
+	playList:0,
+	playSong:<!--{echo $playSong;}-->,
+	//列表模板，用${变量名}$插入模板变量
+	listFormat:'<li><span>${name}$ <font style="font-size:12px; color:#f39800">${singer}$</font></span><div class="musicBox" data-url="<!--{echo $doMain;}-->index.php?c=index&a=chapterShow&bookid=<!--{echo $id;}-->&play=1&song=${song}$"><div class="musicPlay"></div></div></li>',
+	//音量滑块改变事件名称
+	volSlideEventName:'change',
+	//从什么位置开始播放
+	playSTime:<!--{echo $playSTime;}-->,
+	//初始音量
+	defaultVolume:100
+}, function () {
+	//绑定事件
+	this.on('afterInit', function () {
+		console.log('播放器初始化完成，正在准备播放');
+	}).on('beforePlay', function () {
+		var $this = this;
+		var song = $this.getCurrentSong(true);
+		var songName = song.name + ' - ' + song.singer;
+		console.log('即将播放'+songName+'，return false;可以取消播放');
+	}).on('end', function () {
+		var $this = this;
+		var song = $this.getCurrentSong(true);
+		var songName = song.name + ' - ' + song.singer;
+		console.log(songName+'播放完毕，return false;可以取消播放下一曲');
+	}).on('mute', function () {
+		var status = this.getIsMuted() ? '已静音' :'未静音';
+		console.log('当前静音状态：' + status);
+	}).on('changeMode', function () {
+		var $this = this;
+		var mode = modeText[$this.getPlayMode()];
+		$this.dom.container.find('.mp-mode').attr('title',mode);
+		console.log('播放模式已切换为：' + mode);
+	});
+});
+$(document.body).append(player.audio);
+setEffects(player);
+
+</script>

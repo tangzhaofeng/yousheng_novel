@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+                <ul class="con-nav">
+					<li class="on"><a href="javascript:void(0);">目录列表</a></li>
+                    <li ><a href="<!--{echo $doMain}-->index.php?c=main&a=bookList">返回图书列表</a></li>
+				</ul>
+				<div class="box-con">
+                    <div class="box-filter">
+                        <form name="login" method="post" action="<!--{echo $this->doMain;}-->index.php?c=main&a=priceCompute">
+							<div class="form-con i-col-2" style="width:100px;"><input type="text" id="unitPrice" style="width:100px;" class="form-control" name="unitPrice" value="" placeholder="每章价格" ></div>
+							<div class="form-con i-col-2" style="width:100px;"><input type="text" id="vipStart" style="width:100px;" class="form-control" name="vipStart" value="" placeholder="VIP开始章节" ></div>
+							<div class="form-con i-col-2" style="width:100px;"><input type="text" id="priceStart" style="width:100px;" class="form-control" name="priceStart" value="" placeholder="VIP收费章节" ></div>
+                            <div class="form-con i-col-2" style="width:125px;"><input type="hidden" name="bookId" value="<!--{echo $bookId;}-->"><input class="btn btn-add" style="width:125px;" type="submit" value="批量设置价格"></div>
+                        </form>
+                        <div class="form-con i-col-2" ><a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=addChapter&id=<!--{echo $bookId;}-->" id="paySunCsv">发布章节</a></div>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>标题</th>
+									<th>音频</th>
+									<th>排序</th>
+									<th>VIP</th>
+									<th>价格</th>
+									<th>试听</th>
+									<th>状态</th>
+									<th>发布时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($chapterList as $k =>$v)}-->
+								<tr id="<!--{echo $v['id'];}-->">
+                                    <td><!--{echo $v['id'];}--></td>
+									<td>
+                                    <!--{if ($v['chapter']!='0')}-->第<!--{echo $v['chapter'];}-->章<!--{/if}--><!--{echo $v['title'];}-->
+                                    </td>
+									<td><!--{echo $v['audio_url'];}--></td>
+									<td ><!--{echo $v['sort'];}--></td>
+									<td><!--{echo $v['is_vip'];}--></td>
+									<td><!--{echo $v['price'];}-->(币)</td>
+									<td><div style="width:200px; cursor:pointer" class="shiting" data-src="<!--{echo $v['audio_url'];}-->">试听</div>
+                                    </td>
+									<td>
+                                    <!--{if (1== $v['is_vip'])}--><span class="label green">VIP</span><!--{/if}-->
+                                    <!--{if (0== $v['is_vip'])}--><span class="label red">免费</span><!--{/if}-->
+                                    </td>
+									<td><!--{echo date("Y-m-d",$v['create_time']);}--></td>
+									<td>
+										<a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=editChapter&id=<!--{echo $v['id'];}-->"><i class="icon ai-article"></i>编辑</a>
+                                        <a class="delChapter btn" id="<!--{echo $v['id'];}-->" href="javascript:void(0);"><i class="icon ai-delete"></i>删除</a>
+                                    </td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+					<div class="paging">
+						<div>
+							<!--{echo $page_html;}-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+    <script type="text/javascript">
+	$(document).ready(function(){
+		$('.shiting').click(function(){
+			$(this).siblings(".shiting").html("试听");
+			var data=$(this).attr("data-src");
+			$(this).html('<audio controls=true autoplay="autoplay" style="width:200px"><source src="upFile/'+data+'" />你的浏览器不支持video标签。</audio>');
+		});
+		$('.delChapter').click(function(){
+			var id=$(this).attr("id");
+			if (confirm("你确定删除吗？")) {  
+				$.ajax({
+					type:"POST",
+					url:"<!--{echo $this->doMain;}-->index.php?c=do&a=delChapter",
+					data:{id:id},
+					dataType: "json",
+					success:function(data){
+						if(data.res){
+							 location.replace(location.href);
+						}
+					}
+				 });
+			}  
+		});
+		$("#no").click(function(){
+		   $(this).attr("class","btn-con btn-no");
+		   $("#unitPrice").attr("placeholder","每千字价格");
+		   $("#off").attr("class","btn-con btn-off");
+		   $("#open").attr("checked","checked");
+		   $("#shut").removeAttr("checked");
+	   });
+		$("#off").click(function(){
+		   $(this).attr("class","btn-con btn-no");
+		   $("#unitPrice").attr("placeholder","每章价格");
+		   $("#no").attr("class","btn-con btn-off");
+		   $("#shut").attr("checked","checked");
+		   $("#open").removeAttr("checked");
+	   });
+	   
+	});
+	</script>
+</body>
+</html>

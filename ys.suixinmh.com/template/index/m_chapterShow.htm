@@ -1,0 +1,121 @@
+<!--{layout:public/m_header}-->
+<style>
+.character360 {position:fixed;top:60px; left:50%;width: 160px;height: 160px; margin-left:-80px;background: no-repeat url("<!--{if(!empty($bookInfo['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $bookInfo['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->") left top;-webkit-background-size: 160px 160px;-moz-background-size: 160px 160px;background-size: 160px 160px;-webkit-border-radius:80px;border-radius:80px;border:5px solid #423047;}
+.cpaydh{animation: spin 6s linear infinite;}
+@keyframes spin{
+	0% {
+		transform:rotateZ(0deg);
+	}
+	100% {
+		transform:rotateZ(360deg);
+	}
+}
+</style>
+<body style=" padding:0px 0px 0px 0px;background-color:#4b3750;">
+<div class="pageBox">
+<div class="character360 cpaydh"></div>
+<div class="pagHeader" style="background-color:#4b3750;">
+        <div class="all">
+            <div class="return" data-url="<!--{echo $doMain;}-->index.php?c=index&a=chapterList&bookid=<!--{echo $bookInfo['id'];}-->">目录</div>
+            爱上听书
+            <div class="me"><a href="<!--{echo $doMain;}-->index.php?c=user&a=index"></a></div>
+            <div class="home"><a href="<!--{echo $doMain;}-->index.php"></a></div>
+            <div class="search"><a href="<!--{echo $doMain;}-->index.php?c=index&a=soSuo"></a></div>
+        </div>
+    </div>
+<div class="mp-list-box" style="display:none">
+    <div class="mp-list-table">
+        <ul class="mp-list"></ul>
+    </div>
+</div>
+<div class="mp" style="top:220px;border:0; width:90%; margin:0px 5%;height:95px; padding:10px 0px">
+    <div class="mp-info">
+        <p class="mp-name">章节</p>
+        <p class="mp-singer" style="display:none">录音</p>
+        <p class="pTime" style="right:5%"><span class="mp-time-current">00:00</span>/<span class="mp-time-all">00:00</span></p>
+    </div>
+    <div class="mp-pro">
+		<div class="mp-pro-current"></div>
+	</div>
+    <div class="mp-btn">
+        <button class="mp-prev" title="上一首"></button>
+        <button class="mp-pause" title="播放"></button>
+        <button class="mp-next" title="下一首"></button>
+        <button class="mp-mode" title="播放模式" disabled="disabled"></button>
+        <button class="mp-vol-img" title="静音"></button>
+        <div class="mp-vol" style="display:none">
+			<div class="mp-vol-range" data-range_min="0" data-range_max="100" data-cur_min="80">
+				<div class="mp-vol-current"></div>
+				<div class="mp-vol-circle"></div>
+			</div>
+		</div>
+    </div>
+</div>
+<div  style="position:fixed;top:341px;left:0%;width: 100%;height:175px; ">
+    <div style="height:30PX; line-height:30PX;font-size:10px; text-align:center; color:#78617d;">点击播放进度条可以快进后退，如有疑问可联系下方客服公众号</div>
+    <div style=" margin-top:5px;height:140PX; text-align:center"><img src="Images/m/erweima.png" style="width:100px; height:100px;"></div>
+</div>
+<script src="Js/jquery.min.js"></script>
+<script src="Js/mplayer.js"></script>
+<script src="Js/mplayer-list.js"></script>
+<script src="Js/mplayer-functions.js"></script>
+<script src="Js/jquery.nstSlider.min.js"></script>
+<script src="Js/jquery.history.js"></script>
+<script>
+$(document).on('click','.return',function(){
+	var url=$(this).attr("data-url");
+	window.location.href=url;
+});
+var modeText = ['顺序播放','单曲循环','随机播放','列表循环'];
+var mplayerSong=<!--{echo $chapterList;}-->;
+var player = new MPlayer({
+	//列表容器
+	listSelector:'.mp-list-box',
+	//播放器容器
+	containerSelector:'.mp',
+	//播放列表
+	songList:mplayerSong,
+	//自动播放
+	autoPlay:<!--{echo empty($play)?'false':'true';}-->,
+	//播放模式(0->顺序播放,1->单曲循环,2->随机播放,3->列表循环(默认))
+	playMode:0,
+	playList:0,
+	playSong:<!--{echo $playSong;}-->,
+	//列表模板，用${变量名}$插入模板变量
+	listFormat:'<li><span>${name}$ <font style="font-size:12px; color:#f39800">${singer}$</font></span><div class="musicBox"><div class="musicPlay"></div></div></li>',
+	//音量滑块改变事件名称
+	volSlideEventName:'change',
+	//从什么位置开始播放
+	playSTime:<!--{echo $playSTime;}-->,
+	//初始音量
+	defaultVolume:100
+}, function () {
+	//绑定事件
+	this.on('afterInit', function () {
+		console.log('播放器初始化完成，正在准备播放');
+	}).on('beforePlay', function () {
+		var $this = this;
+		var song = $this.getCurrentSong(true);
+		var songName = song.name + ' - ' + song.singer;
+		console.log('即将播放'+songName+'，return false;可以取消播放');
+	}).on('end', function () {
+		var $this = this;
+		var song = $this.getCurrentSong(true);
+		var songName = song.name + ' - ' + song.singer;
+		console.log(songName+'播放完毕，return false;可以取消播放下一曲');
+	}).on('mute', function () {
+		var status = this.getIsMuted() ? '已静音' :'未静音';
+		console.log('当前静音状态：' + status);
+	}).on('changeMode', function () {
+		var $this = this;
+		var mode = modeText[$this.getPlayMode()];
+		$this.dom.container.find('.mp-mode').attr('title',mode);
+		console.log('播放模式已切换为：' + mode);
+	});
+});
+$(document.body).append(player.audio);
+setEffects(player);
+</script>
+</div>
+</body>
+</html>

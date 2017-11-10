@@ -1,0 +1,16 @@
+    <div class="pagHeader">
+        <div class="all">
+            <!--{if(empty($cid) && empty($bookId))}-->
+            <div class="return" onclick="javascript:history.go(-1);"><!--{if(empty($keyWord))}-->返回<!--{else}--><!--{echo $keyWord;}--><!--{/if}--></div>
+            <!--{/if}-->
+            <!--{if(!empty($cid) && !empty($bookId))}-->
+            <div class="return"><a href="<!--{echo $doMain;}-->index.php?c=index&a=chapterList&bookid=<!--{echo $bookId;}-->&cid=<!--{echo $cid;}-->">返回目录</a></div>
+            <!--{/if}-->
+            <!--{if(empty($cid) && !empty($bookId))}-->
+            <div class="return"><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $bookId;}-->">返回图书</a></div>
+            <!--{/if}-->
+            <div class="me"><a href="<!--{echo $doMain;}-->index.php?c=user&a=index"></a></div>
+            <div class="home"><a href="<!--{echo $doMain;}-->index.php"></a></div>
+            <div class="search"><a href="<!--{echo $doMain;}-->index.php?c=index&a=soSuo"></a></div>
+        </div>
+    </div>

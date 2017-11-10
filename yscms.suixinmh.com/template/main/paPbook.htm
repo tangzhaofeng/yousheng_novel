@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+	<link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+			    <ul class="con-nav">
+                    <li <!--{if ($month=='01')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=01">一月</a></li>
+                    <li <!--{if ($month=='02')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=02">二月</a></li>
+                    <li <!--{if ($month=='03')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=03">三月</a></li>
+                    <li <!--{if ($month=='04')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=04">四月</a></li>
+                    <li <!--{if ($month=='05')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=05">五月</a></li>
+                    <li <!--{if ($month=='06')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=06">六月</a></li>
+                    <li <!--{if ($month=='07')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=07">七月</a></li>
+                    <li <!--{if ($month=='08')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=08">八月</a></li>
+                    <li <!--{if ($month=='09')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=09">九月</a></li>
+                    <li <!--{if ($month=='10')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=10">十月</a></li>
+                    <li <!--{if ($month=='11')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=11">十一月</a></li>
+                    <li <!--{if ($month=='12')}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=paPbook&month=12">十二月</a></li>
+				</ul>
+				<div class="box-con">
+					<div class="box-filter">
+						<form method="post" action="<!--{echo $doMain;}-->index.php">
+							<div class="form-con i-col-2"><input class="form-control" name="key" type="text" placeholder="请输入关键词"></div>
+							<div class="form-con i-col-2" style="width:108px;"><button type="button" class="btn btn-add"><i class="icon ai-search"></i>搜索</button></div>
+                        </form>
+                        <form method="post" action="<!--{echo $doMain;}-->index.php?c=main&a=bookPap">
+                            <input type="hidden" name="month" value="<!--{echo $month;}-->">
+                            <div class="form-con i-col-2" style="width:88px;">
+                                <input class="form-control" name="book_id" type="text" placeholder="包月书ID">
+                            </div>
+                            <div class="form-con i-col-2" style="width:66px;">
+                                <input class="form-control" name="sort" type="text" placeholder="排序">
+                            </div>
+							<div class="form-con i-col-2" style="width:108px;"><input type="submit" class="btn" value="确认包月"></div>
+                        </form>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>主图</th>
+									<th>图书名</th>
+									<th>排序</th>
+									<th>结束时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($pushList as $k =>$v)}-->
+								<tr>
+									<td><!--{echo $v['id'];}--></td>
+									<td><img src="<!--{echo $bookPicMain;}--><!--{echo $v['book_pic'];}-->" style="width:52px;"></td>
+									<td ><!--{echo $v['book_name'];}--></td>
+									<td><!--{echo $v['papSort'];}--></td>
+									<td><!--{echo date("Y-m-d",$v['end_time']);}--></td>
+									<td>
+										<a class="delDo btn" data-href="<!--{echo $doMain;}-->index.php?c=main&a=delPap" data-id="<!--{echo $v['papid'];}-->"><i class="icon ai-delete"></i>删除</a>
+									</td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+	<script type="text/javascript" src="Js/ai.js"></script>
+	<script type="text/javascript" src="Js/jquery-confirm.js"></script>
+    <script>
+	$(function(){
+		$('.delDo').click(function(){
+			var url=$(this).attr("data-href");
+			var id=$(this).attr("data-id");
+			if (confirm("你确定删除吗？")) {  
+				$.ajax({
+					type:"POST",
+					url:url,
+					data:{id:id},
+					dataType: "json",
+					success:function(data){
+						if(data.res){
+							 location.replace(location.href);
+						}else{
+							alert(data);
+						}
+					}
+				 });
+			}  
+		});
+	});
+    </script>
+</body>
+</html>

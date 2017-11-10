@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<title><!--{echo $title;}--></title>
+<meta charset="utf-8">
+<meta name="author" content="<!--{echo $doMain;}-->">
+<meta property="wb:webmaster" content="612f4ff5c1a6f2d3" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="description" content="免费小说听书平台，提供言情、都市、穿越、玄幻、悬疑、恐怖等类型小说的在线阅读服务，最火爆、最好的爱上听书都在这里，欢迎订阅。" />
+<meta name="Keywords" content="手机阅读,漫阅读,小说,网文,女生,男生" />
+<link href="<!--{echo $staticsMain;}-->Css/style.css?v=6.1.998" rel="stylesheet" type="text/css"/>
+<link href="<!--{echo $staticsMain;}-->Css/m_h5.css?v=7.6.998" rel="stylesheet" type="text/css"/>
+<script src="<!--{echo $staticsMain;}-->Js/jquery.min.js"></script>
+<script language="javascript">
+window.onpageshow = function(event){
+	if (event.persisted) {
+		window.location.reload();
+	}
+}
+$(window).load(function() {
+	$("#status").fadeOut();
+	$("#preloader").delay(350).fadeOut("slow");
+})
+</script>
+</head>

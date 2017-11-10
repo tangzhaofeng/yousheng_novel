@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+				<div class="box-con">
+					<div class="box-filter">
+                        <div class="form-con i-col-2" style="width:120px;">包月用户数：<!--{echo $userCount;}--></div>
+                        <div class="form-con i-col-2" style="width:120px;">取消包月数：<!--{echo $userCountS;}--></div>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>用户编号</th>
+									<th>账号</th>
+									<th>签约时间</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($userList as $k =>$v)}-->
+								<tr>
+                                    <td><!--{echo $v['user_id'];}--></td>
+                                    <td><!--{echo $v['openid'];}--></td>
+                                    <td><!--{echo date("Y-m-d H:i:s",$v['create_time']);}--></td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+					<div class="paging">
+						<div>
+							<!--{echo $page_html;}-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+</body>
+</html>

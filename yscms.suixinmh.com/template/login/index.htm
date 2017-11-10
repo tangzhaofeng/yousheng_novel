@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+<title>爱上听书管理平台！</title>
+<meta charset="utf-8">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="description" content="" />
+<meta name="Keywords" content="" />
+<link href="Css/adminStyle.css?v=6.1.998" rel="stylesheet" type="text/css"/>
+<style>
+.headerBox{height:120px;width:100%; background:#353535}
+.topIco{position:absolute;top:116px;left:45px;width:101px;height:29px;}
+.centerBox{height:550px;width:100%; background:#2d943b}
+.centerIco{position:absolute;top:66px;left:66px;width:500px;height:375px;}
+.centerLogin{position:absolute;top:-18px;right:0px;width:300px;height:420px; background:#FFF}
+.loginTitle{position:relative;width:300px;height:100px;text-align:center; background:#FFF; color:#767676}
+.loginTit{position:absolute;width:300px;height:100px; line-height:100PX; font-size:20PX;text-align:center; background:#FFF; color:#767676}
+.loginMIco{position:absolute; left:-12px; top:-2px;width:12px;height:18px;}
+.loginBox{width:300px;height:320px; background:#eeeced}
+.loginBox ul{padding-top:36px;}
+.loginBox li{width:280px; margin-left:10px; margin-top:10px;height:36px; padding:6px 9px; background:#fff;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
+.loginBox li input{height:25px;}
+.loginBox .liError{background:#eb4f38}
+.loginBox .yanzheng{width:150px; position:relative}
+.loginBox .code{display:block;position:absolute;top:0px; right:-128px; height:36px; width:120px;}
+.loginBox .code img{height:36px; width:120px;}
+.loginBox .submit{cursor:pointer; margin-left:10px; margin-top:10px; margin-right:10px;height:36px; line-height:36px; background:#00bb9c; color:#FFF; font-size:16px; text-align:center;}
+.footerBox{height:120px;width:100%; background:#fff}
+</style>
+<script src="Js/jquery.min.js"></script>
+<script language="javascript">
+$(window).load(function() {
+	$("#status").fadeOut();
+	$("#preloader").delay(350).fadeOut("slow");
+})
+</script>
+</head>
+<body>
+<div class="headerBox">
+    <div class="mainBox" style="position:relative; height:120px;">
+        <div class="topIco"><img src="Images/topIco.png"></div>
+    </div>
+</div>
+<div class="centerBox">
+    <div class="mainBox" style="position:relative; height:550px;">
+        <div class="centerIco">
+            <img src="Images/longIco.png"/>
+        </div>
+        <div class="centerLogin">
+            <div class="loginTitle">
+                <div class="loginMIco"><img src="Images/loginMIco.png"/></div>
+                <div class="loginTit">爱上听书内容管理系统</div>
+            </div>
+            <div class="loginBox">
+                <ul>
+                    <li><input type="text" name="userName" id="userName" placeholder="管理账号"></li>
+                    <li><input type="password" name="password" id="password" placeholder="管理密码"></li>
+                    <li class="yanzheng"><input type="tel" name="code" id="code" placeholder="验证码"><span class="code"><img src="<!--{echo $this->doMain;}-->index.php?c=login&a=getcode"</span></li>
+                </ul>
+                <div class="submit">登录</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footerBox">
+    <div class="mainBox">
+    </div>
+</div>
+</body>
+<script>
+$(document).on("click",".submit",function(){
+	var userName=$("#userName").val();
+	var password=$("#password").val();
+	var code=$("#code").val();
+	var userReg=/^[a-zA-Z]{5,10}/;
+	var codeReg=/^[0-9]{5}/;
+	if(!userReg.test(userName)){
+		$("#userName").parent("li").addClass("liError");
+		return false;
+	}else{
+		$("#userName").parent("li").removeClass("liError");
+	}
+	if(password==''){
+		$("#password").parent("li").addClass("liError");
+		return false;
+	}else{
+		$("#password").parent("li").removeClass("liError");
+	}
+	if(!codeReg.test(code)){
+		$("#code").parent("li").addClass("liError");
+		return false;
+	}else{
+		$("#code").parent("li").removeClass("liError");
+	}
+	$.post("<!--{echo $this->doMain;}-->index.php?c=login&a=loginDo",{userName:userName,password:password,code:code},function(data,status){
+		var dataObj = eval("("+data+")");
+		if(dataObj['res']){
+			window.location="<!--{echo $this->doMain;}-->index.php?c=main&a=index"
+		}else{
+			alert(dataObj['msg']);
+		}
+	});
+});
+</script>
+</html>

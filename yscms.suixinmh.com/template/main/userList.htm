@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+				<div class="box-con">
+					<div class="box-filter">
+						<form name="login" method="get" action="<!--{echo $this->doMain;}-->index.php">
+							<div class="form-con i-col-2" style="width:138px;">
+                                <input type="hidden" name="c" value="main">
+                                <input type="hidden" name="a" value="userList">
+								<select class="form-control" name="reg_type">
+                                  <option value="">选择注册类型</option>
+                                  <option value="qq" <!--{if ($userWhere['reg_type'] == "qq")}-->selected<!--{/if}-->>QQ登录</option>
+                                  <option value="phone" <!--{if ($userWhere['reg_type'] == "phone")}-->selected<!--{/if}-->>手机号</option>
+                                  <option value="weixin" <!--{if ($userWhere['reg_type'] == "weixin")}-->selected<!--{/if}-->>微信</option>
+								</select>
+                            </div>
+                            <div class="form-con i-col-2" style="width:138px;">
+								<select class="form-control" name="third_source">
+                                  <option value="">选择注册渠道</option>
+                                  <!--{foreach ($thirdList as $k =>$v)}-->
+                                  <option value="<!--{echo $v['sourceKey'];}-->" <!--{if ($userWhere['third_source'] == $v['sourceKey'])}-->selected<!--{/if}--> ><!--{echo $v['name'];}--></option>
+                                  <!--{/foreach}-->
+								</select>
+							</div>
+							<div class="form-con i-col-2" style="width:160px;"><input class="form-control" style="width:160px;" id="userStartTime" name="start_time" value="<!--{echo $userWhere['start_time'];}-->" placeholder="从注册时间" readonly onClick="jeDate({dateCell:'#userStartTime',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})"></div>
+							<div class="form-con i-col-2" style="width:160px;"><input type="text" id="userEndTime" style="width:160px;" class="form-control" name="end_time" value="<!--{echo $userWhere['end_time'];}-->" placeholder="到注册时间" readonly onClick="jeDate({dateCell:'#userEndTime',isTime:true,format:'YYYY-MM-DD hh:mm:ss'})"></div>
+							<div class="form-con i-col-2" style="width:66px;"><input class="form-control" style="width:66px;" name="user_id" value="<!--{echo $userWhere['user_id'];}-->" type="text" placeholder="用户ID"></div>
+							<div class="form-con i-col-2" style="width:55px;"><input class="btn" style="width:55px;" type="submit" value="搜索"></div>
+                            <div class="form-con i-col-2" style="width:120px;">会员数：<!--{echo $userCount;}--></div>
+                            <div class="form-con i-col-2" style="width:180px;">充值总数：￥<!--{echo $userMoney;}--></div>
+						</form>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>编号</th>
+									<th>昵称</th>
+									<th>账号</th>
+									<th>来源</th>
+									<th>渠道</th>
+									<th>阅读币</th>
+									<th>注册时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($userList as $k =>$v)}-->
+								<tr>
+                                    <td><!--{echo $v['id'];}--></td>
+                                    <td><!--{echo $v['Info']['name'];}--></td>
+                                    <td><!--{echo $v['phone'];}--><br><!--{echo $v['openid'];}--></td>
+                                    <td>
+                                    <!--{if($v['source']=='qq')}-->QQ登录<!--{/if}-->
+                                    <!--{if($v['source']=='phone')}-->手机<!--{/if}-->
+                                    <!--{if($v['source']=='weixin')}-->微信<!--{/if}-->
+                                    </td>
+                                    <td><!--{echo $v['third_source'];}--></td>
+                                    <td><!--{echo $v['Info']['moneyCoin'];}-->枚</td>
+                                    <td><!--{echo date("Y-m-d H:i:s",$v['create_time']);}--></td>
+                                    <td>详情 | <a href="javascript:;" class="userPayList" data="<!--{echo $v['id'];}-->">充值记录</a> | 禁用</td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+					<div class="paging">
+						<div>
+							<!--{echo $page_html;}-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+</body>
+</html>

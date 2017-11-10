@@ -1,0 +1,20 @@
+<!--{layout:public/m_header}-->
+<body>
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+</div>
+<div class="loginDesc">使用以下一键登录方式（点图标）</div>
+<ul class="loginBox">
+    <li class="weixin" data-url="<!--{echo $doMain;}-->index.php?c=login&a=weixin">微信</li>
+    <li class="QQ">QQ</li>
+    <li class="weibo">微博</li>
+</ul>
+</body>
+<script>
+$(document).on("click",".loginBox li",function(){
+	var url=$(this).attr("data-url");
+	window.location=url;
+});
+</script>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+    <link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+    <style>
+	.booksLeftBox{ border:1px solid #dedede;background-repeat:no-repeat; width:282px; height:88px;}
+    </style>
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+			    <ul class="con-nav">
+					<li class="on">编辑推广二维码</li>
+					<li><a href="<!--{echo $this->doMain;}-->index.php?c=main&a=bookList">返回图书列表</a></li>
+				</ul>
+                <div class="box-con">
+					<form class="form" name="form" method="post" action="<!--{echo $doMain}-->index.php?c=do&a=erweima">
+						<div class="form-group">
+							<div class="form-title">书名：</div>
+							<div class="form-con i-col-3">
+                            <!--{echo $bookInfo['book_name'];}-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">二维码：</div>
+							<div class="form-con i-col-4">
+                            <div class="booksLeftBox" id="bookImg" <!--{if($bookInfo['erweima_url']!= '')}--> style="background:url('Uploads/erweima/<!--{echo $bookInfo['erweima_url'];}-->') no-repeat center center;background-size:282px 88px;margin-bottom:10px;"<!--{/if}-->>
+                 <input type="hidden" name="erweima_url" id="book_pic"  value="<!--{echo $bookInfo['erweima_url'];}-->" />
+                 <input type="file" style="height:88px; width:282px; border:none; outline:none;font-size:12px;opacity:0; margin-bottom:10px;" id="imgUpload" name="imgUpload" accept="image/*" multiple/>
+							</div>
+                            图片尺寸640*200像素,底色色值#92c41d
+						</div>
+                        </div>
+						<div class="form-submit">
+						    <input name="id" type="hidden" value="<!--{echo $bookInfo['id'];}-->"/>
+							<button class="btn btn-submit" type="submit">保存</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+    <div id="result"></div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+<script>
+var result,input,_showImg,_inptuFileImg;
+var maxWidth=600;
+var maxHeight=600;
+document.getElementById("imgUpload").addEventListener('change',readFile,false); 
+function readFile(){
+	result = document.getElementById("result"); 
+	_showImg=document.getElementById("bookImg");
+	_inptuFileImg=document.getElementById("book_pic");
+    var file = this.files[0]; 
+    if(!/image\/\w+/.test(file.type)){ 
+        alert("文件必须为图片！"); 
+        return false; 
+    } 
+	var reader = new FileReader();
+	var imgType=file.type;
+	reader.onload = function(e){
+		var img = new Image();
+		img.src = e.target.result;
+		img.onerror = function(){
+			alert("图片加载错误!");
+		};
+		img.onload = function(){
+			drawImage(img,imgType);
+        };
+		img.remove();
+	}
+	reader.readAsDataURL(file); 
+}
+function drawImage(img,imgType){
+	var b64;
+	var sw = img.width; 
+	var sh = img.height;
+	var tw = img.width; 
+	var th = img.height; 
+	var scale =sw/sh; 
+	if (sw >maxWidth){ 
+		tw = maxWidth; 
+		th = Math.round(tw/scale); 
+	} 
+	if (sh>maxHeight){ 
+		th = maxHeight; 
+		tw = Math.round(th*scale); 
+	}
+	var canvas = document.createElement('canvas'); 
+	var ctx = canvas.getContext('2d');
+		canvas.width = tw; 
+		canvas.height =th;
+		ctx.drawImage(img,0,0,img.width,img.height,0,0,tw,th);
+		b64=canvas.toDataURL(imgType);
+		bookImg
+	var bookImg = _showImg;
+	var book_pic = _inptuFileImg;
+		book_pic.value=b64;
+		bookImg.style.backgroundImage="url("+b64+")";
+		bookImg.style.backgroundSize="100%";
+		canvas.remove();
+}
+</script>
+</body>
+</html>

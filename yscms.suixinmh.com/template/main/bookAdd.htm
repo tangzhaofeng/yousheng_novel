@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>小说控文化管理平台</title>
+    <meta name="keywords" content="小说控文化管理平台"/>
+    <meta name="description" content="小说控文化管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+    <link rel="stylesheet" href="Js/editor/themes/simple/simple.css" />
+    <link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+    <script charset="utf-8" src="Js/editor/kindeditor-all-min.js"></script>
+    <style>
+	.booksLeftBox{ border:1px solid #dedede;background-repeat:no-repeat}
+    </style>
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+			    <ul class="con-nav">
+					<li class="on"><a href="javascript:void(0);">添加图书</a></li>
+                    <li><a href="<!--{echo $this->doMain;}-->index.php?c=main&a=bookList">返回图书列表</a></li>
+				</ul>
+                <div class="box-con">
+					<form class="form" name="form" method="post" action="<!--{echo $doMain}-->index.php?c=do&a=bookAdd">
+						<div class="form-group">
+							<div class="form-title">书名：</div>
+							<div class="form-con i-col-3">
+								<input class="form-control" id="book_name" name="book_name" type="text" value="<!--{echo $bookInfo['book_name'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">类型：</div>
+							<div class="form-con i-col-8" >
+                                  <!--{foreach ($typeList as $k =>$v)}-->
+                                  <input type="checkbox" class="checkboxDo" style="width:16px; height:16px;"name="type[]" value="<!--{echo $v['id'];}-->"><!--{echo $v['typeName'];}-->
+                                  <!--{/foreach}-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">作者ID：</div>
+							<div class="form-con i-col-2">
+                            <input class="form-control" id="author_id" name="author_id" type="text" value="<!--{echo $bookInfo['author_id'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">作者名称：</div>
+							<div class="form-con i-col-2">
+                            <input class="form-control" id="author_name" name="author_name" type="text" value="<!--{echo $bookInfo['author_name'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">录音名称：</div>
+							<div class="form-con i-col-2">
+                            <input class="form-control" id="author_tape" name="author_tape" type="text" value="<!--{echo $bookInfo['author_tape'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">访问数：</div>
+							<div class="form-con i-col-2">
+                            <input class="form-control" id="click_count" name="click_count" type="text" value="<!--{echo $clickInfo['click_count'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">收藏数：</div>
+							<div class="form-con i-col-2">
+                            <input class="form-control" id="book_case" name="book_case" type="text" value="<!--{echo $bookInfo['book_case'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">点赞数：</div>
+							<div class="form-con i-col-2">
+                            <input class="form-control" id="give" name="give" type="text" value="<!--{echo $bookInfo['give'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">封面：</div>
+							<div class="form-con i-col-2">
+            <div class="booksLeftBox" id="bookImg" <!--{if($bookInfo['book_pic']!= '')}--> style="background:url('<!--{echo $bookPicMain;}--><!--{echo $bookInfo['book_pic'];}-->') no-repeat center center;background-size:220px 293px;margin-bottom:10px;"<!--{/if}-->>
+                 <input type="hidden" name="book_pic" id="book_pic"  value="<!--{echo $bookInfo['book_pic'];}-->" datatype="*" nullmsg="图书封面不能为空！" errormsg="图书封面不能为空！" />
+                 <input type="file" style="height:236px; width:220px; border:none; outline:none;font-size:12px;opacity:0; margin-bottom:10px;" id="imgUpload" name="imgUpload" accept="image/*" multiple/>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">作品简介：</div>
+							<div class="form-con i-col-5">
+                            <textarea name="descriptions" id="descriptions" placeholder="填写作品简介" style="width:100%; height:120px;"><!--{echo $bookInfo['descriptions'];}--></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">作品公告：</div>
+							<div class="form-con i-col-5">
+                            <textarea name="notice" id="notice" placeholder="填写作品公告" style="width:100%; height:120px;"><!--{echo $bookInfo['notice'];}--></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">是否完结：</div>
+							<div class="form-con i-col-1">
+								<select class="form-control" name="is_serial">
+                                  <option value="">选择进度</option>
+                                  <option value="0">连载</option>
+                                  <option value="1">完本</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">是否上架：</div>
+							<div class="form-con i-col-4">
+								<div class="btn-group no-off">
+									<label for="open" id="no" class="btn-con <!--{if($bookInfo['state']=='1')}-->btn-no<!--{else}-->btn-off<!--{/if}-->"> 上 架 </label>
+									<div style="display:none">
+										<input id="open" name="state" value="1" type="radio" <!--{if($bookInfo['state']=='1')}-->checked<!--{/if}--> >
+										<input id="shut" name="state" value="0" type="radio" <!--{if($bookInfo['state']=='0')}-->checked<!--{/if}-->>
+									</div>
+									<label for="shut" id="off" class="btn-con <!--{if($bookInfo['state']=='0')}-->btn-no<!--{else}-->btn-off<!--{/if}-->">下 架</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-submit">
+							<button class="btn btn-submit" type="submit">保存</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+    <div id="result"></div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+<script>
+var result,input,_showImg,_inptuFileImg;
+var maxWidth=600;
+var maxHeight=600;
+document.getElementById("imgUpload").addEventListener('change',readFile,false); 
+function readFile(){
+	result = document.getElementById("result"); 
+	_showImg=document.getElementById("bookImg");
+	_inptuFileImg=document.getElementById("book_pic");
+    var file = this.files[0]; 
+    if(!/image\/\w+/.test(file.type)){ 
+        alert("文件必须为图片！"); 
+        return false; 
+    } 
+	var reader = new FileReader();
+	var imgType=file.type;
+	reader.onload = function(e){
+		var img = new Image();
+		img.src = e.target.result;
+		img.onerror = function(){
+			alert("图片加载错误!");
+		};
+		img.onload = function(){
+			drawImage(img,imgType);
+        };
+		img.remove();
+	}
+	reader.readAsDataURL(file); 
+}
+function drawImage(img,imgType){
+	var b64;
+	var sw = img.width; 
+	var sh = img.height;
+	var tw = img.width; 
+	var th = img.height; 
+	var scale =sw/sh; 
+	if (sw >maxWidth){ 
+		tw = maxWidth; 
+		th = Math.round(tw/scale); 
+	} 
+	if (sh>maxHeight){ 
+		th = maxHeight; 
+		tw = Math.round(th*scale); 
+	}
+	var canvas = document.createElement('canvas'); 
+	var ctx = canvas.getContext('2d');
+		canvas.width = tw; 
+		canvas.height =th;
+		ctx.drawImage(img,0,0,img.width,img.height,0,0,tw,th);
+		b64=canvas.toDataURL(imgType);
+		bookImg
+	var bookImg = _showImg;
+	var book_pic = _inptuFileImg;
+		book_pic.value=b64;
+		bookImg.style.backgroundImage="url("+b64+")";
+		bookImg.style.backgroundSize="100%";
+		canvas.remove();
+}
+$(document).on("click",".checkboxDo",function(){
+	if($("input[name='type[]']:checked").length >= 3){
+		$("input[name='type[]']").not("input:checked").attr('disabled','disabled');
+		//$("input[name='type']").attr('disabled','disabled');
+	}else{
+		$("input[name='type[]']").attr('disabled',false);
+	}
+});
+</script>
+</body>
+</html>

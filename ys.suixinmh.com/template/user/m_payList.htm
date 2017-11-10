@@ -1,0 +1,96 @@
+<!--{layout:public/user_header}-->
+<link rel="stylesheet" href="<!--{echo $staticsMain;}-->Css/iosSelect.css">
+<script src="<!--{echo $staticsMain;}-->Js/iscroll.js"></script>
+<script src="<!--{echo $staticsMain;}-->Js/iosSelect.js"></script>
+<body style="padding:45px 0px 0px 0px">
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+    <div class="payListTime"><span id="showDate" data-year="<!--{echo $year;}-->" data-month="<!--{echo $month;}-->"><!--{echo $year;}-->年<!--{echo $month;}-->月</span>充值记录<div class="date" id="selectDate" style="cursor:pointer"></div></div>
+    <!--{if($RecordData['count']==0)}-->
+    <div class="noDate">暂无数据</div>
+    <!--{else}-->
+    <ul class="payList">
+        <!--{foreach ($RecordData['list'] as $k =>$v)}-->
+        <li <!--{if($v['source']==2)}-->class="wxIco"<!--{else}-->class="aliIco"<!--{/if}-->>
+            <div class="title">充值阅读币<!--{echo $v['moneyCoin'];}--></div>
+            <div class="time">2017-09-25 12:12:12</div>
+            <div class="money">￥<!--{echo $v['money'];}-->.00</div>
+        </li>
+        <!--{/foreach}-->
+    </ul>
+    <!--{/if}-->
+</div>
+</body>
+<script type="text/javascript">
+    var selectDateDom = $('#selectDate');
+    var showDateDom = $('#showDate');
+    // 初始化时间
+    var now = new Date();
+    var nowYear = now.getFullYear();
+    var nowMonth = now.getMonth() + 1;
+    showDateDom.attr('data-year', nowYear);
+    showDateDom.attr('data-month', nowMonth);
+    // 数据初始化
+    function formatYear (nowYear) {
+        var arr = [];
+        for (var i = nowYear; i <= nowYear +15; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '年'
+            });
+        }
+        return arr;
+    }
+    function formatMonth () {
+        var arr = [];
+        for (var i = 1; i <= 12; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '月'
+            });
+        }
+        return arr;
+    }
+    function formatDate (count) {
+        var arr = [];
+        for (var i = 1; i <= count; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '日'
+            });
+        }
+        return arr;
+    }
+    var yearData = function(callback) {
+        setTimeout(function() {
+            callback(formatYear(nowYear))
+        }, 1000)
+    }
+    var monthData = function (year, callback) {
+        setTimeout(function() {
+            callback(formatMonth());
+        }, 1000);
+    };
+    selectDateDom.bind('click', function () {
+        var oneLevelId = showDateDom.attr('data-year');
+        var twoLevelId = showDateDom.attr('data-month');
+        var iosSelect = new IosSelect(2, 
+            [yearData, monthData],
+            {
+                title: '选择日期',
+                itemHeight: 35,
+                relation: [1, 1],
+                oneLevelId: oneLevelId,
+                twoLevelId: twoLevelId,
+                showLoading: true,
+                callback: function (selectOneObj, selectTwoObj) {
+                    showDateDom.attr('data-year', selectOneObj.id);
+                    showDateDom.attr('data-month', selectTwoObj.id);
+                    showDateDom.html(selectOneObj.value + selectTwoObj.value );
+					window.location="<!--{echo $this->doMain;}-->index.php?c=user&a=payList&year="+selectOneObj.id+"&month="+selectTwoObj.id;
+                }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+    <link rel="stylesheet" href="Js/editor/themes/simple/simple.css" />
+    <script charset="utf-8" src="Js/editor/kindeditor-all-min.js"></script>
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+			    <ul class="con-nav">
+					<li class="on"><a href="javascript:void(0);">编辑:<!--{echo $info['title'];}--></a></li>
+				</ul>
+                <div class="box-con">
+					<form class="form" name="form" method="post" action="<!--{echo $this->doMain;}-->index.php?c=main&a=DoOther">
+						<div class="form-group">
+							<div class="form-title">内容：</div>
+							<div class="form-con i-col-8">
+                            <textarea id="content" name="content" style="width:100%;height:500px;visibility:hidden;" ><!--{echo $info['content'];}--></textarea>
+							</div>
+						</div>
+						<div class="form-submit">
+						    <input name="id" type="hidden" value="<!--{echo $info['id'];}-->"/>
+							<button class="btn btn-submit" type="submit">保存</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+    <script>
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="content"]', {
+					resizeType : 1,
+					allowPreviewEmoticons : false,
+					allowImageUpload : false,
+					items : [
+						'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+						'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+						'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+				});
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+			    <ul class="con-nav">
+					<li class="on"><a href="javascript:void(0);">作者审核</a></li>
+				</ul>
+				<div class="box-con">
+				    <form class="form" name="form" method="post" action="<!--{echo $doMain}-->index.php?c=do&a=authorEdit">
+					    <div class="form-group">
+							<div class="form-title">证件照片：</div>
+							<div class="form-con i-col-2">
+								<img style=" height:150px" src="http://author.xiaoshuokong.com/Uploads/card/<!--{echo $authorInfo['cardPic'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">证件号码：</div>
+							<div class="form-con i-col-2">
+								<!--{echo $authorInfo['cardNum'];}-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">笔名：</div>
+							<div class="form-con i-col-2">
+								<!--{echo $authorInfo['nickName'];}-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">联系方式：</div>
+							<div class="form-con i-col-2">
+								电话：<!--{echo $authorInfo['phone'];}-->
+							</div>
+                            <div class="form-con i-col-2">
+								QQ:<!--{echo $authorInfo['qq'];}-->
+							</div>
+                            <div class="form-con i-col-2">
+								地址：<!--{echo $authorInfo['address'];}-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">银行卡号：</div>
+							<div class="form-con i-col-2">
+								<!--{echo $authorInfo['bankCard'];}-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">所属银行：</div>
+							<div class="form-con i-col-2">
+								<!--{echo $authorInfo['bank'];}-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">银行地址：</div>
+							<div class="form-con i-col-2">
+								<!--{echo $authorInfo['bankAddress'];}-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">是否通过：</div>
+							<div class="form-con i-col-4">
+								<div class="btn-group no-off">
+									<label for="open" id="no" class="btn-con <!--{if($authorInfo['state']==1)}-->btn-no<!--{else}-->btn-off<!--{/if}-->">通 过</label>
+									<div style="display:none">
+										<input id="open" name="state" value="1" type="radio" <!--{if($authorInfo['state']==1)}-->checked<!--{/if}--> >
+										<input id="shut" name="state" value="0" type="radio" <!--{if($authorInfo['state']==0)}-->checked<!--{/if}-->>
+									</div>
+									<label for="shut" id="off" class="btn-con <!--{if($authorInfo['state']==0)}-->btn-no<!--{else}-->btn-off<!--{/if}-->">拒 接</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">拒接理由：</div>
+							<div class="form-con i-col-6">
+							    <textarea name="closemsg" class="form-control" rows="3"></textarea>
+                                <input  type="hidden" name="author_id" value="<!--{echo $authorInfo['author_id'];}-->">
+							</div>
+						</div>
+						<div class="form-submit">
+						    <button class="btn btn-submit" type="submit">提交</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+</body>
+</html>

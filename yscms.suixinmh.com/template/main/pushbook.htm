@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+	<link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+			    <ul class="con-nav" style="font-size:14px">
+                    <li <!--{if ($pushType == "jxtj")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=jxtj">精选推荐</a></li>
+                    <li <!--{if ($pushType == "vip")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=vip">爽选VIP</a></li>
+                    <li <!--{if ($pushType == "news")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=news">新作上线</a></li>
+                    <li <!--{if ($pushType == "info")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=info">详情页</a></li>
+                    <li <!--{if ($pushType == "renqi7")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=renqi7">本周人气</a></li>
+                    <li <!--{if ($pushType == "renqi30")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=renqi30">本月人气</a></li>
+                    <li <!--{if ($pushType == "renqi")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=renqi">人气总数</a></li>
+                    <li <!--{if ($pushType == "case7")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=case7">本周收藏</a></li>
+                    <li <!--{if ($pushType == "case30")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=case30">本月收藏</a></li>
+                    <li <!--{if ($pushType == "case")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=case">收藏总数</a></li>
+                    <li <!--{if ($pushType == "zan7")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=zan7">本周点赞</a></li>
+                    <li <!--{if ($pushType == "zan30")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=zan30">本月点赞</a></li>
+                    <li <!--{if ($pushType == "zan")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=zan">点赞总数</a></li>
+				</ul>
+				<div class="box-con">
+					<div class="box-filter">
+						<form method="post" action="<!--{echo $doMain;}-->index.php">
+							<div class="form-con i-col-2"><input class="form-control" name="key" type="text" placeholder="请输入关键词"></div>
+							<div class="form-con i-col-2" style="width:108px;"><button type="button" class="btn btn-add"><i class="icon ai-search"></i>搜索</button></div>
+                        </form>
+                        <form method="post" action="<!--{echo $doMain;}-->index.php?c=main&a=bookPush">
+							<input type="hidden" name="pushType" value="<!--{echo $pushType;}-->">
+                            <div class="form-con i-col-2" style="width:88px;">
+                                <input class="form-control" name="book_id" type="text" placeholder="推荐书ID">
+                            </div>
+                            <div class="form-con i-col-2" style="width:66px;">
+                                <input class="form-control" name="sort" type="text" placeholder="排序">
+                            </div>
+							<div class="form-con i-col-2" style="width:108px;"><input type="submit" class="btn" value="确认推荐"></div>
+                        </form>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>主图</th>
+									<th>图书名</th>
+									<th>排序</th>
+									<th>收入</th>
+									<th>状态</th>
+									<th>发布时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($pushList as $k =>$v)}-->
+								<tr>
+									<td><!--{echo $v['id'];}--></td>
+									<td><img src="<!--{echo $bookPicMain;}--><!--{echo $v['book_pic'];}-->" style="width:52px;"></td>
+									<td ><!--{echo $v['book_name'];}--></td>
+									<td><!--{echo $v['pushsort'];}--></td>
+									<td></td>
+									<td><span class="label green">上架</span></td>
+									<td><!--{echo date("Y-m-d",$v['create_time']);}--></td>
+									<td>
+										<a class="delDo btn" data-href="<!--{echo $doMain;}-->index.php?c=main&a=delPush" data-id="<!--{echo $v['pushid'];}-->"><i class="icon ai-delete"></i>删除</a>
+									</td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+	<script type="text/javascript" src="Js/ai.js"></script>
+	<script type="text/javascript" src="Js/jquery-confirm.js"></script>
+    <script>
+	$(function(){
+		$('.delDo').click(function(){
+			var url=$(this).attr("data-href");
+			var id=$(this).attr("data-id");
+			if (confirm("你确定删除吗？")) {  
+				$.ajax({
+					type:"POST",
+					url:url,
+					data:{id:id},
+					dataType: "json",
+					success:function(data){
+						if(data.res){
+							 location.replace(location.href);
+						}
+					}
+				 });
+			}  
+		});
+	});
+    </script>
+</body>
+</html>

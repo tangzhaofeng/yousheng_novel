@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+	<link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+				<div class="box-con">
+				    <div class="box-btn">
+						<a class="btn btn-add" href="<!--{echo $this->doMain;}-->index.php?c=main&a=sourceAdd"><i class="icon ai-edit"></i>添加渠道</a>
+						<a class="btn btn-add" href="<!--{echo $this->doMain;}-->index.php?c=main&a=sourceUrl"><i class="icon ai-edit"></i>生成推广链接</a>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>发放平台</th>
+									<th>号码</th>
+									<th>推广地址</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($list as $k =>$v)}-->
+								<tr>
+									<td class="text-ctr"><!--{echo $v['id'];}--></td>
+									<td><!--{echo $v['name'];}--></td>
+									<td class="text-ctr"><!--{echo $v['sourceKey'];}--></td>
+                                    <td>
+                                    <!--{foreach ($v['url'] as $uk =>$uv)}-->
+                                    <!--{echo $uv['book_id'];}-->号书<!--{echo $uv['chapter'];}-->章<!--{echo $uv['start_time'];}-->秒：http://ys.suixinmh.com/source.php?id=<!--{echo $uv['id'];}-->【<a href="<!--{echo $this->doMain;}-->index.php?c=main&a=sourceUrlEdit&id=<!--{echo $uv['id'];}-->">修改</a>】
+                                    <!--{/foreach}-->
+                                    </td>
+									<td>
+										<a href='<!--{echo $this->doMain;}-->index.php?c=main&a=sourceEdit&id=<!--{echo $v['id'];}-->' class="btn btn-info"><i class="icon ai-edit"></i>编辑</a>
+									</td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/ai.js"></script>
+</body>
+</html>

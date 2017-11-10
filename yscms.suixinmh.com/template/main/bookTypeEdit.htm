@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+	<link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+			    <ul class="con-nav">
+					<li class="on"><a href="javascript:void(0);">分类设置</a></li>
+					<li><a href="<!--{echo $this->doMain;}-->index.php?c=main&a=bookType">图书分类</a></li>
+				</ul>
+				<div class="box-con">
+				    <form class="form" name="form" method="post" action="<!--{echo $this->doMain;}-->index.php?c=do&a=bookTypeEdit">
+					    <div class="form-group">
+							<div class="form-title">类别名称：</div>
+							<div class="form-con i-col-2">
+								<input class="form-control" id="typeName" name="typeName" type="text" value="<!--{echo $info['typeName'];}-->">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">父类名称：</div>
+							<div class="form-con i-col-2">
+								<select class="form-control" name="parentId">
+                                    <option value="0">请选择</option>
+                                    <!--{foreach ($typeList as $k =>$v)}-->
+                                    <option value="<!--{echo $v['id'];}-->" <!--{if ($info['parentId'] == $v['id'])}-->selected<!--{/if}-->><!--{echo $v['typeName'];}--></option>
+                                    <!--{/foreach}-->
+                                </select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">是否开启：</div>
+							<div class="form-con i-col-4">
+								<div class="btn-group no-off">
+									<label for="open" id="no" class="btn-con <!--{if($info['state']=='1')}-->btn-no<!--{else}-->btn-off<!--{/if}-->">开 启</label>
+									<div style="display:none">
+										<input id="open" name="state" value="1" <!--{if($info['state']=='1')}-->checked<!--{/if}--> type="radio">
+										<input id="shut" name="state" value="0" <!--{if($info['state']=='0')}-->checked<!--{/if}--> type="radio" >
+									</div>
+									<label for="shut" id="off" class="btn-con <!--{if($info['state']=='0')}-->btn-no<!--{else}-->btn-off<!--{/if}-->">关 闭</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-title">类型图片：</div>
+							<div class="form-con i-col-2">
+                            <div style="height:45px; width:60px; border:1px solid #666" id="bookImg" <!--{if($info['ico']!= '')}--> style="background:url('<!--{echo $staticsMain;}-->Uploads/type/<!--{echo $info['ico'];}-->') no-repeat center center;background-size:60px 45px;margin-bottom:10px;"<!--{/if}-->>
+                 <input type="hidden" name="book_pic" id="book_pic"  value="<!--{echo $info['ico'];}-->" datatype="*" nullmsg="图书封面不能为空！" errormsg="图书封面不能为空！" />
+                 <input type="file" style="height:45px; width:60px; border:none; outline:none;font-size:12px;opacity:0;" id="imgUpload" name="imgUpload" accept="image/*" multiple/>
+							</div>
+                            </div>
+						</div>
+						<div class="form-submit">
+                            <input type="hidden" name="id" value="<!--{echo $info['id'];}-->">
+						    <button class="btn btn-submit" type="submit">提交</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+</body>
+<script>
+var result,input,_showImg,_inptuFileImg;
+var maxWidth=600;
+var maxHeight=600;
+document.getElementById("imgUpload").addEventListener('change',readFile,false); 
+function readFile(){
+	result = document.getElementById("result"); 
+	_showImg=document.getElementById("bookImg");
+	_inptuFileImg=document.getElementById("book_pic");
+    var file = this.files[0]; 
+    if(!/image\/\w+/.test(file.type)){ 
+        alert("文件必须为图片！"); 
+        return false; 
+    } 
+	var reader = new FileReader();
+	var imgType=file.type;
+	reader.onload = function(e){
+		var img = new Image();
+		img.src = e.target.result;
+		img.onerror = function(){
+			alert("图片加载错误!");
+		};
+		img.onload = function(){
+			drawImage(img,imgType);
+        };
+		img.remove();
+	}
+	reader.readAsDataURL(file); 
+}
+function drawImage(img,imgType){
+	var b64;
+	var sw = img.width; 
+	var sh = img.height;
+	var tw = img.width; 
+	var th = img.height; 
+	var scale =sw/sh; 
+	if (sw >maxWidth){ 
+		tw = maxWidth; 
+		th = Math.round(tw/scale); 
+	} 
+	if (sh>maxHeight){ 
+		th = maxHeight; 
+		tw = Math.round(th*scale); 
+	}
+	var canvas = document.createElement('canvas'); 
+	var ctx = canvas.getContext('2d');
+		canvas.width = tw; 
+		canvas.height =th;
+		ctx.drawImage(img,0,0,img.width,img.height,0,0,tw,th);
+		b64=canvas.toDataURL(imgType);
+		bookImg
+	var bookImg = _showImg;
+	var book_pic = _inptuFileImg;
+		book_pic.value=b64;
+		bookImg.style.backgroundImage="url("+b64+")";
+		bookImg.style.backgroundSize="100%";
+		canvas.remove();
+}
+</script>
+</html>

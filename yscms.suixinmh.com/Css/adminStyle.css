@@ -1,0 +1,37 @@
+body{-webkit-overflow-scrolling:touch;font:12px/1.5 '微软雅黑', \5b8b\4f53,arial,georgia,verdana,helvetica,sans-serif;font-style: normal;font-variant:normal;background:#FFF;color:#454545;}
+* {box-sizing: border-box;}  
+html {font-family: sans-serif;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;}
+img,object,select,input,textarea,button{vertical-align:middle}
+body,ul,ol,dl,dd,h1,h2,h3,h4,h5,h6,pre,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+fieldset,img{border:none}
+ul,ol,li{list-style:none}
+h1,h2,h3,h4,h5,h6,input,textarea,select,address,caption,cite,code,dfn,em,i,b,strong,small,th,var,abbr{font-size:100%;font-style:normal}
+abbr, acronym {border:0;}
+a,img{-webkit-touch-callout:none}
+a{color:#666;cursor:pointer; text-decoration:none;}
+a:hover{text-decoration:none;}
+a.img:hover img,a.img:active img{opacity:0.9;}
+.clr{clear:both;font-size:0;height:0;line-height:0;overflow:hidden;margin:0; padding:0; width:0; border:none;}
+.clearfix:after{content:"\0020";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{clear:both;zoom:1}
+a, button, input, select, textarea, a:focus, button:focus, input:focus, select:focus, textarea:focus, [onclick] {outline: 0 none;}
+input, button, textarea, select {background: none;border: 0 none;font-family: inherit;font-size: inherit;font-weight: inherit;outline: 0 none;text-decoration: none;}
+/*页面加载*/
+#preloader {position:fixed;z-index:2500;top:0;left:0;right:0;bottom:0;background-color:#fff; z-index:999999; }
+#status {position:fixed;z-index:999999;width:250px;height:250px;position:absolute;left:50%; top:50%; background-image:url(/Images/mask/lodingIco-a.gif); background-size:55px 55px;background-repeat:no-repeat;background-position:center 20px;margin:-125px 0 0 -125px; }
+#status p{top:70%;}
+.center-text{text-align:center; font-size:14px}
+#public_mask_box{background:rgba(255,255,255,0.6)!important;background-color:#fff;filter:alpha(opacity=60);position:absolute; z-index:9999;left:0px; top:0px; width:100%; height:100%;}
+.public_mask_lodingBox{position:relative;left:0; right:0; top:50%;margin-left:auto;margin-right:auto;margin-top:-75px;z-index:99999; width:150px; height:150px;-moz-border-radius:15px;border-radius:15px;background-color:#33475f;}
+.public_mask_lodingIcoBox{width:100%;height:66px;background:url(../Images/mask/lodingIco-d.gif) no-repeat center bottom; background-size:33px}
+.public_mask_lodingTextBox{width:100%;height:66px; line-height:66px; text-align:center; color:#FFF }
+.public_mask_iframe{position:fixed; left:50%; top:66px; margin-left:-333px;width:666px; border:6px solid #33475f}
+.public_mask_iframe_title{position:relative;padding:0px 20px;width:100%; height:36px; line-height:30px; color:#FFF; font-size:16px; background:#33475f}
+.public_mask_iframe_close{display:block;position:absolute;right:5px;top:0px; z-index:9999;cursor:pointer;width:30px; height:30px;-moz-border-radius:30px;border-radius:30px; line-height:30PX; text-align:center; color:#FFF; background:#33475f}
+#publicIframe{width:100%;border:0px;}
+
+.public_mask_public{position:fixed;top:50%;left:50%;-moz-border-radius:8px;border-radius:8px; background:#fff;border:2px solid #a9b7b7; position:relative}
+.public_mask_quxiao{position:absolute;bottom:0px;left:0px;width:50%; height:36px; line-height:36px; text-align:center; border-right:1px solid #a9b7b7; border-top:1px solid #a9b7b7}
+.public_mask_queding{position:absolute;bottom:0px;left:50%;width:50%;height:36px; line-height:36px; text-align:center; border-top:1px solid #a9b7b7}
+
+.mainBox{width:980px;padding:0px; margin:0 auto;}

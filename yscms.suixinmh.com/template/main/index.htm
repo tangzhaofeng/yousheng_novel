@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<link rel="stylesheet" type="text/css" href="Css/ai.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+</head>
+<body style="overflow:hidden">
+	<div class="main">
+	    <div class="nav">
+		    <div class="user">
+                <div class="user-con">
+					<div class="user-img"><img src="Images/logIco.png"></div>
+					<div class="user-info">
+						<span>ADMIN</span>
+						<span>超级管理员</span>
+						<span><a href="#"><span>退出</span></a></span>
+					</div>
+				</div>
+            </div>
+			<div class="nav-con">
+				<ul id="menu1">
+					<li><a href="javascript:;"><i class="icon ai-user"></i><span>管理员</span></a>
+						<dl class="dl">
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=adminList">管理列表</a></dd>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=authority">管理权限</a></dd>
+						</dl>
+					</li>
+				</ul>
+				<ul id="menu2" style="display:none">
+					<li><a href="javascript:;"><i class="icon ai-list"></i><span>图书管理</span></a>
+						<dl class="dl">
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=bookType">图书分类</a></dd>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=bookList">图书列表</a></dd>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=pushbook">推荐图书</a></dd>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=slide">幻灯推荐</a></dd>
+						</dl>
+					</li>
+				</ul>
+				<ul id="menu3" style="display:none">
+					<li><a href="javascript:;"><i class="icon ai-article"></i><span>统计管理</span></a>
+						<dl>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=countWord">各渠道数据</a></dd>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=buyBook">图书订阅统计</a></dd>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=userLook">充值页面统计</a></dd>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=cread">章节阅读统计</a></dd>
+						</dl>
+					</li>
+				</ul>
+				<ul id="menu4" style="display:none">
+					<li><a href="javascript:;"><i class="icon ai-new"></i><span>财务管理</span></a>
+						<dl>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=caiwuList">充值列表</a></dd>
+						</dl>
+					</li>
+				</ul>
+				<ul id="menu5" style="display:none">
+					<li><a href="javascript:;"><i class="icon ai-users"></i><span>用户管理</span></a>
+						<dl>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=userList">会员列表</a></dd>
+							<dd><a class="J_Item" href="<!--{echo $this->doMain;}-->index.php?c=main&a=source">渠道管理</a></dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="con">
+			<div class="menu">
+				<div class="menu-con">
+					<li class="no"><a class="J_menu" href="javascript:;" data-id="1"><i class="icon ai-home"></i><span>首页</span></a></li>
+					<li><a class="J_menu" href="javascript:;" data-id="2"><i class="icon ai-article"></i><span>图书管理</span></a></li>
+					<li><a class="J_menu" href="javascript:;" data-id="3"><i class="icon ai-list"></i><span>统计管理</span></a></li>
+					<li><a class="J_menu" href="javascript:;" data-id="4"><i class="icon ai-profit"></i><span>财务管理</span></a></li>
+					<li><a class="J_menu" href="javascript:;" data-id="5"><i class="icon ai-users"></i><span>用户管理</span></a></li>
+				</div>
+			</div>
+			<div class="tab">
+				<button class="tab-btn J_Left"><i class="icon ai-rew-left"></i></button>
+				<button class="tab-btn J_New"><i class="icon ai-spin"></i></button>
+				<div class="J_Tabs">
+					<div class="page-con">
+						<a class="no J_Tab" href="javascript:;" data-id="<!--{echo $this->doMain;}-->index.php?c=main&a=home">首页</a>
+					</div>
+				</div>
+				<button class="tab-btn J_Right"><i class="icon ai-rew-right"></i></button>
+				<div class="btn-s">
+					<a class="name"><span>关闭操作</span><a>
+					<ul class="btn-menu">
+						<li class="J_Other"><a>关闭其他标签</a></li>
+						<li class="divider"></li>
+						<li class="J_All"><a>关闭全部标签</a></li>
+					</ul>
+				</div>
+				<a class="tab-btn J_Home" href="/" target="_blank"><i class="icon ai-home"></i></a>
+			</div>
+			<div class="J_main">
+				<iframe class="J_iframe" name="iframe0" id="iframe" width="100%" height="100%" src="<!--{echo $this->doMain;}-->index.php?c=main&a=home" data-id="<!--{echo $this->doMain;}-->index.php?c=main&a=home" frameborder="0" ></iframe>
+			</div>
+			<div class="footer"><div class="copy">&copy; 2017-2018 版权所有 爱上听书</div></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+	<script type="text/javascript" src="Js/tabs.js"></script>
+	<script type="text/javascript" src="Js/ai.js"></script>
+</body>
+</html>

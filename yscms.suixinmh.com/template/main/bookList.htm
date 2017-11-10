@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+    <script type="text/javascript" src="Js/jedate/jedate.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+				<div class="box-con">
+					<div class="box-filter">
+						<form name="login" method="get" action="<!--{echo $this->doMain;}-->index.php">
+							<div class="form-con i-col-2" style="width:160px;">
+                            <input type="hidden" name="c" value="main">
+                            <input type="hidden" name="a" value="bookList">
+                            <input class="form-control" style="width:160px;" name="book_name" value="<!--{echo $book_name;}-->" type="text" placeholder="请输入图书名">
+                            </div>
+                            <div class="form-con i-col-2" style="width:138px;">
+								<select class="form-control" name="typeId">
+                                  <option value="">分类</option>
+                                  <!--{foreach ($typeList as $k =>$v)}-->
+                                  <option value="<!--{echo $v['id'];}-->" <!--{if ($typeId == $v['id'])}-->selected<!--{/if}--> ><!--{echo $v['typeName'];}--></option>
+                                  <!--{/foreach}-->
+								</select>
+							</div>
+                            <div class="form-con i-col-2" style="width:55px;"><input class="btn btn-add" style="width:55px;" type="submit" value="搜索"></div>
+                        </form>
+                            <div class="form-con i-col-2" style="width:88px;"><span class="btn blue" id="bookAdd" style="width:88px; border:0">添加图书</span></div>
+					</div>
+					<div class="table-con">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>主图</th>
+									<th>图书名</th>
+									<th>类型</th>
+									<th>总章数</th>
+									<th>VIP数</th>
+									<th>收入</th>
+									<th>状态</th>
+									<th>发布时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody id="id">
+                            <!--{foreach ($bookList as $k =>$v)}-->
+								<tr id="<!--{echo $v['id'];}-->">
+									<td><!--{echo $v['id'];}--></td>
+									<td><img src="Uploads/books/<!--{echo $v['book_pic'];}-->" style="width:52px;"></td>
+									<td ><!--{echo $v['book_name'];}--></td>
+									<td>
+                                    <!--{foreach ($v['type'] as $ks=>$vs)}-->
+                                    <span><!--{echo $vs['typeName']}--></span>
+                                    <!--{/foreach}-->
+                                    </td>
+									<td><!--{echo $v['countAll'];}--></td>
+									<td><!--{echo $v['countVip'];}--></td>
+									<td id="sum<!--{echo $v['id'];}-->">正在计算...</td>
+									<td>
+                                    <!--{if($v['state']=='1')}--><span class="label green">上架</span><!--{else}--><span class="label orange">下架</span><!--{/if}-->
+                                    </td>
+									<td><!--{echo date("Y-m-d",$v['create_time']);}--></td>
+									<td>
+                                    <a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=erweima&bookId=<!--{echo $v['id'];}-->"><i class="icon ai-add"></i>指定二维码</a>
+                                    <a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=bookEdit&bookId=<!--{echo $v['id'];}-->"><i class="icon ai-edit"></i>编辑</a>
+										<a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=chapterList&bookId=<!--{echo $v['id'];}-->"><i class="icon ai-article"></i>目录</a>
+									</td>
+								</tr>
+                            <!--{/foreach}-->
+							</tbody>
+						</table>
+				    </div>
+					<div class="paging">
+						<div>
+							<!--{echo $page_html;}-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+    <script type="text/javascript">
+	$(document).ready(function(){
+		var obj=$("tbody tr");
+		var len=obj.length;
+		var f=$("tbody");
+		for(var i=0;i<len;i++){
+			var id=$(obj.get(i)).attr("id");
+			$("#sum"+id).load("<!--{echo $this->doMain;}-->index.php?c=main&a=bookSummoney&bId="+id+"&sDate=<!--{echo $startTime;}-->&eDate=<!--{echo $endTime;}-->");
+		}
+	  
+	});
+	$(function(){
+		$('#bookAdd').click(function(){
+			location.href="<!--{echo $this->doMain;}-->index.php?c=main&a=bookAdd";
+		});
+	});
+	</script>
+</body>
+</html>

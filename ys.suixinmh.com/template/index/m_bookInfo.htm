@@ -1,0 +1,94 @@
+<!--{layout:public/m_header}-->
+<link href="<!--{echo $staticsMain;}-->Css/mdialog.css?v=7.6.998" rel="stylesheet" type="text/css"/>
+<body style=" padding:45px 0px 0px 0px;">
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+    <div class="bookShow">
+        <img src="<!--{if(!empty($bookInfo['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $bookInfo['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->">
+        <div class="bookName"><!--{echo $bookInfo['book_name'];}--></div>
+        <div class="bookType">
+        <!--{foreach ($bookInfo['type'] as $k =>$v)}-->
+            <!--{echo $v['typeName'];}-->
+        <!--{/foreach}-->
+        </div>
+        <div class="bookAuthor">作者：<!--{echo $bookInfo['author_name'];}--> | 录音：<!--{echo $bookInfo['author_tape'];}--></div>
+        <div class="bookRedNum"><!--{echo $bookInfo['clickCount'];}-->位听过</div>
+        <div class="house"></div>
+        <div class="houseNum"><!--{echo $bookInfo['book_case'];}-->次</div>
+        <div class="zan"></div>
+        <div class="zanNum"><!--{echo $bookInfo['give'];}-->次</div>
+    </div>
+    <div class="bookMenu">
+        <span class="bookMenu-3"><!--{echo $bookInfo['descriptions'];}--></span>
+        <p>展开</p>
+    </div>
+    <div class="bookUpTime">
+        <div class="title TIco">最新章节</div>
+        <span class="sortAsc<!--{if($orderType=='asc')}--> hover<!--{/if}-->" data-type="asc">升序</span>
+        <span data-type="desc" class="sortDesc<!--{if($orderType=='desc')}--> hover<!--{/if}-->">降序</span>
+        <div class="time">更新于：2017-09-25 12:25:25</div>
+    </div>
+    <!--{layout:public/audio}-->
+    <DIV class="bookMoreC"><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=chapterList&bookid=<!--{echo $bookInfo['id'];}-->">查看更多章节</a></DIV>
+    <div class="lanmuBox">
+        <div class="tltleBox indexIco">大家都爱听</div>
+        <!--<div class="bookInfoPush">大家都爱听</div>-->
+        <div class="ulhengBox">
+            <ul class="clearfix">
+            <!--{foreach ($infoList as $k =>$v)}-->
+            <li>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <div class="GCIco">
+                    <div class="GIco"><!--{echo $v['give'];}--></div>
+                    <div class="CIco"><!--{echo $v['book_case'];}--></div>
+                </div>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
+            </li>
+            <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+<!--{layout:public/m_footer}-->
+<script src="<!--{echo $staticsMain;}-->Js/mdialog.js"></script>
+<script>
+	$(document).on("click",".zan",function(){
+		var data={book_id:<!--{echo $bookInfo['id'];}-->};
+		new TipBox({type:'load',str:"加入数据..",lodUrl:"<!--{echo $doMain;}-->index.php?c=do&a=zan",lodData:data,callBack:function(str){
+			var Obj=JSON.parse(str);
+			if(Obj.res){
+				new TipBox({type:'success',str:Obj.msg,hasBtn:false,setTime:2000,clickDomCancel:true});
+			}else{
+				new TipBox({type:'tip',str:Obj.msg,hasBtn:false,setTime:2000,clickDomCancel:true});
+			}
+		}});
+	});
+	$(document).on("click",".house",function(){
+		var data={book_id:<!--{echo $bookInfo['id'];}-->};
+		new TipBox({type:'load',str:"加入数据..",lodUrl:"<!--{echo $doMain;}-->index.php?c=do&a=house",lodData:data,callBack:function(str){
+			var Obj=JSON.parse(str);
+			if(Obj.res){
+				new TipBox({type:'success',str:Obj.msg,hasBtn:false,setTime:2000,clickDomCancel:true});
+			}else{
+				new TipBox({type:'tip',str:Obj.msg,hasBtn:false,setTime:2000,clickDomCancel:true});
+			}
+		}});
+	});
+	$(document).on("click",".bookUpTime span",function(){
+		var dataType=$(this).attr("data-type");
+		window.location="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $bookInfo['id'];}-->&type="+dataType;
+	});
+	$(document).on("click",".bookMenu p",function(){
+		var obj=$(".bookMenu span");
+		if(obj.attr("class")=='bookMenu-3'){
+			obj.removeClass('bookMenu-3');
+			$(this).html("隐藏");
+		}else{
+			obj.addClass('bookMenu-3');
+			$(this).html("展开");
+		}
+	});
+</script>
+</body>
+</html>

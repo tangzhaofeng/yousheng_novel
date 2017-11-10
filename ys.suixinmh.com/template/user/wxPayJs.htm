@@ -1,0 +1,67 @@
+<!--{layout:public/user_header}-->
+<style>
+.payTitle{height:45px; line-height:45px; width:100%; background:#333; text-align:center; color:#FFF; font-size:18px}
+.payInfoBox{margin:10px; width:auto; background:#FFF;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
+.payInfoBox li{width:100%; padding:0px 10px;height:50px; line-height:50px;position:relative;font-size:10px; border-bottom:1px solid #dedede}
+.payText{width:80%;position:absolute;top:0px; right:10px;height:50px; line-height:50px; text-align:right; font-size:14px}
+.payMoney{width:80%;position:absolute;top:0px; right:10px;height:50px; line-height:50px; text-align:right; color:#F00; font-size:18px}
+.qurenPayBox{display:block; cursor:pointer;margin:10px; width:auto;height:45px; line-height:45px; font-size:14px; text-align:center; color:#FFF; background:#56abe4;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
+</style>
+<body>
+<div class="pageBox">
+    <h1 class="payTitle">付款详情</h1>
+    <div class="payInfoBox">
+        <ul>
+            <li>订单信息<span class="payText"><!--{echo $subject;}--></span></li>
+            <li>需付金额<span class="payMoney">￥ <!--{echo $money;}--></span></li>
+        </ul>
+    </div>
+    <div class="qurenPayBox" >确认去付款</div>
+</div>
+</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+localStorage.setItem("manyuedu_openid","<!--{echo $openid;}-->");
+var appId="<!--{echo $wxResult['appId'];}-->";
+var timeStamp="<!--{echo $wxResult['timeStamp'];}-->";
+var nonceStr="<!--{echo $wxResult['nonceStr'];}-->";
+var package="<!--{echo $wxResult['package'];}-->";
+var paySign="<!--{echo $wxResult['sign'];}-->";
+var toUrl=localStorage.getItem("manyuedu_toUrl");
+function onBridgeReady(){
+	WeixinJSBridge.invoke(
+		'getBrandWCPayRequest',{
+			"appId":appId,
+			"timeStamp":timeStamp,
+			"nonceStr":nonceStr, //随机串
+			"package":package,
+			"signType":"MD5",//微信签名方式：
+			"paySign":paySign //微信签名 
+		},
+		function(res){
+			if(res.err_msg=="get_brand_wcpay_request:ok"){
+				window.location.replace(toUrl);
+			}
+			if(res.err_msg=="get_brand_wcpay_request:cancel" || res.err_msg=="get_brand_wcpay_request:fail"){
+				window.history.go(-1);
+			}
+		}
+	);
+}
+function callpay(){
+	if (typeof WeixinJSBridge == "undefined"){
+		if(document.addEventListener){
+			document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		}else if (document.attachEvent){
+			document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+			document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		}
+	}else{
+		onBridgeReady();
+	}
+}
+$(document).on("click",".qurenPayBox",function(){
+	callpay();
+})
+</script>
+</html>

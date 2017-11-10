@@ -1,0 +1,117 @@
+<!--{layout:public/m_header}-->
+<link href="<!--{echo $staticsMain;}-->Css/owl.carousel.css?v=6.1.998" rel="stylesheet" type="text/css"/>
+<link href="<!--{echo $staticsMain;}-->Css/owl.theme.css?v=6.1.998" rel="stylesheet" type="text/css"/>
+<script src="<!--{echo $staticsMain;}-->Js/owl.carousel.js"></script>
+<style>
+#owl-demo {width: 100%; margin-left: auto; margin-right: auto;}
+#owl-demo .item{display: block;}
+#owl-demo img {display: block; width: 100%;}
+</style>
+<body style=" padding:0px 0px 0px 0px">
+<!--{layout:public/loding}-->
+<!--{layout:public/menu}-->
+<div class="pageBox">
+    <div id="owl-demo" class="owl-carousel">
+        <a class="item"><img src="3.jpg" alt=""></a>
+        <a class="item"><img src="4.jpg" alt=""></a>
+        <a class="item"><img src="5.jpg" alt=""></a>
+        <a class="item"><img src="1.jpg" alt=""></a>
+        <a class="item"><img src="2.jpg" alt=""></a>
+        <a class="item"><img src="6.jpg" alt=""></a>
+    </div>
+</div>
+
+<div class="pageBox">
+    <div class="lanmuBox">
+        <div class="tltleBox indexIco">最近更新<span class="moreBox"><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookList">更多</a></span></div>
+        <div class="ulhengBox">
+            <ul class="clearfix">
+            <!--{foreach ($bookUpList as $k =>$v)}-->
+            <li>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <div class="GCIco">
+                    <div class="GIco"><!--{echo $v['give'];}--></div>
+                    <div class="CIco"><!--{echo $v['book_case'];}--></div>
+                </div>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
+            </li>
+            <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="pageBox" style="margin-top:8px;">
+    <div class="lanmuBox">
+        <div class="tltleBox indexIco">精选推荐</div>
+        <div class="ulhengBox">
+            <ul class="clearfix">
+            <!--{foreach ($jxtjList as $k =>$v)}-->
+            <li>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <div class="GCIco">
+                    <div class="GIco"><!--{echo $v['give'];}--></div>
+                    <div class="CIco"><!--{echo $v['book_case'];}--></div>
+                </div>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
+            </li>
+            <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="pageBox" style="margin-top:8px;">
+    <div class="lanmuBox">
+        <div class="tltleBox indexIco">爽选VIP</div>
+        <div class="ulhengBox">
+            <ul class="clearfix">
+            <!--{foreach ($vipList as $k =>$v)}-->
+            <li>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <div class="GCIco">
+                    <div class="GIco"><!--{echo $v['give'];}--></div>
+                    <div class="CIco"><!--{echo $v['book_case'];}--></div>
+                </div>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
+            </li>
+            <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="pageBox" style="margin-top:8px;">
+    <div class="lanmuBox">
+        <div class="tltleBox indexIco">新作上线</div>
+        <div class="ulhengBox">
+            <ul class="clearfix">
+            <!--{foreach ($bookNewList as $k =>$v)}-->
+            <li>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <div class="GCIco">
+                    <div class="GIco"><!--{echo $v['give'];}--></div>
+                    <div class="CIco"><!--{echo $v['book_case'];}--></div>
+                </div>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
+            </li>
+            <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+<!--{layout:public/m_footer}-->
+</body>
+<script>
+$(function(){
+    $('#owl-demo').owlCarousel({
+        items: 1,
+        autoPlay: true
+    });
+});
+$(document).on("click","#newsBook li",function(){
+	var url=$(this).attr("data-url");
+	window.location=url;
+});
+</script>
+</html>

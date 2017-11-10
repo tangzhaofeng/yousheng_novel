@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+	
+	<title>爱上听书管理平台</title>
+    <meta name="keywords" content="爱上听书管理平台"/>
+    <meta name="description" content="爱上听书管理平台"/>
+	<script type="text/javascript" src="Js/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="Css/base.css">
+	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
+	<link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
+</head>
+<body>
+    <div class="i-con">
+        <div class="box i-row">
+		    <div class="i-col-12">
+			    <ul class="con-nav">
+					<li class="on"><a href="javascript:void(0);">渠道设置</a></li>
+					<li><a href="<!--{echo $this->doMain;}-->index.php?c=main&a=source">渠道列表</a></li>
+				</ul>
+				<div class="box-con">
+				    <form class="form" name="form" method="post" action="<!--{echo $this->doMain;}-->index.php?c=do&a=sourceEdit">
+					    <div class="form-group">
+							<div class="form-title">发放平台：</div>
+							<div class="form-con i-col-2">
+								<input class="form-control" id="name" name="name" type="text" value="<!--{echo $info['name'];}-->">
+							</div>
+						</div>
+					    <div class="form-group">
+							<div class="form-title">渠道号：</div>
+							<div class="form-con i-col-2">
+								<input class="form-control" id="sourceKey" name="sourceKey" type="text" value="<!--{echo $info['sourceKey'];}-->">
+							</div>
+						</div>
+						<div class="form-submit">
+                            <input type="hidden" name="id" value="<!--{echo $info['id'];}-->">
+						    <button class="btn btn-submit" type="submit">提交</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Js/ai.js"></script>
+</body>
+</body>
+</html>

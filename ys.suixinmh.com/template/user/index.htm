@@ -1,0 +1,38 @@
+<!--{layout:public/user_header}-->
+<body style="padding:45px 0px 0px 0px">
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+    <div class="userHeader">
+        <div class="userInfo">
+            <div class="info">
+                <div class="userImg"><img src="upFile/userIco/<!--{echo $userInfo['headPic'];}-->"></div>
+                <div class="userName"><!--{echo $userInfo['name'];}--></div>
+                <div class="userId">ID:<!--{echo sprintf("%08d",$userInfo['user_id']);}--></div>
+                <div class="userMoney"><div class="ico"></div><!--{echo $userInfo['moneyCoin'];}-->币</div>
+            </div>
+        </div>
+    </div>
+    <div class="userMenu">
+        <ul class="MenuLm">
+            <li class="payIco" data-url="<!--{echo $this->doMain;}-->index.php?c=user&a=Cmoney">账户充值<span></span></li>
+            <li class="payListIco" data-url="<!--{echo $this->doMain;}-->index.php?c=user&a=payList">充值记录<span></span></li>
+            <li class="xfListIco" data-url="<!--{echo $this->doMain;}-->index.php?c=user&a=buyList">消费记录<span></span></li>
+            <li class="zanIco" data-url="<!--{echo $this->doMain;}-->index.php?c=user&a=zanList">点赞记录<span></span></li>
+            <li class="shelfIco" data-url="<!--{echo $this->doMain;}-->index.php?c=user&a=shelf">我的书架<span></span></li>
+        </ul>
+        <ul class="MenuLm">
+            <li class="historyIco" data-url="<!--{echo $this->doMain;}-->index.php?c=user&a=history">最近阅读<span></span></li>
+            <li class="helpIco" data-url="<!--{echo $this->doMain;}-->index.php?c=index&a=help">帮助中心<span></span></li>
+        </ul>
+        <div class="unLogin">退出登录</div>
+    </div>
+</div>
+</body>
+<script>
+$(document).on("click",".MenuLm li",function(){
+	var url=$(this).attr("data-url");
+	window.location=url;
+});
+</script>
+</html>

@@ -1,0 +1,50 @@
+<!--{layout:public/m_header}-->
+<body style=" padding:45px 0px 0px 0px;">
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+    <ul class="rankBig">
+        <li <!--{if ($bigKey == "renqi")}-->class="hove"<!--{/if}-->><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=rank&bigKey=renqi">人气</a></li>
+        <li <!--{if ($bigKey == "zan")}-->class="hove"<!--{/if}-->><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=rank&bigKey=zan">点赞</a></li>
+        <li <!--{if ($bigKey == "case")}-->class="hove"<!--{/if}-->><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=rank&bigKey=case">收藏</a></li>
+    </ul>
+    <ul class="rankMin">
+        <li class="TtypeA <!--{if ($minKey ==30)}-->hove<!--{/if}-->"><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=rank&bigKey=<!--{echo $bigKey;}-->&minKey=30">本月</a></li>
+        <li class="TtypeB <!--{if ($minKey ==7)}-->hove<!--{/if}-->"><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=rank&bigKey=<!--{echo $bigKey;}-->&minKey=7">本周</a></li>
+        <li class="TtypeC <!--{if ($minKey ==0)}-->hove<!--{/if}-->"><a href="<!--{echo $this->doMain;}-->index.php?c=index&a=rank&bigKey=<!--{echo $bigKey;}-->&minKey=0">总数</a></li>
+    </ul>
+    <div class="lanmuBox">
+        <div class="ulShuBox">
+            <ul id="newsBook">
+            <!--{foreach ($list as $k =>$v)}-->
+                <li data-url="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->">
+                    <div class="bookImg"><img src="<!--{if(!empty($v['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->"></div>
+                    <div class="bookInfo">
+                        <div class="bookName"><!--{echo $v['book_name'];}--></div>
+                        <div class="bookother">
+                            <span class="renqi"><!--{if($v['is_serial']==0)}-->连载<!--{else}-->完本<!--{/if}--></span>
+                            <span class="renqi">作者：<!--{echo $v['author_name'];}--></span>
+                            <span class="renqi">录音：<!--{echo $v['author_tape'];}--></span>
+                        </div>
+                        <div class="bookother">
+                        <!--{foreach ($v['type'] as $kt=>$vt)}-->
+                            <span class="bookType"><!--{echo $vt['typeName'];}--></span>
+                        <!--{/foreach}-->
+                        </div>
+                        <div class="bookDesc"><!--{echo $v['descriptions'];}--></div>
+                    </div>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+<!--{layout:public/m_footer}-->
+<script>
+	$(document).on("click","#newsBook li",function(){
+		var url=$(this).attr("data-url");
+		window.location=url;
+	});
+</script>
+</body>
+</html>

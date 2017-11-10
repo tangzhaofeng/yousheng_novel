@@ -1,0 +1,53 @@
+<!--{layout:public/m_header}-->
+<body style=" padding:45px 0px 0px 0px;">
+<!--{layout:public/loding}-->
+<div class="pageBox">
+<!--{layout:public/return}-->
+<form action="<!--{echo $doMain;}-->index.php" method="get">
+<input type="hidden" name="c" value="index">
+<input type="hidden" name="a" value="bookList">
+<div class="sosuo"><input type="search" name="keyWord" placeholder="作品名称"></div>
+</form>
+    <!--<div class="sosuoHot">热门搜索</div>
+    <ul class="sosuoHotKey">
+        <li style="background:#666">一剪梅</li>
+        <li style="background:#066">白蛇传</li>
+        <li style="background:#F00">飘扬过海</li>
+        <li style="background:#090">一路顺风</li>
+        <li style="background:#FF0">百花</li>
+        <li style="background:#036">十面埋伏</li>
+    </ul>-->
+    <div class="sosuoHot">大家都在搜</div>
+    <div class="lanmuBox" style="margin-top:6px;">
+        <div class="ulShuBox">
+            <ul id="newsBook">
+            <!--{foreach ($infoList as $k =>$v)}-->
+                <li data-url="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->">
+                    <div class="bookImg"><img src="<!--{if(!empty($v['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->"></div>
+                    <div class="bookInfo">
+                        <div class="bookName"><!--{echo $v['book_name'];}--></div>
+                        <div class="bookother">
+                            <span class="renqi"><!--{if($v['is_serial']==0)}-->连载<!--{else}-->完本<!--{/if}--></span>
+                            <span class="renqi">人气<!--{echo $v['clickCount'];}--></span>
+                            <span class="renqi">点赞<!--{echo $v['give'];}--></span>
+                            <span class="renqi">收藏<!--{echo $v['book_case'];}--></span>
+                        </div>
+                        <div class="bookother">
+                            <span class="bookType">穿越重生</span>
+                        </div>
+                        <div class="bookDesc"><!--{echo $v['descriptions'];}--></div>
+                    </div>
+                </li>
+                <!--{/foreach}-->
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+	$(document).on("click",".lm_menu_C li",function(){
+		var url=$(this).attr("data-url");
+		window.location=url;
+	});
+</script>
+</body>
+</html>

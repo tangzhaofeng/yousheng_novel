@@ -20,8 +20,8 @@ class doController extends BaseAdminController{
 		$config=$this->configDo['redis']['default'];
 		//$this->wxRedis->init($config);
 		$this->view->assign('doMain',$this->doMain);
-		
-	} 
+
+	}
 	public function sourceAdd(){
 		if($this->admin_id){
 			$data['name']=$this->controller->get_post('name');
@@ -204,9 +204,13 @@ class doController extends BaseAdminController{
 		if($this->admin_id){
 			$id=$this->controller->get_post('id');
 			$book_pic=$this->controller->get_post('erweima_url');
+			$visible_erweima_chapter=$this->controller->get_post('visible_erweima_chapter');
 			$bookPic=self::post($this->imgMain."picDo.php",array('sgin'=>'a7ed7a10dfb05e4d5c0622136d227534','id'=>$id,'bookPic'=>$book_pic,'mulu'=>'erweima'));
 			if(!empty($bookPic)){
 				$data['erweima_url']=$bookPic;
+			}
+			if(!empty($visible_erweima_chapter)) {
+			    $data['visible_erweima_chapter']=$visible_erweima_chapter;
 			}
 			$booksService = InitPHP::getService("books");
 			if($booksService->upBooks($id,$data)){
@@ -272,7 +276,7 @@ class doController extends BaseAdminController{
 		//去除多余字
 		unset($content);
 		unset($matches[1]);
-		$content=preg_replace("/\s*/","",$matches[0]); 
+		$content=preg_replace("/\s*/","",$matches[0]);
 		$content=preg_replace("/第/","",$content);
 		$content=preg_replace("/(章|卷|节)*/","",$content);
 		return self::_cnum2num($content);//转化成数字
@@ -331,12 +335,12 @@ class doController extends BaseAdminController{
 		}
 		return $num;
 	}
-	// 截取 $data 到 $s 
+	// 截取 $data 到 $s
 	public static function skip_to_str($data,$s) {
 		 mb_internal_encoding("UTF-8");
 		 return mb_substr($data,mb_strpos($data,$s) + mb_strlen($s));
 	}
-	 // 取得 $s 前的字符 
+	 // 取得 $s 前的字符
 	public static function get_front_str($data,$s) {
 		mb_internal_encoding("UTF-8");
 		return mb_substr($data,0,mb_strpos($data,$s));
@@ -349,14 +353,14 @@ class doController extends BaseAdminController{
      * @param string $data_type
      *
      * @return mixed
-     * 
+     *
      * Examples:
-     * ```   
+     * ```
      * HttpCurl::post('http://api.example.com/?a=123', array('abc'=>'123', 'efg'=>'567'), 'json');
      * HttpCurl::post('http://api.example.com/', '这是post原始内容', 'json');
      * 文件post上传
      * HttpCurl::post('http://api.example.com/', array('abc'=>'123', 'file1'=>'@/data/1.jpg'), 'json');
-     * ```               
+     * ```
      */
     static public function post($url, $fields, $data_type='text') {
         $cl = curl_init();

@@ -675,6 +675,10 @@ class mainController extends BaseAdminController{
 		$this->view->set_tpl("main/sourceUrlEdit");
 		$this->view->display();
 	}
+	public  function error(){
+	    $this->view->set_tpl("main/error");
+	    $this->view->display();
+	}
 	public function timediff($beginTime,$endTime){
 		if(empty($beginTime)){
 			$beginTime=date("Y-m-d",time());

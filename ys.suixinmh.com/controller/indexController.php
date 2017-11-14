@@ -13,6 +13,7 @@ class indexController extends BaseUserController
     public $thisUrl;
     public $isWeiXin;
     public $wxRedis;
+    public $erweimaMain;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class indexController extends BaseUserController
         $this->staticsMain = $this->configDo['statics_url'];
         $this->authorMain = $this->configDo['author_url'];
         $this->bookPicMain = $this->authorMain . 'Uploads/books/';
+        $this->erweimaMain = $this->authorMain . 'Uploads/erweima/';
         //$this->wxRedis = $this->getLibrary('redis');
         $config = $this->configDo['redis']['default'];
         //$this->wxRedis->init($config);
@@ -52,6 +54,7 @@ class indexController extends BaseUserController
         $this->view->assign('staticsMain', $this->staticsMain);
         $this->view->assign('authorMain', $this->authorMain);
         $this->view->assign('bookPicMain', $this->bookPicMain);
+        $this->view->assign("erweimaMain", $this->erweimaMain);
         $this->view->assign('thisUrl', $this->thisUrl);
 
     }
@@ -294,7 +297,7 @@ class indexController extends BaseUserController
 		if(!empty($cid) && $play==true){
 			$palyNum=$booksService->getPlayChapter($cid,$id);//计算播放章节前面有多少数据
 			echo $playSong=($palyNum%$pageNum)==0?$pageNum-1:$palyNum%$pageNum-1;//计算从哪个开始播放
-		}		
+		}
         $bookInfo=$booksService->getBooks($id);
 		$chapterList=$booksService->getChapter($id,'asc',$pageNum,$p);
 		foreach($chapterList as $k=>$v){
@@ -302,12 +305,25 @@ class indexController extends BaseUserController
 			$chapter[0][$k]['singer']='';//empty($v['is_vip'])?' ':"VIP";
 			$chapter[0][$k]['src']=$this->doMain."index.php?c=audio&a=one&id={$v['id']}&song={$k}&p={$p}&dc={$desc}";
 			$chapter[0][$k]['time']='00:00';
+			$chapter[0][$k]['erweima']=0;
+			if ($bookInfo['erweima_url'] != 0) {
+			    if ($bookInfo['visible_erweima_chapter']==0 or $v['sort']==$bookInfo['visible_erweima_chapter']) {
+			        $chapter[0][$k]['erweima']=1;
+			    }
+			}
+
 		}
+		if ($bookInfo['erweima_url'] != 0) {
+		    $erweima_url = $bookInfo['erweima_url'];
+		    $this->view->assign('erweima_url', $erweima_url);
+		}
+		$infoList=$booksService->getPushBook("info",3,1);
         $this->view->assign('bookInfo', $bookInfo);
+        $this->view->assign('infoList',$infoList);
         $this->view->assign('chapterList',json_encode($chapter));
         $this->view->assign('playSong', $playSong);
         $this->view->assign('play', $play);
-        $this->view->assign('playSTime', $playSTime);		
+        $this->view->assign('playSTime', $playSTime);
 		$this->view->assign('keyWord','爱上听书');
         $this->view->assign('title',$bookInfo['book_name']);
         $this->view->set_tpl("index/m_chapterShow");//设置模板

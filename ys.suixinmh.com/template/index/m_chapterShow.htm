@@ -51,9 +51,21 @@
 		</div>
     </div>
 </div>
+<div>
+<a></a><a></a><a></a>
+</div>
 <div  style="position:fixed;top:341px;left:0%;width: 100%;height:175px; ">
-    <div style="height:30PX; line-height:30PX;font-size:10px; text-align:center; color:#78617d;">点击播放进度条可以快进后退，如有疑问可联系下方客服公众号</div>
-    <div style=" margin-top:5px;height:140PX; text-align:center"><img src="Images/m/erweima.png" style="width:100px; height:100px;"></div>
+    <div style="height:30PX; line-height:30PX;font-size:10px; text-align:center; color:#FFFFFF;">点击播放进度条可以快进后退，如有疑问可联系下方客服公众号</div>
+	<div style="top:341px;left:0%;width: 100%;height:175px; ">
+	<div style="height:30PX; line-height:30PX;font-size:10px; text-align:center; color:#FFFFFF;">您可能还喜欢:
+	<!--{foreach ($infoList as $k =>$v)}-->
+		<li>
+		<a style="color:#FFFFFF" href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
+	</li>
+	<!--{/foreach}-->
+	</div>
+	</div>
+    <div class="mp-erweima"style=" margin-top:5px;height:140PX; text-align:center; display:none"><img src="<!--{echo $erweimaMain,$erweima_url;}-->" style="width:100px; height:100px;"></div>
 </div>
 <script src="Js/jquery.min.js"></script>
 <script src="Js/mplayer.js"></script>

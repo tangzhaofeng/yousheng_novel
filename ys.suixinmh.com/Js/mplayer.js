@@ -85,7 +85,8 @@ var MPlayer = (function () {
 				progress:con.find('.mp-pro-current'),
 				progressAll:con.find('.mp-pro'),
 				//listTitle:listcon.find('.mp-list-title'),
-				list:listcon.find('.mp-list')
+				list:listcon.find('.mp-list'),
+				erweima:con.find('.mp-erweima')
 			};
 			// 计算列表模板的有效元素
 			$this.settings.listEleName = $.parseHTML($this.settings.listFormat)[0].nodeName.toLowerCase();
@@ -257,13 +258,13 @@ var MPlayer = (function () {
 				xmlHttp=new XMLHttpRequest();
 			}else{// code for IE6, IE5
 				xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-			} 
-		　　if (xmlHttp==null){  
-		　　　　alert('您的浏览器不支持AJAX！');  
-		　　　　return;  
-		　　}  
-		　　var url=songInfo.src;  
-		　　xmlHttp.open("GET",url,false);  
+			}
+		　　if (xmlHttp==null){
+		　　　　alert('您的浏览器不支持AJAX！');
+		　　　　return;
+		　　}
+		　　var url=songInfo.src;
+		　　xmlHttp.open("GET",url,false);
 		　　xmlHttp.onreadystatechange=function(){
 			   if(xmlHttp.readyState==1||xmlHttp.readyState==2||xmlHttp.readyState==3){
 			   }
@@ -290,7 +291,16 @@ var MPlayer = (function () {
 					});
 					// 输出歌名和歌手
 					$this.dom.name.html(songInfo.name);
+
+
 					//$this.dom.singer.html(songInfo.singer);
+					//是否显示二维码
+					if(songInfo.erweima==1){
+						$(".mp-erweima").show();
+					}else{
+						$(".mp-erweima").hide();
+					}
+
 					// 进度条归零
 					$this.dom.progress.width(0);
 					// 列表添加样式
@@ -298,8 +308,8 @@ var MPlayer = (function () {
 						$this._setCurrent(song);
 					}
 				}
-			};//发送事件后，收到信息了调用函数  
-		　　xmlHttp.send(); 
+			};//发送事件后，收到信息了调用函数
+		　　xmlHttp.send();
 		},
 		/**
 		 * 为当前播放歌曲添加class
@@ -317,7 +327,7 @@ var MPlayer = (function () {
 				items.children().eq(song).find('.musicBox').html('&nbsp;<div class="music active"><i></i><i></i><i></i><i></i><i></i><i></i></div>');
 			}
 			//alert($this.settings.autoPlay);
-			
+
 		},
 		/**
 		 * 触发事件

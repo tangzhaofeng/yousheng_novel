@@ -40,7 +40,7 @@ class audioController extends BaseUserController
 				$orderData['book_id']=$info['book_id'];
 				$orderData['chapter']=$info['id'];
 				$orderData['user_id']=$user_id;
-				
+
 				$userOrder=$authorUserService->getUserOrderOne($orderData);//是否消费过
 				if(empty($userOrder) && $info['price']>0){
 					if($info['price']>$userInfo['moneyCoin']){
@@ -51,11 +51,11 @@ class audioController extends BaseUserController
 						$orderData['price']=$info['price'];
 						$orderId=$authorUserService->userPayOrder($orderData,$userInfo['moneyCoin']);
 						if(!empty($orderId)){
-							echo '{"res":true,code:"000","msg":"准备播放","url":"http://yscms.suixinmh.com/upFile/'.$info['audio_url'].'"}';
+							echo '{"res":true,code:"000","msg":"准备播放","url":"http://localhost/yscms.suixinmh.com/upFile/'.$info['audio_url'].'"}';
 						}
 					}
 				}else{
-					echo '{"res":true,code:"000","msg":"准备播放","url":"http://yscms.suixinmh.com/upFile/'.$info['audio_url'].'"}';
+					echo '{"res":true,code:"000","msg":"准备播放","url":"http://localhost/yscms.suixinmh.com/upFile/'.$info['audio_url'].'"}';
 				}
 			}
 		}

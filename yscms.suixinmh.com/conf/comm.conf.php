@@ -23,7 +23,7 @@ $InitPHP_conf['give_conf']  =$GiveConf;
  * 是否开启调试
  */
 $InitPHP_conf['is_debug'] = true; //开启-正式上线请关闭
-$InitPHP_conf['show_all_error'] = true; //是否显示所有错误信息，必须在is_debug开启的情况下才能显示
+$InitPHP_conf['show_all_error'] = false; //是否显示所有错误信息，必须在is_debug开启的情况下才能显示
 /**
  * 日志目录
  */

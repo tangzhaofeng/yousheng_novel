@@ -1,4 +1,4 @@
-<?php 
+<?php
 class booksDao extends Dao{
 	public $table_name = 'books';
 	private $fields = "book_name,book_title,book_pic,type,level,isfirst,notice,descriptions,is_serial,is_publish,author_id,author_name,author_tape,give,book_case,pay_way,edit_time,create_time,erweima_url";
@@ -16,7 +16,7 @@ class booksDao extends Dao{
 	private $fields_history = "book_id,chapter_id,user_id,create_time";
 	public $table_slide = 'slide_img';
 	private $fields_slide = "title,url,image,sort";
-	
+
 	public function getBookType($type){
 		$typeStr=str_replace("type","",$type);
 		$typeStr=str_replace("T_","",$typeStr);
@@ -31,11 +31,18 @@ class booksDao extends Dao{
 		}
 		$info=$this->init_db()->get_one($id, $this->table_name);
 		$give=$this->getGiveCount($info['id']);
+
 		$info['give']=$give<$info['give']?$info['give']:$give;
+
 		$case=$this->getCaseCount($info['id']);
 		$info['book_case']=$case<$info['book_case']?$info['book_case']:$case;
+
 		$clickCount=$this->getBooksClick(array("book_id"=>$info['id']));
 		$info['clickCount']=$clickCount['click_count']<$info['click_count']?$info['click_count']:$clickCount['click_count'];
+		$rad=substr($info['create_time'],-3)+1000;
+		$info['give']=$info['give']+$rad+235;
+		$info['book_case']=$info['book_case']+$rad+32;
+		$info['clickCount']=$info['clickCount']+$rad+12;
 		$info['type']=$this->getBookType($info['type']);
 		return $info;
 	}
@@ -45,10 +52,17 @@ class booksDao extends Dao{
 		$sql='select * from '.$this->table_name.' where state=1 order by edit_time desc limit '.$offest.','.$pageNum;
 		$list=$this->init_db()->get_all_sql($sql);
 		foreach($list as $k=>$v){
+
 			$give=$this->getGiveCount($v['id']);
 			$list[$k]['give']=$give<$v['give']?$v['give']:$give;
-			$clickCount=$this->getBooksClick(array("book_id"=>$v['id']));
-			$list[$k]['clickCount']=$clickCount['click_count']<$v['click_count']?$v['click_count']:$clickCount['click_count'];
+			$case=$this->getCaseCount($v['id']);
+			$list[$k]['book_case']=$case<$list[$k]['book_case']?$list[$k]['book_case']:$case;
+			//$clickCount=$this->getBooksClick(array("book_id"=>$v['id']));
+			//$list[$k]['clickCount']=$clickCount['click_count']<$v['click_count']?$v['click_count']:$clickCount['click_count'];
+			$rad=substr($list[$k]['create_time'],-3)+1000;
+			$list[$k]['give']=$list[$k]['give']+$rad+235;
+			$list[$k]['book_case']=$list[$k]['book_case']+$rad+32;
+			//$list[$k]['clickCount']=$list[$k]['clickCount']+$rad+12;
 		}
 		return $list;
 	}
@@ -195,7 +209,7 @@ class booksDao extends Dao{
 		if($data['click_count']<=0 || empty($data['click_count']) || empty($data['book_id'])){
 			return false;
 		}
-		$sql="INSERT INTO {$this->table_click_count} ({$this->fields_click_count}) VALUES ({$data['book_id']},{$data['click_count']}) ON DUPLICATE KEY UPDATE click_count=click_count+{$data['click_count']}"; 
+		$sql="INSERT INTO {$this->table_click_count} ({$this->fields_click_count}) VALUES ({$data['book_id']},{$data['click_count']}) ON DUPLICATE KEY UPDATE click_count=click_count+{$data['click_count']}";
 		return $this->init_db()->query($sql,false);
 	}
 	//记录听书记录
@@ -356,7 +370,7 @@ class booksDao extends Dao{
 		}
 		return $this->init_db()->delete($ids,$this->table_name,$id_key);
 	}
-	
+
 	/**
 	 * SQL操作-通过条件语句删除数据
 	 * DAO中使用方法：$this->dao->db->delete_by_field($field, $table_name)

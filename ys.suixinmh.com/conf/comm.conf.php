@@ -9,7 +9,8 @@ $InitPHP_conf = array();
  */
 $InitPHP_conf['url'] = 'http://localhost/ys.suixinmh.com/';
 $InitPHP_conf['statics_url'] = 'http://localhost/ys.suixinmh.com/';
-$InitPHP_conf['author_url'] = 'http://localhost/ys.suixinmh.com/';
+$InitPHP_conf['author_url'] = 'http://localhost/yscms.suixinmh.com/';
+
 $InitPHP_conf['reg_user_money'] =0;//用户注册赠送
 $InitPHP_conf['money_coin_scale']=100;//人民币 阅读币兑换比例
 $GiveConf['give_scale_500']=0.4;//
@@ -23,7 +24,7 @@ $InitPHP_conf['give_conf']  =$GiveConf;
  * 是否开启调试
  */
 $InitPHP_conf['is_debug'] = true; //开启-正式上线请关闭
-$InitPHP_conf['show_all_error'] = true; //是否显示所有错误信息，必须在is_debug开启的情况下才能显示
+$InitPHP_conf['show_all_error'] = false; //是否显示所有错误信息，必须在is_debug开启的情况下才能显示
 /**
  * 日志目录
  */

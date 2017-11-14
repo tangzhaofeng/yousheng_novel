@@ -5,7 +5,7 @@
 <div class="pageBox">
 <!--{layout:public/return}-->
     <div class="bookShow">
-        <img src="<!--{if(!empty($bookInfo['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $bookInfo['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->">
+        <img src="<!--{if(!empty($bookInfo['book_pic']))}--><!--{echo $bookPicMain,$bookInfo['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->">
         <div class="bookName"><!--{echo $bookInfo['book_name'];}--></div>
         <div class="bookType">
         <!--{foreach ($bookInfo['type'] as $k =>$v)}-->
@@ -38,7 +38,7 @@
             <ul class="clearfix">
             <!--{foreach ($infoList as $k =>$v)}-->
             <li>
-                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="<!--{echo $bookPicMain,$v['book_pic'];}-->"></a>
                 <div class="GCIco">
                     <div class="GIco"><!--{echo $v['give'];}--></div>
                     <div class="CIco"><!--{echo $v['book_case'];}--></div>

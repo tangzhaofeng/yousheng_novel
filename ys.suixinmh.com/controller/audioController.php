@@ -14,6 +14,7 @@ class audioController extends BaseUserController
         $this->publicFunction = $this->getLibrary('function');
         $this->sessionDo = $this->getUtil('session');
         $this->doMain = $this->configDo['url'];
+        $this->authorMain = $this->configDo['author_url'];
         $this->view->assign('doMain', $this->doMain);
 
     }
@@ -51,11 +52,11 @@ class audioController extends BaseUserController
 						$orderData['price']=$info['price'];
 						$orderId=$authorUserService->userPayOrder($orderData,$userInfo['moneyCoin']);
 						if(!empty($orderId)){
-							echo '{"res":true,code:"000","msg":"准备播放","url":"http://localhost/yscms.suixinmh.com/upFile/'.$info['audio_url'].'"}';
+							echo '{"res":true,code:"000","msg":"准备播放","url":"'.$this->authorMain.'upFile/'.$info['audio_url'].'"}';
 						}
 					}
 				}else{
-					echo '{"res":true,code:"000","msg":"准备播放","url":"http://localhost/yscms.suixinmh.com/upFile/'.$info['audio_url'].'"}';
+					echo '{"res":true,code:"000","msg":"准备播放","url":"'.$this->authorMain.'upFile/'.$info['audio_url'].'"}';
 				}
 			}
 		}

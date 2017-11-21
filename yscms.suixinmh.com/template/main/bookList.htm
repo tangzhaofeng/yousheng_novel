@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-	
+
 	<title>爱上听书管理平台</title>
     <meta name="keywords" content="爱上听书管理平台"/>
     <meta name="description" content="爱上听书管理平台"/>
@@ -74,6 +74,7 @@
 									<td><!--{echo date("Y-m-d",$v['create_time']);}--></td>
 									<td>
                                     <a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=erweima&bookId=<!--{echo $v['id'];}-->"><i class="icon ai-add"></i>指定二维码</a>
+                                    <a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=authorAudio&bookId=<!--{echo $v['id'];}-->"><i class="icon ai-add"></i>作者留言上传</a>
                                     <a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=bookEdit&bookId=<!--{echo $v['id'];}-->"><i class="icon ai-edit"></i>编辑</a>
 										<a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=chapterList&bookId=<!--{echo $v['id'];}-->"><i class="icon ai-article"></i>目录</a>
 									</td>
@@ -101,7 +102,7 @@
 			var id=$(obj.get(i)).attr("id");
 			$("#sum"+id).load("<!--{echo $this->doMain;}-->index.php?c=main&a=bookSummoney&bId="+id+"&sDate=<!--{echo $startTime;}-->&eDate=<!--{echo $endTime;}-->");
 		}
-	  
+
 	});
 	$(function(){
 		$('#bookAdd').click(function(){

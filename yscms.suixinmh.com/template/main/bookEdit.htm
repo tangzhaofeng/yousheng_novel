@@ -138,16 +138,16 @@
 var result,input,_showImg,_inptuFileImg;
 var maxWidth=600;
 var maxHeight=600;
-document.getElementById("imgUpload").addEventListener('change',readFile,false); 
+document.getElementById("imgUpload").addEventListener('change',readFile,false);
 function readFile(){
-	result = document.getElementById("result"); 
+	result = document.getElementById("result");
 	_showImg=document.getElementById("bookImg");
 	_inptuFileImg=document.getElementById("book_pic");
-    var file = this.files[0]; 
-    if(!/image\/\w+/.test(file.type)){ 
-        alert("文件必须为图片！"); 
-        return false; 
-    } 
+    var file = this.files[0];
+    if(!/image\/\w+/.test(file.type)){
+        alert("文件必须为图片！");
+        return false;
+    }
 	var reader = new FileReader();
 	var imgType=file.type;
 	reader.onload = function(e){
@@ -161,26 +161,26 @@ function readFile(){
         };
 		img.remove();
 	}
-	reader.readAsDataURL(file); 
+	reader.readAsDataURL(file);
 }
 function drawImage(img,imgType){
 	var b64;
-	var sw = img.width; 
+	var sw = img.width;
 	var sh = img.height;
-	var tw = img.width; 
-	var th = img.height; 
-	var scale =sw/sh; 
-	if (sw >maxWidth){ 
-		tw = maxWidth; 
-		th = Math.round(tw/scale); 
-	} 
-	if (sh>maxHeight){ 
-		th = maxHeight; 
-		tw = Math.round(th*scale); 
+	var tw = img.width;
+	var th = img.height;
+	var scale =sw/sh;
+	if (sw >maxWidth){
+		tw = maxWidth;
+		th = Math.round(tw/scale);
 	}
-	var canvas = document.createElement('canvas'); 
+	if (sh>maxHeight){
+		th = maxHeight;
+		tw = Math.round(th*scale);
+	}
+	var canvas = document.createElement('canvas');
 	var ctx = canvas.getContext('2d');
-		canvas.width = tw; 
+		canvas.width = tw;
 		canvas.height =th;
 		ctx.drawImage(img,0,0,img.width,img.height,0,0,tw,th);
 		b64=canvas.toDataURL(imgType);

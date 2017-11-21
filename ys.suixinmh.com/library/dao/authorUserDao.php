@@ -1,4 +1,4 @@
-<?php 
+<?php
 class authorUserDao extends Dao{
 	public $table_name = 'user';
 	private $fields = "openid,unionid,phone,password,source,third_source,state,vip,create_time";
@@ -12,6 +12,7 @@ class authorUserDao extends Dao{
 	private $fields_gratuity_order = "user_id,book_id,chapter_id,type,price,create_time";
 	public $table_user_look_pay_page = 'user_look_pay_page';
 	private $fields_user_look_pay_page = "user_id,book_id,cid,pageNum,year,month,day";
+	public $table_author_m = 'book_auther_message';
 
 	public function insertUser($data){
 		$infodata['name']=empty($data['nickname'])?"HY".date("ymdhis",time()):$data['nickname'];
@@ -84,7 +85,7 @@ class authorUserDao extends Dao{
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 用户消费并记录
 	 * @param $user
@@ -285,7 +286,7 @@ class authorUserDao extends Dao{
 		$sql="select * from user_pap";
 		$userPapL=$this->init_db()->get_all_sql($sql);
 		foreach($userPapL as $k=>$v){
-			
+
 			$data['user_id']=$v['user_id'];
 			$this->init_db()->update_by_field($data,array("out_trade_no"=>$v['contract_code'],"money"=>39),$this->table_pay_record);
 		}
@@ -296,6 +297,14 @@ class authorUserDao extends Dao{
 			return array();
 		}
 		return $this->init_db()->get_one_by_field($whereArray,$this->table_info);
+	}
+	public function getAuthorMessage($book_id) {
+	    if(empty($book_id)){
+	        return array();
+	    }
+	    $sql="select audio_url,author_name from ".$this->table_author_m." where book_id={$book_id}";
+	    return $this->init_db()->get_one_sql($sql);
+
 	}
 	/**
 	 * SQL操作-获取所有数据
@@ -329,7 +338,7 @@ class authorUserDao extends Dao{
 		}
 		return $this->init_db()->delete($ids,$this->table_name,$id_key);
 	}
-	
+
 	/**
 	 * SQL操作-通过条件语句删除数据
 	 * DAO中使用方法：$this->dao->db->delete_by_field($field, $table_name)

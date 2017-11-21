@@ -1,6 +1,6 @@
 <?PHP
 class doController extends BaseAdminController{
-	public $initphp_list = array('bookTypeAdd','bookTypeEdit','addChapter','editChapter','bookAdd','bookEdit','erweima','slideAdd','slideEdit','delChapter','sourceAdd','sourceEdit','sourceUrlAdd','sourceUrlEdit');
+	public $initphp_list = array('bookTypeAdd','bookTypeEdit','addChapter','editChapter','bookAdd','bookEdit','erweima','slideAdd','slideEdit','recommendEdit', 'delChapter','sourceAdd','sourceEdit','sourceUrlAdd','sourceUrlEdit','authorAudioEdit');
 	public $publicFunction;
 	public $sessionDo;
 	public $configDo;
@@ -134,6 +134,36 @@ class doController extends BaseAdminController{
 			}
 		}
 	}
+	public function recommendEdit(){
+	    if($this->admin_id){
+	        $id=$this->controller->get_post('id');
+	        $book_title=$this->controller->get_post('book_title');
+	        if(!empty($book_title)){
+	            $data['book_title']=$book_title;
+	        }else{
+	            $data['book_title']='';
+	        }
+	        $booksService = InitPHP::getService("books");
+	        if($booksService->upRecommend($id,$data)){
+	            $this->controller->redirect($this->doMain."index.php?c=main&a=pushbook&tag=chapRec",0);
+	        }
+	    }
+	}
+	public function authorAudioEdit(){
+	    if($this->admin_id){
+	        $id=$this->controller->get_post('id');
+	        $authorAudio=$this->controller->get_post('audio_url');
+	        if(!empty($authorAudio)){
+	            $data['authorAudio']=$authorAudio;
+	        }else{
+	            $data['authorAudio']='';
+	        }
+	        $booksService = InitPHP::getService("books");
+	        if($booksService->upAuthorAudio($id,$data)){
+	            $this->controller->redirect($this->doMain."index.php?c=main&a=bookList",0);
+	        }
+	    }
+	}
 	public function bookAdd(){
 		if($this->admin_id){
 			$click_count=$this->controller->get_post('click_count');
@@ -192,6 +222,7 @@ class doController extends BaseAdminController{
 			$data['notice'] =$this->controller->get_post('notice');
 			$data['is_serial']=$this->controller->get_post('is_serial');
 			$data['state']=$this->controller->get_post('state');
+			$data['authorAudio']=$this->controller->get_post('authorAudio');
 			$booksService = InitPHP::getService("books");
 			$booksService->upBooksClick(array("click_count"=>$click_count),$id);
 			if($booksService->upBooks($id,$data)){
@@ -216,7 +247,9 @@ class doController extends BaseAdminController{
 			if($booksService->upBooks($id,$data)){
 				header("location:".$this->doMain."index.php?c=main&a=bookList");
 				//$this->controller->redirect($this->doMain."index.php?c=main&a=bookList",0);
-			}
+			}else{
+			    header("location:".$this->doMain."index.php?c=main&a=error");
+		    }
 		}
 	}
 	public function addChapter(){
@@ -234,7 +267,7 @@ class doController extends BaseAdminController{
 			$data['sort']=$chapter;
 			$booksService = InitPHP::getService("books");
 			if($booksService->insertChapter($data)){
-				header("location:".$this->doMain."index.php?c=main&a=chapterList&bookId=".$data['book_id']);
+			    header("location:".$this->doMain."index.php?c=main&a=chapterList&bookId=".$data['book_id']);
 				//$this->controller->redirect($this->doMain."index.php?c=main&a=chapterList&bookId=".$data['book_id'],0);
 			}
 		}

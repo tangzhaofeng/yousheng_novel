@@ -11,19 +11,28 @@
 </ul>
 <!--<div class="payTitle">选择充值面额</div>-->
 <ul class="payMoney clearfix">
-    <li data="30"><div class="money">￥30</div><span><!--{echo $scale*30;}-->+<font color="#FF0000"><!--{echo $scale*(30*$giveConf['give_scale_30']);}-->金币</font></span></li>
+    <li data="30"><div class="money ">￥30</div><span><!--{echo $scale*30;}-->+<font color="#FF0000"><!--{echo $scale*(30*$giveConf['give_scale_30']);}-->金币</font></span></li>
     <li data="50"><div class="money hover">￥50</div><span><!--{echo $scale*50;}-->+<font color="#FF0000"><!--{echo $scale*(50*$giveConf['give_scale_50']);}-->金币</font></span></li>
-    <li data="80"><div class="money">￥80</div><span><!--{echo $scale*80;}-->+<font color="#FF0000"><!--{echo $scale*(80*$giveConf['give_scale_80']);}-->金币</font></span></li>
-    <li data="100"><div class="money">￥100</div><span><!--{echo $scale*100;}-->+<font color="#FF0000"><!--{echo $scale*(100*$giveConf['give_scale_100']);}-->金币</font></span></li>
-    <li data="200"><div class="money">￥200</div><span><!--{echo $scale*200;}-->+<font color="#FF0000"><!--{echo $scale*(200*$giveConf['give_scale_200']);}-->金币</font></span></li>
-    <li data="500"><div class="money">￥500</div><span><!--{echo $scale*500;}-->+<font color="#FF0000"><!--{echo $scale*(500*$giveConf['give_scale_500']);}-->金币</font></span></li>
+    <li data="80"><div class="money ">￥80</div><span><!--{echo $scale*80;}-->+<font color="#FF0000"><!--{echo $scale*(80*$giveConf['give_scale_80']);}-->金币</font></span></li>
+    <li data="100"><div class="money ">￥100</div><span><!--{echo $scale*100;}-->+<font color="#FF0000"><!--{echo $scale*(100*$giveConf['give_scale_100']);}-->金币</font></span></li>
+    <li data="200"><div class="money ">￥200</div><span><!--{echo $scale*200;}-->+<font color="#FF0000"><!--{echo $scale*(200*$giveConf['give_scale_200']);}-->金币</font></span></li>
+    <li data="500"><div class="money ">￥500</div><span><!--{echo $scale*500;}-->+<font color="#FF0000"><!--{echo $scale*(500*$giveConf['give_scale_500']);}-->金币</font></span></li>
 </ul>
 <div class="goPayBox" style="cursor:pointer">去支付</div>
 <script>
 var money=50;
 var payType='wx';
-var payUrl='<!--{echo $doMain;}-->index.php?c=user&a=wxPay';
+var bookid='<!--{echo $bookId;}-->';
+var payUrl='<!--{echo $doMain;}-->index.php?c=user&a=wxPay&bookid=<!--{echo $bookId;}-->';
 localStorage.setItem("manyuedu_toUrl","<!--{echo $thisUrl;}-->");
+function setCookie(c_name,value,expiredays)
+{
+var exdate=new Date()
+exdate.setDate(exdate.getDate()+expiredays)
+document.cookie=c_name+ "=" +escape(value)+
+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+};
+
 $(document).on("click",".payType li",function(){
 	$(this).siblings().attr("class","nochoice");
 	$(this).attr("class","choice");
@@ -43,6 +52,7 @@ $(document).on("click",".goPayBox",function(){
 	if (typeof(money) == "undefined") {
 		money=50;
 	}
+	setCookie('bookid',bookid,1);
 	window.location=payUrl+"&money="+money+"&toUrl=<!--{echo urlencode($thisUrl);}-->";
 });
 </script>

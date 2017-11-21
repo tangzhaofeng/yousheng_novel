@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-	
+
 	<title>爱上听书管理平台</title>
     <meta name="keywords" content="爱上听书管理平台"/>
     <meta name="description" content="爱上听书管理平台"/>
-	
+
 	<link rel="stylesheet" type="text/css" href="Css/base.css">
 	<link rel="stylesheet" type="text/css" href="Css/font.min.css">
 	<link rel="stylesheet" type="text/css" href="Css/jquery-confirm.css">
@@ -32,6 +32,7 @@
                     <li <!--{if ($pushType == "zan7")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=zan7">本周点赞</a></li>
                     <li <!--{if ($pushType == "zan30")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=zan30">本月点赞</a></li>
                     <li <!--{if ($pushType == "zan")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=zan">点赞总数</a></li>
+                    <li <!--{if ($pushType == "chapRec")}-->class="on"<!--{/if}-->><a href="<!--{echo $doMain;}-->index.php?c=main&a=pushbook&tag=chapRec">播放页推荐</a></li>
 				</ul>
 				<div class="box-con">
 					<div class="box-filter">
@@ -71,10 +72,11 @@
 									<td><img src="<!--{echo $bookPicMain;}--><!--{echo $v['book_pic'];}-->" style="width:52px;"></td>
 									<td ><!--{echo $v['book_name'];}--></td>
 									<td><!--{echo $v['pushsort'];}--></td>
-									<td></td>
+									<td><!--{echo $v['sumPrice'];}--></td>
 									<td><span class="label green">上架</span></td>
 									<td><!--{echo date("Y-m-d",$v['create_time']);}--></td>
 									<td>
+										<a class="btn btn-info" href="index.php?c=main&a=recommendEdit&id=<!--{echo $v['book_id'];}-->"><i class="icon ai-edit">编辑推荐语</i>
 										<a class="delDo btn" data-href="<!--{echo $doMain;}-->index.php?c=main&a=delPush" data-id="<!--{echo $v['pushid'];}-->"><i class="icon ai-delete"></i>删除</a>
 									</td>
 								</tr>
@@ -94,7 +96,7 @@
 		$('.delDo').click(function(){
 			var url=$(this).attr("data-href");
 			var id=$(this).attr("data-id");
-			if (confirm("你确定删除吗？")) {  
+			if (confirm("你确定删除吗？")) {
 				$.ajax({
 					type:"POST",
 					url:url,
@@ -106,7 +108,7 @@
 						}
 					}
 				 });
-			}  
+			}
 		});
 	});
     </script>

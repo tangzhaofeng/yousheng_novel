@@ -105,7 +105,7 @@ class authorUserService extends Service{
 		}else{
 			return $this->authorUserDao->getopenidUser($id);
 		}
-		
+
 	}
 	public function updo(){
 		$this->authorUserDao->updo();
@@ -115,6 +115,13 @@ class authorUserService extends Service{
 			return array();
 		}
 		return $this->authorUserDao->getUserInfo($whereArray);
+	}
+
+	public function getAuthorMessage($book_id){
+	    if(empty($book_id)){
+	        return  array();
+	    }
+	    return  $this->authorUserDao->getAuthorMessage($book_id);
 	}
 
 	public function getMoney($user_id) {
@@ -132,18 +139,18 @@ class authorUserService extends Service{
 	}
 
 	public function smtEmail($to,$title,$body) {
-		$smtpserver = "smtp.mxhichina.com";//SMTP服务器 
-		$smtpserverport =25;//SMTP服务器端口 
-		$smtpusermail = "postmaster@qimiaoer.com";//SMTP服务器的用户邮箱 
-		$smtpemailto = $to;//发送给谁 
-		$smtpuser = "postmaster@qimiaoer.com";//SMTP服务器的用户帐号 
-		$smtppass = "Shenhai456";//SMTP服务器的用户密码 
-		$mailsubject = $title;//邮件主题 
-		$mailbody = $body;//邮件内容 
-		$mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件 
-		$smtp = $this->getLibrary('email');//加载email类 
-		$smtp->config($smtpserver,$smtpserverport,true,$smtpuser,$smtppass); 
-		$smtp->debug = FALSE;//是否显示发送的调试信息 
+		$smtpserver = "smtp.mxhichina.com";//SMTP服务器
+		$smtpserverport =25;//SMTP服务器端口
+		$smtpusermail = "postmaster@qimiaoer.com";//SMTP服务器的用户邮箱
+		$smtpemailto = $to;//发送给谁
+		$smtpuser = "postmaster@qimiaoer.com";//SMTP服务器的用户帐号
+		$smtppass = "Shenhai456";//SMTP服务器的用户密码
+		$mailsubject = $title;//邮件主题
+		$mailbody = $body;//邮件内容
+		$mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件
+		$smtp = $this->getLibrary('email');//加载email类
+		$smtp->config($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);
+		$smtp->debug = FALSE;//是否显示发送的调试信息
 		if($smtp->sendmail($smtpemailto, $smtpusermail, $mailsubject, $mailbody, $mailtype)){
 			return true;
 		}else{
@@ -160,7 +167,7 @@ class authorUserService extends Service{
 		$gets =self::httpPost($SMSPost,$url);
 		return $gets;
 	}
-	
+
     public static function httpPost($curlPost,$url){
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
@@ -173,5 +180,5 @@ class authorUserService extends Service{
 		curl_close($curl);
 		return $return_str;
 	}
-	
+
 }

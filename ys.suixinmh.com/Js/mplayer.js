@@ -273,7 +273,7 @@ var MPlayer = (function () {
 					if(audioSrc.code=='001'){
 						//$this.pause();
 						$this.dom.container.hide();
-						window.location.href="http://ys.suixinmh.com/index.php?c=user&a=index";
+						window.location.href="http://ys.suixinmh.comi/index.php?c=user&a=index";
 						return false;
 					}
 					if(audioSrc.code=='002'){

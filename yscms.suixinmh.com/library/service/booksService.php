@@ -145,4 +145,10 @@ class booksService extends Service{
 	public function delslide($ids) {
 		return $this->booksDao->delslide($ids);
 	}
+	public function upRecommend($id,$data){
+	    return $this->booksDao->upRecommend($id,$data);
+	}
+	public function upAuthorAudio($id,$data){
+	    return $this->booksDao->upAuthorAudio($id,$data);
+	}
 }

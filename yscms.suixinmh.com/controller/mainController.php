@@ -17,6 +17,7 @@ class mainController extends BaseAdminController{
 	    'slide',
 	    'slideEdit',
 	    'slideAdd',
+	    'recommendEdit',
 	    'delslide',
 	    'caiwuList',
 	    'bookPush',
@@ -36,7 +37,10 @@ class mainController extends BaseAdminController{
 	    'sourceUrl',
 	    'sourceUrlEdit',
 	    'userLook',
-	    'cread');
+	    'authorAudio',
+	    'cread',
+	    'error'
+	);
 	public $publicFunction;
 	public $sessionDo;
 	public $configDo;
@@ -265,6 +269,29 @@ class mainController extends BaseAdminController{
 		$this->view->assign('info',$info);
 		$this->view->set_tpl("main/slideEdit");
 		$this->view->display();
+	}
+	public function recommendEdit(){
+	    if(!$this->admin_id){
+	        header("Location:".$this->doMain."index.php?c=login&a=index");die;
+	    }
+
+	    $id=$this->controller->get_get("id");
+	    $booksService = InitPHP::getService("books");
+	    $bookInfo = $booksService->getBooks($id);
+	    $this->view->assign('bookInfo',$bookInfo);
+	    $this->view->set_tpl("main/recommendEdit");
+	    $this->view->display();
+	}
+	public function authorAudio(){
+	    if (!$this->admin_id) {
+	        header("Location:".$this->doMain."index.php?c=login&a=index");die;;
+	    }
+	    $id=$this->controller->get_get("bookId");
+	    $booksService = InitPHP::getService("books");
+	    $bookInfo = $booksService->getBooks($id);
+	    $this->view->assign('bookInfo',$bookInfo);
+	    $this->view->set_tpl("main/authorAudio");
+	    $this->view->display();
 	}
 	public function bookType(){
 		if(!$this->admin_id){
@@ -498,14 +525,18 @@ class mainController extends BaseAdminController{
 		$push['sort']=$this->controller->get_post("sort");
 		$push['push_type']=$this->controller->get_post("pushType");
 		$push['create_time']=time();
-		if(count(array_filter($push))<4){
-			header("Location:".$this->doMain."index.php?c=main&a=pushbook&tag=".$push['push_type']);
-		}else{
-			$booksService = InitPHP::getService("books");
-			if($booksService->insertPush($push)){
-				header("Location:".$this->doMain."index.php?c=main&a=pushbook&tag=".$push['push_type']);
-			}
-		}
+		$booksService = InitPHP::getService("books");
+		if($booksService->getbooks($push['book_id'])){
+		    if(count(array_filter($push))<4){
+		        header("Location:".$this->doMain."index.php?c=main&a=pushbook&tag=".$push['push_type']);
+		    }else{
+		        if($booksService->insertPush($push)){
+		            header("Location:".$this->doMain."index.php?c=main&a=pushbook&tag=".$push['push_type']);
+			    }
+		    }
+	    }else{
+	        header("Location:".$this->doMain."index.php?c=login&a=error");die;
+	    }
 	}
 	public function delPush(){
 		if(!$this->admin_id){

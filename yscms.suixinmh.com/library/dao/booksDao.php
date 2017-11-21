@@ -1,4 +1,4 @@
-<?php 
+<?php
 class booksDao extends Dao{
 	public $table_name = 'books';
 	private $fields = "book_name,book_title,book_pic,type,level,isfirst,notice,descriptions,is_serial,is_publish,author_id,author_name,author_tape,give,book_case,pay_way,edit_time,create_time,erweima_url";
@@ -40,7 +40,7 @@ class booksDao extends Dao{
 			$data['edit_time']=time();
 			$this->init_db()->update($chapterDatas['book_id'],$data,$this->table_name);
 		}
-		if($$content_id){
+		if($chapter_id){
 			return $chapter_id;
 		}else{
 			return false;
@@ -50,9 +50,11 @@ class booksDao extends Dao{
 		$data = $this->init_db()->build_key($data, $this->fields_push);
 		return $this->init_db()->insert($data, $this->table_push);
 	}
+
 	public function upBooks($id,$data){
 		if(empty($id) || empty($data)){
 			return array();
+			return $this->init_db()->update($id,$data,$this->table_name);
 		}
 		$data['edit_time']=time();
 		return $this->init_db()->update($id,$data,$this->table_name);
@@ -176,7 +178,7 @@ class booksDao extends Dao{
 		$chapterList=$this->init_db()->get_all_sql($sql);
 		return $chapterList;
 	}
-	
+
 	/**
 	 * SQL操作-通过条件语句获取一条信息
 	 */
@@ -213,7 +215,7 @@ class booksDao extends Dao{
 		if(empty($type) || $type=='size'){
 			$sqlC="UPDATE ".$this->table_chapter." set price={$data['unitPrice']} where book_id={$data['book_id']} and sort>={$data['priceStart']}";
 		}
-		$sqlD="UPDATE ".$this->table_chapter." set price=0 where book_id={$data['book_id']} and sort<{$data['priceStart']}";		
+		$sqlD="UPDATE ".$this->table_chapter." set price=0 where book_id={$data['book_id']} and sort<{$data['priceStart']}";
 		$this->init_db()->transaction_start();
 		$A=$this->init_db()->query($sqlA);
 		$B=$this->init_db()->query($sqlB);
@@ -236,6 +238,18 @@ class booksDao extends Dao{
 			return array();
 		}
 		return $this->init_db()->update($id,$data,$this->table_slide);
+	}
+	public function upRecommend($id,$data){
+	    if(empty($id) || empty($data)){
+	        return array();
+	    }
+	    return $this->init_db()->update($id, $data, $this->table_name);
+	}
+	public function upAuthorAudio($id,$data){
+	    if(empty($id) || empty($data)){
+	        return array();
+	    }
+	    return $this->init_db()->update($id, $data, $this->table_name);
 	}
 	public function getSlide(){
 		$sql='select * from '.$this->table_slide.' order by sort asc';
@@ -278,7 +292,7 @@ class booksDao extends Dao{
 		}
 		return $this->init_db()->delete($ids,$this->table_push,$id_key);
 	}
-	
+
 	public function deleteByField($whereArray) {
 		if(empty($whereArray)){
 			return array();

@@ -317,7 +317,7 @@ class indexController extends BaseUserController
 		    $erweima_url = $bookInfo['erweima_url'];
 		    $this->view->assign('erweima_url', $erweima_url);
 		}
-		$infoList=$booksService->getPushBook("info",3,1);
+		$infoList=$booksService->getPushBook("chapRec",3,1);
         $this->view->assign('bookInfo', $bookInfo);
         $this->view->assign('infoList',$infoList);
         $this->view->assign('chapterList',json_encode($chapter));

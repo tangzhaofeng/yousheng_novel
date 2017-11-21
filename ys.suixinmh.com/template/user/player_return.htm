@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>支付结果显示</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="Css/weixin_index.css" rel="stylesheet" />
+<link href="Css/weixinAudio.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="description" content="" />
+<meta name="Keywords" content="" />
+<link href="<!--{echo $staticsMain;}-->Css/style.css?v=4.1.998" rel="stylesheet" type="text/css"/>
+<link href="<!--{echo $staticsMain;}-->Css/user.css?v=4.1.998" rel="stylesheet" type="text/css"/>
+
+<script src="<!--{echo $staticsMain;}-->Js/jquery.min.js"></script>
+
+<script language="javascript">
+$(window).load(function() {
+	$("#status").fadeOut();
+	$("#preloader").delay(350).fadeOut("slow");
+})
+</script>
+</head>
+<style>
+.payTitle{height:45px; line-height:45px; width:100%; background:#333; text-align:center; color:#FFF; font-size:18px}
+.payInfoBox{margin:10px; width:auto; background:#FFF;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
+.payInfoBox li{width:100%; padding:0px 10px;height:50px; line-height:50px;position:relative;font-size:10px; border-bottom:1px solid #dedede}
+.payText{width:80%;position:absolute;top:0px; right:10px;height:50px; line-height:50px; text-align:right; font-size:14px}
+.payMoney{width:80%;position:absolute;top:0px; right:10px;height:50px; line-height:50px; text-align:right; color:#F00; font-size:18px}
+.qurenPayBox{display:block; cursor:pointer;margin:10px; width:auto;height:45px; line-height:45px; font-size:14px; text-align:center; color:#FFF; background:#0cbb08;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
+</style>
+<body style="padding:0px 0px 0px 0px">
+
+<div class="pageBox">
+<div class="pagHeader">
+    <div class="all">
+	<div class="return"><a href="<!--{echo $doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $bookid;}-->">返回图书</a></div>
+    </div>
+</div>
+<div style="position:relative;top:45px">
+<div class="paytltleBox indexIco" style="color:#ccc">温馨提示：</div>
+<div class="paytltleBox"style="color:#ccc">支付取消或者支付失败</div>
+</br>
+<div class="paytltleBox indexIco"style="color:#ccc">主播的话：</div>
+<div class="message" style="padding:10px 20px;">
+	<img class="avatar" src="upFile/userIco/<!--{$userIcon}-->"/>
+         <div class="content">
+
+               <div class="bubble bubble_default left">
+                       <div class="bubble_cont">
+                            <div class="plain" style="padding:0px">
+                                 <p class="weixinAudio"style="padding:0px 30px 0px 10px">
+                                 	<audio src="" id="media" width="1" height="1" preload></audio>
+                                 	<span id="audio_area" class="db audio_area">
+                                 	<span class="audio_wrp db">
+                                 	<span class="audio_play_area">
+                                 	<i class="icon_audio_default"></i>
+                                 	<i class="icon_audio_playing"></i>
+                                 	</span>
+									</span>
+									</span>
+								</p>
+                          </div>
+                   </div>
+              	</div>
+          </div>
+</div>
+
+<div class="message">
+
+                  <div   class="payCont" style=" margin:0 auto; width:50%; height:100px;background: #fcfcfc;border-radius: 3px;">
+                               <div style="height: 50%;line-height: 450%;text-align: center;font-size: initial;font-weight: bold;">订阅充值</div>
+                               <div style="height: 50%;line-height: 150%;text-align: center;font-size: x-large;font-weight: bold;">￥<!--{$money}--></div>
+                  </div>
+
+           <div style="float:right;color: #ababab;"> 两个按钮均可支付</div>
+</div>
+
+ <div class="message">
+<div class="pageBox">
+
+    <div class="qurenPayBox payCont">立即支付</div>
+</div>
+</div>
+<div class="message">
+<div  style=" margin:0 auto;width: 95%;height: 42px;background: #fcfcfc;border-radius: 3px;">
+<div style="margin:0 auto;height: 42px;line-height: 42px;text-align: center;font-size: 12px;color: #ababab;">支付安全由中国人民财产保险股份有限公司承担</div>
+
+</div>
+</div>
+</div>
+    <script src="Js/jquery-2.1.0.min.js"></script>
+    <script src="Js/weixin_index.js"></script>
+    <script src="Js/weixinAudio.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	if (typeof WeixinJSBridge == "undefined"){
+			document.addEventListener('WeixinJSBridgeReady',function() {
+				 $('.weixinAudio').weixinAudio({
+					autoplay:true,
+					src:'<!--{echo $authorMain;}-->upFile/<!--{$playerSrc}-->',
+				})}, false);
+	
+
+	}else{
+		$('.weixinAudio').weixinAudio({
+			autoplay:true,
+			src:'<!--{echo $authorMain;}-->upFile/<!--{$playerSrc}-->',
+		});
+	}
+
+	</script>
+
+    </div>
+</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+localStorage.setItem("manyuedu_openid","<!--{echo $openid;}-->");
+var appId="<!--{echo $wxResult['appId'];}-->";
+var timeStamp="<!--{echo $wxResult['timeStamp'];}-->";
+var nonceStr="<!--{echo $wxResult['nonceStr'];}-->";
+var package="<!--{echo $wxResult['package'];}-->";
+var paySign="<!--{echo $wxResult['sign'];}-->";
+var toUrl=localStorage.getItem("manyuedu_toUrl");
+
+function onBridgeReady(){
+	WeixinJSBridge.invoke(
+		'getBrandWCPayRequest',{
+			"appId":appId,
+			"timeStamp":timeStamp,
+			"nonceStr":nonceStr, //随机串
+			"package":package,
+			"signType":"MD5",//微信签名方式：
+			"paySign":paySign //微信签名
+		},
+		function(res){
+			if(res.err_msg=="get_brand_wcpay_request:ok"){
+				window.location.replace(toUrl);
+			}
+			if(res.err_msg=="get_brand_wcpay_request:cancel" || res.err_msg=="get_brand_wcpay_request:fail"){
+				window.history.go(-1);
+			}
+		}
+	);
+}
+function callpay(){
+	if (typeof WeixinJSBridge == "undefined"){
+		if(document.addEventListener){
+			document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		}else if (document.attachEvent){
+			document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+			document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		}
+	}else{
+		onBridgeReady();
+	}
+}
+$(document).on("click",".payCont",function(){
+	callpay();
+})
+</script>
+</html>

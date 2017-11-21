@@ -1,6 +1,6 @@
 <!--{layout:public/m_header}-->
 <style>
-.character360 {position:fixed;top:60px; left:50%;width: 160px;height: 160px; margin-left:-80px;background: no-repeat url("<!--{if(!empty($bookInfo['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $bookInfo['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->") left top;-webkit-background-size: 160px 160px;-moz-background-size: 160px 160px;background-size: 160px 160px;-webkit-border-radius:80px;border-radius:80px;border:5px solid #423047;}
+.character360 {position:fixed;top:20px; left:50%;width: 160px;height: 160px; margin-left:-80px;background: no-repeat url("<!--{if(!empty($bookInfo['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $bookInfo['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->") left top;-webkit-background-size: 160px 160px;-moz-background-size: 160px 160px;background-size: 160px 160px;-webkit-border-radius:80px;border-radius:80px;border:5px solid #423047;}
 .cpaydh{animation: spin 6s linear infinite;}
 @keyframes spin{
 	0% {
@@ -13,22 +13,23 @@
 </style>
 <body style=" padding:0px 0px 0px 0px;background-color:#4b3750;">
 <div class="pageBox">
-<div class="character360 cpaydh"></div>
+
 <div class="pagHeader" style="background-color:#4b3750;">
         <div class="all">
             <div class="return" data-url="<!--{echo $doMain;}-->index.php?c=index&a=chapterList&bookid=<!--{echo $bookInfo['id'];}-->">目录</div>
-            爱上听书
+            <h3 style="font-size:120%"><!--{$bookInfo['book_name']}--></h3>
             <div class="me"><a href="<!--{echo $doMain;}-->index.php?c=user&a=index"></a></div>
             <div class="home"><a href="<!--{echo $doMain;}-->index.php"></a></div>
             <div class="search"><a href="<!--{echo $doMain;}-->index.php?c=index&a=soSuo"></a></div>
         </div>
-    </div>
+</div>
+<div class="character360 cpaydh" style="position:relative"></div>
 <div class="mp-list-box" style="display:none">
     <div class="mp-list-table">
         <ul class="mp-list"></ul>
     </div>
 </div>
-<div class="mp" style="top:220px;border:0; width:90%; margin:0px 5%;height:95px; padding:10px 0px">
+<div class="mp" style="position:relative; top:20px; border:0; width:90%; margin:0px 5%;height:95px; padding:10px 0px">
     <div class="mp-info">
         <p class="mp-name">章节</p>
         <p class="mp-singer" style="display:none">录音</p>
@@ -51,21 +52,34 @@
 		</div>
     </div>
 </div>
-<div>
-<a></a><a></a><a></a>
-</div>
-<div  style="position:fixed;top:341px;left:0%;width: 100%;height:175px; ">
-    <div style="height:30PX; line-height:30PX;font-size:10px; text-align:center; color:#FFFFFF;">点击播放进度条可以快进后退，如有疑问可联系下方客服公众号</div>
-	<div style="top:341px;left:0%;width: 100%;height:175px; ">
-	<div style="height:30PX; line-height:30PX;font-size:10px; text-align:center; color:#FFFFFF;">您可能还喜欢:
-	<!--{foreach ($infoList as $k =>$v)}-->
-		<li>
-		<a style="color:#FFFFFF" href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
-	</li>
-	<!--{/foreach}-->
+
+<div  style="position:relative;top:12px;left:0%;width: 100%;height:175px; ">
+    <div style="position:relative;height:30PX; line-height:30PX;font-size:12px; text-align:center; color:#686868;">点击播放进度条可以快进后退，如有疑问可联系下方客服QQ号</div>
+	<div style="top:10px;left:0%;width: 100%;position:relative ">
+		<div class="paytltleBox indexIco" style="color:#78617d;border-top: 0.5px solid #78617d;height:35px;line-height:35px;border-bottom:none">看过这本书的人还看过</div>
+		<!--{foreach ($infoList as $k =>$v)}-->
+			<li style="padding-left:25px;padding-right:25px">
+			<a style="color:#78617d;line-height:35px;top:40px;font-size:12pt" href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
+			</br>
+			<span style="font-size:12px; color:#78617d"><!--{$v['book_title']}--></span></br>
+			<div style=""><span style="font-size:12px; color:#78617d">分类：
+			<!--{foreach ($v['type'] as $kt=>$vt)}-->
+			<span class="bookType"><!--{echo $vt['typeName'];}--></span>
+            <!--{/foreach}-->
+            </span>
+            <span style="float:right;color:#78617d"><!--{$v['book_case']}-->人在追</span></div>
+		</li>
+		<!--{/foreach}-->
 	</div>
-	</div>
-    <div class="mp-erweima"style=" margin-top:5px;height:140PX; text-align:center; display:none"><img src="<!--{echo $erweimaMain,$erweima_url;}-->" style="width:100px; height:100px;"></div>
+    <div class="mp-erweima" style="position:relative;top:60px; margin-top:5px;height:140PX; text-align:center; display:none">
+    	<div style="height:30PX; line-height:20PX;font-size:10px; text-align:center; color:#78617d;">喜欢这篇小说吗？敬请关注下方公众号</div>
+    	<img src="<!--{echo $erweimaMain,$erweima_url;}-->" style="width:100px; height:100px;">
+    </div>
+    <div style="position:relative;top:60px">
+    	<div class="line" style="text-align:center; color:#686868;">客服QQ：97066441</div>
+    	<div class="line" style="text-align:center; color:#686868;">工作时间：周一到周五（9:30-18:00）</div>
+    	<div class="line" style="text-align:center; color:#686868;"></div>
+    </div>
 </div>
 <script src="Js/jquery.min.js"></script>
 <script src="Js/mplayer.js"></script>
@@ -80,6 +94,7 @@ $(document).on('click','.return',function(){
 });
 var modeText = ['顺序播放','单曲循环','随机播放','列表循环'];
 var mplayerSong=<!--{echo $chapterList;}-->;
+
 var player = new MPlayer({
 	//列表容器
 	listSelector:'.mp-list-box',

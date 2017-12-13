@@ -45,4 +45,10 @@ class sourceService extends Service{
 		$sql="select * from third_source_statistics {$where} order by id desc limit {$offest},{$pageNum} ";
 		return $this->sourceDao->getAllSql($sql);
 	}
+	public function getConcern($whereArray){
+	    if(empty($whereArray)){
+	       return array();
+	   }
+	   return $this->sourceDao->getConcern($whereArray);
+	}
 }

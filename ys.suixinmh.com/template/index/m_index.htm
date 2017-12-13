@@ -10,16 +10,7 @@
 <body style=" padding:0px 0px 0px 0px">
 <!--{layout:public/loding}-->
 <!--{layout:public/menu}-->
-<div class="pageBox">
-    <div id="owl-demo" class="owl-carousel">
-        <a class="item"><img src="3.jpg" alt=""></a>
-        <a class="item"><img src="4.jpg" alt=""></a>
-        <a class="item"><img src="5.jpg" alt=""></a>
-        <a class="item"><img src="1.jpg" alt=""></a>
-        <a class="item"><img src="2.jpg" alt=""></a>
-        <a class="item"><img src="6.jpg" alt=""></a>
-    </div>
-</div>
+
 
 <div class="pageBox">
     <div class="lanmuBox">
@@ -28,7 +19,7 @@
             <ul class="clearfix">
             <!--{foreach ($bookUpList as $k =>$v)}-->
             <li>
-                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="<!--{echo $authorMain;}-->Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
                 <div class="GCIco">
                     <div class="GIco"><!--{echo $v['give'];}--></div>
                     <div class="CIco"><!--{echo $v['book_case'];}--></div>
@@ -48,7 +39,7 @@
             <ul class="clearfix">
             <!--{foreach ($jxtjList as $k =>$v)}-->
             <li>
-                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="<!--{echo $authorMain;}-->Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
                 <div class="GCIco">
                     <div class="GIco"><!--{echo $v['give'];}--></div>
                     <div class="CIco"><!--{echo $v['book_case'];}--></div>
@@ -68,7 +59,7 @@
             <ul class="clearfix">
             <!--{foreach ($vipList as $k =>$v)}-->
             <li>
-                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="<!--{echo $authorMain;}-->Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
                 <div class="GCIco">
                     <div class="GIco"><!--{echo $v['give'];}--></div>
                     <div class="CIco"><!--{echo $v['book_case'];}--></div>
@@ -88,7 +79,7 @@
             <ul class="clearfix">
             <!--{foreach ($bookNewList as $k =>$v)}-->
             <li>
-                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="http://yscms.suixinmh.com/Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
+                <a href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><img src="<!--{echo $authorMain;}-->Uploads/books/<!--{echo $v['book_pic'];}-->"></a>
                 <div class="GCIco">
                     <div class="GIco"><!--{echo $v['give'];}--></div>
                     <div class="CIco"><!--{echo $v['book_case'];}--></div>

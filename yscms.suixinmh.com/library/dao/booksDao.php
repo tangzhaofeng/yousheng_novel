@@ -14,6 +14,8 @@ class booksDao extends Dao{
 	private $fields_case = "book_id,user_id,create_time";
 	public $table_slide = 'slide_img';
 	private $fields_slide = "title,url,image,sort";
+	public $table_spare = 'user_spare';
+	private $fields_spare = 'book_id,user_id,chapter_id,create_time,type';
 
 	public function insert($data) {
 		$time=time();
@@ -147,6 +149,12 @@ class booksDao extends Dao{
 		}
 		return $this->init_db()->update_by_field($data,$where,$this->table_chapter);
 	}
+	public function upSpare($where,$data){
+	    if(empty($where) || empty($data)){
+	        return array();
+	    }
+	    return $this->init_db()->update_by_field($data,$where,$this->table_spare);
+	}
 	public function getBooksList($pageNum,$where,$p=1) {
 		if(!empty($where)){
 			$where="where {$where}";
@@ -170,6 +178,9 @@ class booksDao extends Dao{
 	public function getBooksCount($field=array()) {
 		return $this->init_db()->get_count($this->table_name,$field);
 	}
+	public function getSpareCount($field=array()) {
+	    return $this->init_db()->get_count($this->table_spare,$field);
+	}
 	public function getChapterList($bookId) {
 		if(empty($bookId)){
 			return array();
@@ -177,6 +188,21 @@ class booksDao extends Dao{
 		$sql="select * from ".$this->table_chapter." WHERE book_id={$bookId} order by SORT ASC";
 		$chapterList=$this->init_db()->get_all_sql($sql);
 		return $chapterList;
+	}
+	public function getSpareList($pageNum,$where,$p=1) {
+	    if(!empty($where)){
+	        $where="where {$where}";
+	    }else{
+	        $where="where 1=1";
+	    }
+	    $offest=($p-1)*$pageNum;
+	    $sql="select * from ".$this->table_spare." {$where} order by id desc limit {$offest},{$pageNum}";
+	    $spareList=$this->init_db()->get_all_sql($sql);
+	    foreach($spareList as $k=>$v){
+	        $books=$this->getbooks($v['book_id']);
+	        $spareList[$k]['book_name']=$books['book_name'];
+	    }
+	    return $spareList;
 	}
 
 	/**
@@ -285,6 +311,12 @@ class booksDao extends Dao{
 			return array();
 		}
 		return $this->init_db()->delete($id,$this->table_chapter,$id_key);
+	}
+	public function delSpare($id,$id_key = 'id') {
+	    if(empty($id)){
+	        return array();
+	    }
+	    return $this->init_db()->delete($id,$this->table_spare,$id_key);
 	}
 	public function deletepush($ids,$id_key = 'id') {
 		if(empty($ids)){

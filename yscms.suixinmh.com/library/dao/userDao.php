@@ -1,4 +1,4 @@
-<?php 
+<?php
 class userDao extends Dao{
 	public $table_name = 'user';
 	private $fields = "openid,unionid,phone,password,source,third_source,state,vip,create_time";
@@ -95,7 +95,7 @@ class userDao extends Dao{
 			}
 			$sql.=$userWhereSql.$fuhaoWhere;//用户表条件结束
 			$countSql.=$userWhereSql.$fuhaoWhere;//用户表条件结束
-			
+
 			if(!empty($recordWhere['source'])){
 				$recordWhereSql.=' and p.source="'.$recordWhere["source"].'"';
 			}
@@ -139,7 +139,7 @@ class userDao extends Dao{
 		$userPay['count']=$count['NUM'];
 		return $userPay;
 	}
-	
+
 	public function userPaySumLook($user_id,$start_time,$end_time){
 		if(!empty($start_time)){
 			$start_time=strtotime($start_time." 00:00:00");
@@ -159,7 +159,7 @@ class userDao extends Dao{
 		$info['create_time']=$SUM['create_time'];
 		return $info;
 	}
-	
+
 	public function bookOrderSumList($data,$bookId=0){
 		if(!empty($bookId)){
 			$where.="book_id={$bookId} and";
@@ -183,7 +183,30 @@ class userDao extends Dao{
 		}
 		return $this->init_db()->get_all_sql($sql);
 	}
-	
+	public function bookTipSumList($data,$bookId=0){
+	    if(!empty($bookId)){
+	        $where.="book_id={$bookId} and";
+	    }
+	    if(empty($data['startTime']) && !empty($data['endTime'])){
+	        $endTime=strtotime($data['endTime'].' 23:59:59');
+	        $sql="SELECT sum(price) as tipSum,book_id from user_tip where {$where} create_time<={$endTime} GROUP BY book_id HAVING priceSum>0 ORDER BY tipSum desc";
+	    }
+	    if(!empty($data['startTime']) && empty($data['endTime'])){
+	        $startTime=strtotime($data['startTime'].' 00:00:00');
+	        $endTime=time();
+	        $sql="SELECT sum(price) as tipSum,book_id from user_tip where {$where} create_time>={$startTime} and create_time<={$endTime} GROUP BY book_id HAVING tipSum>0 ORDER BY tipSum desc";
+	    }
+	    if(!empty($data['startTime']) && !empty($data['endTime'])){
+	        $startTime=strtotime($data['startTime'].' 00:00:00');
+	        $endTime=strtotime($data['endTime'].' 23:59:59');
+	        $sql="SELECT sum(price) as tipSum,book_id from user_tip where {$where} create_time>={$startTime} and create_time<={$endTime} GROUP BY book_id HAVING tipSum>0 ORDER BY tipSum desc";
+	    }
+	    if(empty($data['startTime']) && empty($data['endTime'])){
+	        $sql="SELECT sum(price) as tipSum,book_id from user_tip where {$where} 1=1 GROUP BY book_id HAVING tipSum>0 ORDER BY tipSum desc";
+	    }
+	    $list=$this->init_db()->get_one_sql($sql);
+	    return $list["tipSum"];
+	}
 	public function bookOrderUserCount($bookId,$data){
 		if(empty($data['startTime']) && !empty($data['endTime'])){
 			$endTime=strtotime($data['endTime'].' 23:59:59');
@@ -205,7 +228,7 @@ class userDao extends Dao{
 		$list=$this->init_db()->get_one_sql($sql);
 		return $list['num'];
 	}
-	
+
 	public function regSum($dataTime,$third_source){
 		if(!empty($dataTime)){
 			$start_time=strtotime($dataTime." 00:00:00");
@@ -280,7 +303,7 @@ class userDao extends Dao{
 		$priceSum=$this->init_db()->get_one_sql($sql);
 		return empty($priceSum['priceSum'])?0:$priceSum['priceSum'];
 	}
-	
+
 	public function lookOrderPay($user_id,$time){
 		$sql="SELECT * FROM book_order WHERE user_id={$user_id} and create_time>={$time} order by create_time desc";
 		$info=$this->init_db()->get_one_sql($sql);
@@ -302,18 +325,18 @@ class userDao extends Dao{
 		$count=$this->init_db()->get_one_sql($sql);
 		return $count['num'];
 	}
-	
+
 	public function thirdSourceList(){
 		$sql='select * from '.$this->table_third_source;
 		$list=$this->init_db()->get_all_sql($sql);
 		return $list;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	//统计渠道注册用户数
 	public function thirdSourceUser($third_source,$start_time,$end_time){
 		if(!empty($start_time)){
@@ -386,7 +409,7 @@ class userDao extends Dao{
 		$count=$this->init_db()->get_one_sql($sql);
 		return $count['qudaoNum'];
 	}
-	
+
 	public function userLookPage($start_time,$end_time,$book_id,$p=1,$pageNum=25){
 		$offest=($p-1)*$pageNum;
 		$where="where 1=1 ";
@@ -408,7 +431,7 @@ class userDao extends Dao{
 		}
 		$sql="SELECT *,sum(pageNum) as lookNum FROM {$this->table_user_look_pay_page} {$where} group by user_id order by id desc limit {$offest},{$pageNum}";
 		$list=$this->init_db()->get_all_sql($sql);
-		
+
 		if(!empty($start_time)){
 			$start_time=strtotime($start_time." 00:00:00");
 			$paywhere.="and create_time>={$start_time} ";
@@ -429,9 +452,9 @@ class userDao extends Dao{
 			$list[$k]['moneySum']=empty($moneySum['moneySum'])?0:$moneySum['moneySum'];
 		}
 		return $list;
-	}	
-	
-	
+	}
+
+
 	public function getOneByField($whereArray) {
 		if(empty($whereArray)){
 			return array();
@@ -463,7 +486,7 @@ class userDao extends Dao{
 		}
 		return $this->init_db()->delete($ids,$this->table_name,$id_key);
 	}
-	
+
 	public function deleteByField($whereArray) {
 		if(empty($whereArray)){
 			return array();

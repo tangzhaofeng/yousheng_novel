@@ -39,7 +39,7 @@ class loginController extends Controller
         }
         $this->view->assign('title', "读者登录");
         $this->view->assign('thisUrl', $thisUrl);
-        $this->view->set_tpl("index/login");//设置模板
+        $this->view->set_tpl("index/m_login");//设置模板
         $this->view->display();
     }
 
@@ -48,7 +48,10 @@ class loginController extends Controller
 		$toUrl = $_GET['toUrl'];
         if (isset($_GET['code'])) {
             $datas = $this->weixinService->getOauthAccessToken($_GET['code']);
-            $userInfoData = $this->weixinService->getOauthUserinfo($datas['access_token'], $datas['openid']);
+            $userInfoData = $this->weixinService->getOauthUserInfo($datas['access_token'], $datas['openid']);
+            if($userInfoData['subscribe'] =='0'){
+                $userInfoData = $this->weixinService->getOauthUserinfo($datas['access_token'], $datas['openid']);
+            }
         } else {
             $CallUrl = $this->weixinService->getOauthRedirect();
             header("location:" . $CallUrl);
@@ -67,6 +70,9 @@ class loginController extends Controller
         $authorUserService = InitPHP::getService("authorUser");
         $data['openid'] = $userInfoData['openid'];
 		$data['source'] = 'weixin';
+		if ($subscribeData['subscribe']){
+		    $data['subscribe'] = $subscribeData['subscribe'];
+		}
         if (empty($data['openid'])) {
             header("location:" . $this->doMain . "index.php?c=login&a=index");
             die;

@@ -50,7 +50,7 @@ $(window).load(function() {
 </br>
 <div class="paytltleBox indexIco"style="color:#ccc">主播的话：</div>
 <div class="message" style="padding:10px 20px;">
-	<img class="avatar" src="upFile/userIco/<!--{$userIcon}-->"/>
+	<img class="avatar" src="<!--{$authorMain}-->Uploads/erweima/<!--{$userIcon}-->"/>
          <div class="content">
 
                <div class="bubble bubble_default left">
@@ -75,7 +75,7 @@ $(window).load(function() {
 
 <div class="message">
 
-                  <div   class="payCont" style=" margin:0 auto; width:50%; height:100px;background: #fcfcfc;border-radius: 3px;">
+                  <div   class="payCon" style=" margin:0 auto; width:50%; height:100px;background: #fcfcfc;border-radius: 3px;">
                                <div style="height: 50%;line-height: 450%;text-align: center;font-size: initial;font-weight: bold;">订阅充值</div>
                                <div style="height: 50%;line-height: 150%;text-align: center;font-size: x-large;font-weight: bold;">￥<!--{$money}--></div>
                   </div>
@@ -86,7 +86,7 @@ $(window).load(function() {
  <div class="message">
 <div class="pageBox">
 
-    <div class="qurenPayBox payCont">立即支付</div>
+    <div class="qurenPayBox payCon">立即支付</div>
 </div>
 </div>
 <div class="message">
@@ -106,7 +106,7 @@ $(window).load(function() {
 					autoplay:true,
 					src:'<!--{echo $authorMain;}-->upFile/<!--{$playerSrc}-->',
 				})}, false);
-	
+
 
 	}else{
 		$('.weixinAudio').weixinAudio({
@@ -144,7 +144,7 @@ function onBridgeReady(){
 				window.location.replace(toUrl);
 			}
 			if(res.err_msg=="get_brand_wcpay_request:cancel" || res.err_msg=="get_brand_wcpay_request:fail"){
-				window.history.go(-1);
+
 			}
 		}
 	);
@@ -161,7 +161,7 @@ function callpay(){
 		onBridgeReady();
 	}
 }
-$(document).on("click",".payCont",function(){
+$(document).on("click",".payCon",function(){
 	callpay();
 })
 </script>

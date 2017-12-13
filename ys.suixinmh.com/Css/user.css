@@ -1,9 +1,9 @@
 .paytltleBox{position:relative;height:30px; line-height:30px; color:#515151; font-size:14px; padding-left:25px; padding-bottom:10px; border-bottom:0.5px solid #f0eff5;}
 .indexIco{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTU3OENEQTNBMTA1MTFFNzgyNTdFN0RGRTBCMjEzMjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTU3OENEQTRBMTA1MTFFNzgyNTdFN0RGRTBCMjEzMjgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpFNTc4Q0RBMUExMDUxMUU3ODI1N0U3REZFMEIyMTMyOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpFNTc4Q0RBMkExMDUxMUU3ODI1N0U3REZFMEIyMTMyOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpltXPEAAABRSURBVHja7M4hAYAwFEXRz4KsCGmYX5p5SEMRinwoMBQCca554pmzZGbMGmfdn9ni246+Xm12lvhZQEBAQEBAQEBAQEBAQEBAQEBAQG/dAgwAYBoIRQ0tpuYAAAAASUVORK5CYII=") no-repeat 8px center; background-size:15px;}
 .payTextBox{margin:0px 2%;padding:12px; line-height:22px; font-size:12px; background:#FFF}
-
+.payTextBox span{height:8vw;line-height:8vw};
 .userHeader{position:relative;background:#92c41d; height:50px;}
-.userInfo{position:absolute; left:2.5%; width:95%; bottom:-40px;background:#fff; height:80px;}
+.userInfo{position:relative; left:2.5%; width:95%;background:#fff; height:80px;}
 .userInfo .info{position:relative;width:100%;height:125px;}
 .userImg{position:absolute; left:10px; top:10px; width:60px; height:60px;-webkit-border-radius:30px;-moz-border-radius:30px;-ms-border-radius:30px;-o-border-radius:30px;border-radius:30px; overflow:hidden; background:#999}
 .userImg img{width:100%}

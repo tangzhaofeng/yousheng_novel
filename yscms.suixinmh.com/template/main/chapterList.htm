@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-	
+
 	<title>爱上听书管理平台</title>
     <meta name="keywords" content="爱上听书管理平台"/>
     <meta name="description" content="爱上听书管理平台"/>
@@ -68,6 +68,7 @@
 									<td><!--{echo date("Y-m-d",$v['create_time']);}--></td>
 									<td>
 										<a class="btn btn-info" href="<!--{echo $this->doMain;}-->index.php?c=main&a=editChapter&id=<!--{echo $v['id'];}-->"><i class="icon ai-article"></i>编辑</a>
+										<a class='btn btn-info' href="<!--{echo $this->doMain;}-->upFile/<!--{echo $v['audio_url'];}-->" download='<!--{echo $v['audio_url'];}-->'><i class="icon ai-article"></i>下载</a>
                                         <a class="delChapter btn" id="<!--{echo $v['id'];}-->" href="javascript:void(0);"><i class="icon ai-delete"></i>删除</a>
                                     </td>
 								</tr>
@@ -94,7 +95,7 @@
 		});
 		$('.delChapter').click(function(){
 			var id=$(this).attr("id");
-			if (confirm("你确定删除吗？")) {  
+			if (confirm("你确定删除吗？")) {
 				$.ajax({
 					type:"POST",
 					url:"<!--{echo $this->doMain;}-->index.php?c=do&a=delChapter",
@@ -106,7 +107,7 @@
 						}
 					}
 				 });
-			}  
+			}
 		});
 		$("#no").click(function(){
 		   $(this).attr("class","btn-con btn-no");
@@ -122,7 +123,7 @@
 		   $("#shut").attr("checked","checked");
 		   $("#open").removeAttr("checked");
 	   });
-	   
+
 	});
 	</script>
 </body>

@@ -10,6 +10,7 @@ class weixinLoginService extends Service{
 	private $doMain;
 	private $wxConfig;
 	const OAUTH_PREFIX = 'https://open.weixin.qq.com/connect/oauth2';
+	const OAUTH_CGI_URL = '/cgi-bin/user/info?';
 	const OAUTH_AUTHORIZE_URL = '/authorize?';
 	const API_BASE_URL_PREFIX = 'https://api.weixin.qq.com';
 	const OAUTH_TOKEN_URL = '/sns/oauth2/access_token?';
@@ -37,9 +38,9 @@ class weixinLoginService extends Service{
 		}else{
 			$stats= $this->getRandChar(16);//该参数可用于防止csrf攻击（跨站请求伪造攻击）
 			$toUrl=$this->getOauthRedirect($this->_callback,$stats,'snsapi_userinfo');
-			header("Location:".$toUrl);die; 
+			header("Location:".$toUrl);die;
 		}
-       
+
 		return $userInfo;
     }
 //生成随机数,length长度
@@ -62,7 +63,7 @@ class weixinLoginService extends Service{
 		$stats= $this->getRandChar(16);
 		return self::OAUTH_PREFIX.self::OAUTH_AUTHORIZE_URL.'appid='.$this->_appId.'&redirect_uri='.urlencode($redirect_uri).'&response_type=code&scope='.$scope.'&state='.$state.'#wechat_redirect';
 	}
-    
+
 	public function getOauthAccessToken($code){
 		$code = isset($_GET['code'])?$_GET['code']:$code;
 		if (!$code) return false;
@@ -83,7 +84,18 @@ class weixinLoginService extends Service{
 		}
 		return false;
 	}
-	
+	/**
+	 *调用的接口不同，用于获取subscribe，判断是否关注
+	 */
+	public function getOauthUserInfoCGI($access_token,$openid){
+	    $result = $this->httpRequest(self::API_BASE_URL_PREFIX.self::OAUTH_CGI_URL.'access_token='.$access_token.'&openid='.$openid);
+	    if ($result){
+	        $json = json_decode($result,true);
+	        return $json;
+	    }
+	    return false;
+	}
+
 	/**
 	 * CURL请求
 	 * @param $url 请求url地址
@@ -141,7 +153,7 @@ class weixinLoginService extends Service{
 		return $response;
 		//return array($http_code, $response,$requestinfo);
 	}
-	
+
     private function http_get($url){
 		$oCurl = curl_init();
 		if(stripos($url,"https://")!==FALSE){

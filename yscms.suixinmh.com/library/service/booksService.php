@@ -111,6 +111,9 @@ class booksService extends Service{
 	public function getBooksCount($field=array()) {
 		return $this->booksDao->getBooksCount($field);
 	}
+	public function getSpareCount($field=array()) {
+	    return $this->booksDao->getSpareCount($field);
+	}
 	public function getPushBook($pushType,$pageNum,$p=1){
 		return $this->booksDao->getPushBook($pushType,$pageNum,$p);
 	}
@@ -150,5 +153,15 @@ class booksService extends Service{
 	}
 	public function upAuthorAudio($id,$data){
 	    return $this->booksDao->upAuthorAudio($id,$data);
+	}
+	public function upSpare($where,$data){
+	    return $this->booksDao->upSpare($where,$data);
+	}
+	public function delSpare($id,$id_key = 'id'){
+	    return $this->booksDao->delSpare($id,$id_key = 'id');
+	}
+	public function getSpareList($pageNum,$where,$p=1) {
+	    $SpareList=$this->booksDao->getSpareList($pageNum,$where,$p=1);
+	    return $SpareList;
 	}
 }

@@ -45,6 +45,8 @@ var MPlayer = (function () {
 				autoPlay:false,
 				defaultVolume:100,
 				playSTime:0,
+				overTime:0,
+				spareTop:0,
 				playAddress:location.href
 			};
 			$this.callbacks = {
@@ -86,7 +88,10 @@ var MPlayer = (function () {
 				progressAll:con.find('.mp-pro'),
 				//listTitle:listcon.find('.mp-list-title'),
 				list:listcon.find('.mp-list'),
-				erweima:con.find('.mp-erweima')
+				erweima:con.find('.mp-erweima'),
+				danmu:con.find('ctxt'),
+				tip:con.find('.mp-tip'),
+				spare:con.find('.mp-spare')
 			};
 			// 计算列表模板的有效元素
 			$this.settings.listEleName = $.parseHTML($this.settings.listFormat)[0].nodeName.toLowerCase();
@@ -119,6 +124,10 @@ var MPlayer = (function () {
 			$this.dom.volRange.on($this.settings.volSlideEventName,function (event,val) {
 				$this.audio.prop('volume',val/100);
 			});
+			//发布评论
+			$this.dom.spare.click(function(){
+				$this.spare();
+			});
 			// 静音
 			$this.dom.vol.click(function () {
 				$this.toggleMute();
@@ -132,13 +141,30 @@ var MPlayer = (function () {
 			$this.audio.on('canplay',function () {
 				setTime($this.getDuration(),$this.dom.allTime);
 			}).on('timeupdate', function () {
+
 				var currentTime = $this.getCurrentTime();
+				var listx = $this.getCurrentList();
+				var songx = $this.getCurrentSong();
+				var list = $this.getInfo(listx,songx);
+				var spare = list.spare;
+
+				var second = fillByZero(Math.floor(currentTime),2);
+				window.second = second;
 				// 修改时间
 				setTime(currentTime,$this.dom.currentTime);
+				//触发弹幕方法
+				if (spare != null ) {
+					if (eval(second) != eval($this.settings.overTime) ) {
+						setSpareList(second,spare);
+						$this.settings.overTime = second;
+					}
+				}
+
 				// 更新进度条
 				$this.dom.progress.css('width',$this.getPercent()*100+'%');
 				// 触发onTimeUpdate事件
 				$this._trigger('timeUpdate');
+
 			}).on('ended', function () {
 				// 触发onEnd事件
 				var flag = $this._trigger('end');
@@ -227,7 +253,55 @@ var MPlayer = (function () {
 			var second = fillByZero(Math.floor(time % 60),2);
 			ele.html(minute + ':' + second);
 		}
+		/**
+		 * 获取当前评论列表
+		 */
+		 function setSpareList(time,spare) {
+			for (var i = 0; i < spare.length;i++) {
+				var t = spare[i].playtime;
+				var type= spare[i].price;
 
+				var msgtxt = spare[i].spare;
+				if( eval(t) == eval(time)){
+					setdanmu(msgtxt,type);
+				}
+			};
+		}
+		 function setdanmu(spare,type) {
+			 var msgtxt = spare;
+			 if (type != null){
+				 var colortxt = 'hsl(61, 100%, 50%)';
+			 }else{
+				 var colortxt = '#FFF';
+			 }
+		        var topPos = generateMixed(10);
+
+		        var newtxt = '<p style="top:'+topPos+'px;font-size:5px;z-index:999;position:absolute;color:'+colortxt+'">'+msgtxt+'</p>';
+		        $(".ctxt").prepend(newtxt);
+		        var addTextW = $(".ctxt").find("p").width();
+		        $(".ctxt p").animate({left: '-'+addTextW+"%"}, 30000,function(){
+		            $(this).hide();
+		        });
+		}
+
+	//随机获取颜色值
+	    function getReandomColor(){
+	        return '#'+(function(h){
+	        return new Array(7-h.length).join("0")+h
+	        })((Math.random()*0x1000000<<0).toString(16))
+	    }
+
+	//生成随机数据。n表示位数
+	    var jschars = ['0','1','2','3','4','5','6','7','8','9'];
+	    function generateMixed(n) {
+	    	var res = $this.settings.spareTop;
+	        res = res + n;
+	        if (res > 150) {
+	        	res = n;
+	        }
+	        $this.settings.spareTop = res;
+	        return res;
+	    }
 		/**
 		 * 用0填充
 		 * @param num
@@ -252,6 +326,8 @@ var MPlayer = (function () {
 		_setInfo: function (list,song) {
 			var $this = this;
 			var songInfo = $this.getInfo(list,song);
+			var spare=songInfo.spare;
+
 			// 设置当前播放歌曲
 			var audioSrc;
 			if (window.XMLHttpRequest){//code for IE7+, Firefox, Chrome, Opera, Safari
@@ -273,15 +349,20 @@ var MPlayer = (function () {
 					if(audioSrc.code=='001'){
 						//$this.pause();
 						$this.dom.container.hide();
-						window.location.href="http://ys.suixinmh.comi/index.php?c=user&a=index";
+						window.location.href="http://localhost/ys.suixinmh.com/index.php?c=user&a=index";
 						return false;
 					}
 					if(audioSrc.code=='002'){
 						//$this.pause();
 						$this.dom.container.hide();
-						var payPageUrl="http://ys.suixinmh.com/index.php?c=user&a=Cmoney&bookId="+audioSrc.book_id+"&cid="+audioSrc.cid+"&thisUrl="+encodeURIComponent($this.settings.playAddress+"&vonum="+Date.parse(new Date()));
+						var payPageUrl="http://localhost/ys.suixinmh.com/index.php?c=user&a=Cmoney&bookId="+audioSrc.book_id+"&cid="+audioSrc.cid+"&thisUrl="+encodeURIComponent($this.settings.playAddress+"&vonum="+Date.parse(new Date()));
 						$(document.body).append('<a href="'+payPageUrl+'" style="display:none"><span id="payPageUrlAutoClick">去充值</span></a>');
 						$("#payPageUrlAutoClick").click();						//window.location.href="http://ys.suixinmh.com/index.php?c=user&a=Cmoney&bookId="+audioSrc.book_id+"&cid="+audioSrc.cid+"&thisUrl="+encodeURIComponent($this.settings.playAddress+"&vonum="+Date.parse(new Date()));
+						return false;
+					}
+					if(audioSrc.code=='003'){
+						$this.dom.container.hide();
+						window.location.href="http://localhost/ys.suixinmh.com/index.php?c=index&a=follow&bookId="+audioSrc.book_id+"&cid="+audioSrc.cid+"&thisUrl="+encodeURIComponent($this.settings.playAddress+"&vonum="+Date.parse(new Date()));
 						return false;
 					}
 					$this.audio.attr({
@@ -387,6 +468,45 @@ var MPlayer = (function () {
 			History.pushState(null, null,playAddressUrl+"&song="+lastSong);
 			$this.play(lastSong);
 		},
+		spare: function() {
+			var $this = this;
+			var currentTime = $this.currentTime();
+			var msgtxt=$("#setMessage").val();
+			if (window.XMLHttpRequest){//code for IE7+, Firefox, Chrome, Opera, Safari
+	    		xmlHttp=new XMLHttpRequest();
+	    	}else{// code for IE6, IE5
+	    		xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+	    	}
+	    　　		if (xmlHttp==null){
+	    　　　　		alert('您的浏览器不支持AJAX！');
+	    　　　　	return;
+	    　		}
+	    　　		var url="<!--{$doMain}-->index.php?c=do&a=publishspare&msg="+msgtxt+"&bookid="+bookid+"&chapterid="+chapterid+"&p_time="+type;
+	    　　		xmlHttp.open("GET",url,false);
+	    　　		xmlHttp.onreadystatechange=function(){
+	    	   if(xmlHttp.readyState==1||xmlHttp.readyState==2||xmlHttp.readyState==3){
+	    	   }
+	    	   if (xmlHttp.readyState==4 && xmlHttp.status==200){
+	    		    audioSrc=eval('('+xmlHttp.responseText+')');
+	    			if(audioSrc.code=='001'){
+	    				alert(audioSrc.msg);
+	    				return false;
+	    			}
+	    			if(audioSrc.code=='002'){
+	    				alert(audioSrc.msg);
+	    				return false;
+	    			}
+	    			if(audioSrc.code=="000"){
+	    				alert(audioSrc.msg);
+
+	    				setdanmu(audioSrc.spare);
+	    				return false;
+	    			}
+	    		}
+	    		};//发送事件后，收到信息了调用函数
+	    　　			xmlHttp.send();
+
+		},
 		/**
 		 * 播放
 		 * @param list 可选，详细见下方说明
@@ -454,6 +574,7 @@ var MPlayer = (function () {
 			var $this = this;
 			return this.audio.prop('currentTime');
 		},
+
 		/**
 		 * 获取当前歌曲已播放的百分比
 		 * @returns {number}

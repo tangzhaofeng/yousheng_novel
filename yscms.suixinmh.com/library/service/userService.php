@@ -75,6 +75,9 @@ class userService extends Service{
 	public function bookOrderSumList($data,$bookId=0){
 		return $this->userDao->bookOrderSumList($data,$bookId);
 	}
+	public function bookTipSumList($data,$bookId=0){
+	    return $this->userDao->bookTipSumList($data,$bookId);
+	}
 	public function bookOrderUserCount($bookId,$data){
 		return $this->userDao->bookOrderUserCount($bookId,$data);
 	}

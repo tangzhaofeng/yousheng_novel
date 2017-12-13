@@ -1,6 +1,6 @@
 <?PHP
 class sourceController extends Controller{
-	public $initphp_list = array('getIPaddress');
+	public $initphp_list = array('getIPaddress','follow');
 	public $publicFunction;
 	public $sessionDo;
 	public $cookieDo;
@@ -17,12 +17,13 @@ class sourceController extends Controller{
 		$this->doMain=$this->configDo['url'];
 		$this->thisUrl = $this->publicFunction->get_url();
 		$this->user_id=$this->sessionDo->get("user_id");
-	} 
+	}
 	public function index(){
 		$id=$this->controller->get_get('id');
 		$sourceService = InitPHP::getService("source");
 		$info=$sourceService->getSourceUrl($id);
-        
+		$coninfo=$sourceService->getConcern($id);
+
 		if(empty($info)){
 			$url=$this->doMain;
 			$this->controller->redirect($url,0);
@@ -66,6 +67,7 @@ class sourceController extends Controller{
 		}
 		$this->controller->redirect($url,0);
 	}
+
 	public function getIPaddress(){
 		$IPaddress='';
 		if (isset($_SERVER)){

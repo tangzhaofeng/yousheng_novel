@@ -1,6 +1,6 @@
 <?PHP
 class doController extends BaseAdminController{
-	public $initphp_list = array('bookTypeAdd','bookTypeEdit','addChapter','editChapter','bookAdd','bookEdit','erweima','slideAdd','slideEdit','recommendEdit', 'delChapter','sourceAdd','sourceEdit','sourceUrlAdd','sourceUrlEdit','authorAudioEdit');
+	public $initphp_list = array('bookTypeAdd','bookTypeEdit','addChapter','editChapter','bookAdd','bookEdit','erweima','slideAdd','slideEdit','recommendEdit', 'delChapter','sourceAdd','sourceEdit','sourceUrlAdd','sourceUrlEdit','authorAudioEdit','editSpare','delSpare','concernEdit','concernAdd','concernDis','conPic');
 	public $publicFunction;
 	public $sessionDo;
 	public $configDo;
@@ -67,6 +67,79 @@ class doController extends BaseAdminController{
 				$this->controller->redirect($this->doMain."index.php?c=main&a=source",0);
 			}
 		}
+	}
+	public function concernAdd(){
+	    if($this->admin_id){
+	        $data['book_id'] =$this->controller->get_post('book_id');
+	        $data['chapter_id'] =$this->controller->get_post('chapter_id');
+	        $data['display']=$this->controller->get_post("display");
+	        $data['audio_url']=$this->controller->get_post("audio_url");
+	        $book_pic=$this->controller->get_post("erweima_url");
+	        $bookPic=self::post($this->imgMain."picDo.php",array('sgin'=>'a7ed7a10dfb05e4d5c0622136d227534','id'=>$id,'bookPic'=>$book_pic,'mulu'=>'erweima'));
+	        if(!empty($bookPic)){
+	            $data['erweima_url']=$bookPic;
+	        }
+	        $sourceService = InitPHP::getService("source");
+	        if($sourceService->setConcern($data)){
+	            $this->controller->redirect($this->doMain."index.php?c=main&a=concern",0);
+	        }
+	    }
+	}
+	public function concernEdit(){
+	    if($this->admin_id){
+	        $id=$this->controller->get_post('id');
+	        $data['book_id'] =$this->controller->get_post('book_id');
+	        $data['chapter_id'] =$this->controller->get_post('chapter_id');
+	        $data['display']=$this->controller->get_post("display");
+	        $data['audio_url']=$this->controller->get_post("audio_url");
+	        $book_pic=$this->controller->get_post("erweima_url");
+	        $bookPic=self::post($this->imgMain."picDo.php",array('sgin'=>'a7ed7a10dfb05e4d5c0622136d227534','id'=>$id,'bookPic'=>$book_pic,'mulu'=>'erweima'));
+	        if(!empty($bookPic)){
+	            $data['erweima_url']=$bookPic;
+	        }
+	        $sourceService = InitPHP::getService("source");
+	        if($sourceService->upConcern($id,$data)){
+	            $this->controller->redirect($this->doMain."index.php?c=main&a=concern",0);
+	        }
+	    }
+	}
+	public function concernDis(){
+	    if ($this->admin_id) {
+	        $id=$this->controller->get_get('id');
+	        $data['display']=$this->controller->get_get('display');
+	        $sourceService = InitPHP::getService("source");
+	        if($sourceService->upConcern($id,$data)){
+	            $this->controller->redirect($this->doMain."index.php?c=main&a=concern",0);
+	        }else{
+	            header("location:".$this->doMain."index.php?c=main&a=error");
+	        }
+	    }
+	}
+	public function conPic(){
+	    if($this->admin_id){
+	        $id=$this->controller->get_post('id');
+	        $book_pic=$this->controller->get_post('user_url');
+	        $visible_erweima_chapter=$this->controller->get_post('visible_erweima_chapter');
+	        $bookPic=self::post($this->imgMain."picDo.php",array('sgin'=>'a7ed7a10dfb05e4d5c0622136d227534','id'=>$id,'bookPic'=>$book_pic,'mulu'=>'erweima'));
+	        if(!empty($bookPic)){
+	            $data['user_url']=$bookPic;
+	        }
+	        $sourceService = InitPHP::getService("source");
+	        if($sourceService->upConcern($id,$data)){
+	            $this->controller->redirect($this->doMain."index.php?c=main&a=concern",0);
+	        }
+	    }
+	}
+	public function delconcern(){
+	    if($this->admin_id){
+	        $id=$this->controller->get_post("id");
+	        $booksService = InitPHP::getService("source");
+	        if($booksService->delConcern($id)){
+	            echo '{"res":true,"msg":"删除成功"}';
+	        }else{
+	            echo '{"res":false,"msg":"删除失败"}';
+	        }
+	    }
 	}
 	public function bookTypeAdd(){
 		if($this->admin_id){
@@ -153,6 +226,13 @@ class doController extends BaseAdminController{
 	    if($this->admin_id){
 	        $id=$this->controller->get_post('id');
 	        $authorAudio=$this->controller->get_post('audio_url');
+	        $book_pic=$this->controller->get_post("user_url");
+	        $bookPic=self::post($this->imgMain."picDo.php",array('sgin'=>'a7ed7a10dfb05e4d5c0622136d227534','id'=>$id,'bookPic'=>$book_pic,'mulu'=>'erweima'));
+	        if(!empty($bookPic)){
+	            $data['user_url']=$bookPic;
+	        }else{
+	            $data['user_url']='';
+	        }
 	        if(!empty($authorAudio)){
 	            $data['authorAudio']=$authorAudio;
 	        }else{
@@ -279,6 +359,7 @@ class doController extends BaseAdminController{
 			$chapter=$this->controller->get_post('chapter');
 			$data['title']=$this->controller->get_post('title');
 			$data['price']=$this->controller->get_post('price');
+			$data['is_vip']=$this->controller->get_post('state');
 			$data['audio_url']=$this->controller->get_post('audio_url');
 			/*if(empty($data['audio_url'])){
 				die("");
@@ -304,6 +385,41 @@ class doController extends BaseAdminController{
 			}
 		}
 	}
+	public function editSpare(){
+	    if($this->admin_id){
+	        $id=$this->controller->get_get("id");
+	        $type=$this->controller->get_get("type");
+	        //type=1(显示)type=2type=3
+	        if ($type == '1') {
+	            $data['disable']=true;
+	        }
+	        if ($type == '2') {
+	            $data['disable']=false;
+	        }
+	        if ($type == '3') {
+	            $data['disable']=true;
+	        }
+	        $booksService = InitPHP::getService("books");
+
+	        if($booksService->upSpare(array("id"=>$id),$data)){
+	           header("location:".$this->doMain."index.php?c=main&a=spareList");
+	        }else{
+	           header("location:".$this->doMain."index.php?c=main&a=error");
+	        }
+	    }
+	}
+	public function delSpare(){
+	    if($this->admin_id){
+	        $id=$this->controller->get_post("id");
+	        $booksService = InitPHP::getService("books");
+	        if($booksService->delSpare($id)){
+	            echo '{"res":true,"msg":"删除成功"}';
+	        }else{
+	            echo '{"res":false,"msg":"删除失败"}';
+	        }
+	    }
+	}
+
 	public static function Chapter2Sort($content){
 		preg_match('/第\s*(一|二|三|四|五|六|七|八|九|十|零|百|千|万||0|1|2|3|4|5|6|7|8|9)*\s*(章|卷|节)/',$content,$matches);//提取章节号
 		//去除多余字

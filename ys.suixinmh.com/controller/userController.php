@@ -1,6 +1,6 @@
 <?PHP
 class userController extends BaseUserController{
-	public $initphp_list = array('bookCase','Cmoney','payList','buyList','zanList','shelf','history','unLogin','getUrl','wxPay','playerMessage');
+	public $initphp_list = array('bookCase','Cmoney','payList','buyList','zanList','shelf','history','unLogin','getUrl','wxPay','playerMessage','wxPPay');
 	public $publicFunction;
 	public $cookieDo;
 	public $doMain;
@@ -61,8 +61,9 @@ class userController extends BaseUserController{
 		}
 		$this->view->display();
 	}
+
 	public function Cmoney(){//用户充值
-		if($this->user_id){	
+		if($this->user_id){
 			//$sessonid = $this->sessionDo->get("sessonid");
 			//$thisUrl=$this->wxRedis->get('uGo_'.$sessonid);
 			$bookid = $this->controller->get_get('bookId');
@@ -94,6 +95,64 @@ class userController extends BaseUserController{
 			$this->view->set_tpl("index/m_login");
 		}
 		$this->view->display();
+	}
+	public function wxPPay(){
+	    if($this->user_id){
+	        $money=$this->controller->get_get('money');
+	        //$id=$this->controller->get_get('bookid');
+	        $id=$this->controller->get_cookie("bookid");
+	        $booksService=InitPHP::getService("books");
+	        $bookInfo=$booksService->getBooks($id);
+	        if($bookInfo['authorAudio']=='') {
+	            $bookid='';
+	        }else{
+	            $bookid=$id;
+	        }
+	        $total_fee=$money*100;
+	        $scale=$this->configDo['money_coin_scale'];//兑换比例
+	        $giveConf=$this->configDo['give_conf'];
+	        $whereArray['user_id']=$this->user_id;
+	        $subject ="No_".$this->user_id."_充值阅读币".($money+$money*$giveConf['give_scale_'.$money])*$scale."枚";//$_POST['WIDsubject'];
+	        $this->view->assign('subject',$subject);
+	        $this->view->assign('money',$money);
+	        $this->view->assign('title',"微信充值");
+	        $this->view->assign('bookId', $bookid);
+	        $wxConfig=$this->configDo['wxConfig'];
+	        $this->h5Pay->config($wxConfig);
+	        $data["body"]='爱上听书充值';
+	        $data["out_trade_no"]=$this->publicFunction->trade_no();//
+	        $data["total_fee"]=$total_fee;
+	        $data["device_info"]=$this->user_id;//设备号
+	        if($this->isWeiXin){
+	            if(isset($_GET['code']) && $_COOKIE["init_manyuedu_openid"]==''){
+	                $wxDatas=$this->weixinService->getOauthAccessToken($_GET['code']);
+	            }else{
+	                $CallUrl=$this->weixinService->getOauthRedirect('snsapi_base',$this->doMain."index.php?c=user&a=wxPPay&money={$money}");
+	                header("location:".$CallUrl);
+	                die;
+	            }
+	            setcookie("init_manyuedu_openid",$wxDatas['openid'],time()+2592000,'/',$this->doMain);
+	            $_COOKIE["init_manyuedu_openid"] = $wxDatas['openid'];
+	            $data['trade_type']='JSAPI';
+	            $data['openid']=$wxDatas['openid'];
+	            $result=$this->h5Pay->unifiedorder($data);
+	            $jsApiObj["appId"] = $result['appid'];
+	            $timeStamp = time();
+	            $jsApiObj["timeStamp"] = "$timeStamp";
+	            $jsApiObj["nonceStr"] = $result['nonce_str'];
+	            $jsApiObj["package"] = "prepay_id=".$result['prepay_id'];
+	            $jsApiObj["signType"] = "MD5";
+	            $jsApiObj["sign"] =$this->h5Pay->MakeSign($jsApiObj);
+	            $this->view->assign('openid',$wxDatas['openid']);
+	            $this->view->assign('wxResult',$jsApiObj);
+	            $this->view->set_tpl("user/Cmoney");
+	        }
+	    }else{
+	        $this->view->assign('keyWord',"用户登录");
+	        $this->view->assign('title',"用户登录");
+	        $this->view->set_tpl("index/m_login");
+	    }
+	    $this->view->display();
 	}
 	public function wxPay(){//用户充值
 		if($this->user_id){
@@ -251,6 +310,22 @@ class userController extends BaseUserController{
 		}
 		$this->view->display();
 	}
+	public function userSpare(){
+	    if ($this->user_id) {
+	        $bookid=$this->controller->get_get("bookid");
+	        $chapterid=$this->controller->get_get("chapterid");
+
+	        $this->view->assign('bookid',$bookid);
+	        $this->view->assign("chapterid", $chapterid);
+	        $this->view->tpl("user/spare");
+	    }else{
+	        $sessonid=$this->sessionDo->get("sessonid");
+	        $this->view->assign('keyWord',"用户登录");
+	        $this->view->assign('title',"用户登录");
+	        $this->view->set_tpl("index/m_login");
+	    }
+	}
+	/**作者留言功能：支付控件**/
 	public function playerMessage()
 	{
 	       $money=$this->controller->get_get('money');
@@ -297,7 +372,7 @@ class userController extends BaseUserController{
             $booksService = InitPHP::getService("books");
             $bookInfo = $booksService->getBooks($bookId);
             $playerSrc = $bookInfo['authorAudio'];
-            $userIcon = "1506326023.jpeg";
+            $userIcon = $bookInfo['user_url'];
 
 	        $this->view->assign('playerSrc', $playerSrc);
 	        $this->view->assign("bookid", $bookId);
@@ -306,6 +381,7 @@ class userController extends BaseUserController{
 	        $this->view->set_tpl("user/player_return");
 	    $this->view->display();
 	}
+
 	public function history(){
 		if($this->user_id){
 			$booksService = InitPHP::getService("books");

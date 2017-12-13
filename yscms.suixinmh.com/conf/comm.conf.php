@@ -10,6 +10,7 @@ $InitPHP_conf = array();
 $InitPHP_conf['url'] = 'http://localhost/yscms.suixinmh.com/';
 $InitPHP_conf['audio_url'] = 'http://localhost/yscms.suixinmh.com/';
 $InitPHP_conf['img_url'] = 'http://localhost/yscms.suixinmh.com/';
+$InitPHP_conf['author_url'] = 'http://localhost/ys.suixinmh.com/';
 $InitPHP_conf['reg_user_money'] =0;//用户注册赠送
 $InitPHP_conf['money_coin_scale']=100;//人民币 阅读币兑换比例
 $GiveConf['give_scale_500']=0.1;//

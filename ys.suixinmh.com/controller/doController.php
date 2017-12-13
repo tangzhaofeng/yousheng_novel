@@ -1,6 +1,6 @@
 <?PHP
 class doController extends BaseUserController{
-	public $initphp_list = array('discuss','zan','house','userSafeDo','userEditDo','h5Paystate','str_check');
+	public $initphp_list = array('discuss','zan','house','userSafeDo','userEditDo','h5Paystate','str_check','danmu','publishSpare','tip');
 	public $doMain;
 	public $configDo;
 	public $sessionDo;
@@ -35,7 +35,7 @@ class doController extends BaseUserController{
 			}else{
 				$json='{"res":false,"msg":"点赞失败！"}';
 			}
-			
+
 		}else{
 			$json='{"res":false,"msg":"请先登录！"}';
 		}
@@ -52,7 +52,7 @@ class doController extends BaseUserController{
 			}else{
 				$json='{"res":false,"msg":"收藏失败！"}';
 			}
-			
+
 		}else{
 			$json='{"res":false,"msg":"请先登录！"}';
 		}
@@ -118,20 +118,109 @@ class doController extends BaseUserController{
 					$json='{"res":false,"msg":"打赏失败！","code":"A002"}';
 				}
 			}
-			
+
 		}else{
 			$json='{"res":false,"msg":"请先登录！","code":"A004"}';
 		}
 		echo $json;
 	}
-	public function str_check($str){ 
-		if(!get_magic_quotes_gpc()){ 
-			$str = addslashes($str); // 进行过滤 
-		} 
-		$str = str_replace("_", "\_", $str); 
+	public function str_check($str){
+		if(!get_magic_quotes_gpc()){
+			$str = addslashes($str); // 进行过滤
+		}
+		$str = str_replace("_", "\_", $str);
 		$str = str_replace("%", "\%", $str);
-		return $str; 
-	} 
+		return $str;
+	}
+	//打赏功能
+	public function tip()
+	{
+	    if(parent::before()){
+	        $type=$this->controller->get_get("type");
+	        $spare=$this->controller->get_get("msg");
+	        $orderData['book_id']=$this->controller->get_get("bookid");
+	        $orderData['chapter_id']=$this->controller->get_get("chapterid");
+	        $orderData['user_id']=parent::before();
+	        $orderData['create_time']=time();
+	        $orderData['playtime']=$this->controller->get_get("time");
+	        $orderData['disable']= 0 ;
+	        if($type =="1"){
+	            $orderData['price']=20;
+	        }
+	        if($type =="2"){
+	            $orderData['price']=50;
+	        }
+	        if($type =="3"){
+	            $orderData['price']=100;
+	        }
+	        if($type =="4"){
+	            $orderData['price']=200;
+	        }
+	        if($type =="5"){
+	            $orderData['price']=500;
+	        }
+	        if($type =="6"){
+	            $orderData['price']=1000;
+	        }
+
+	        $authorUserService = InitPHP::getService("authorUser");
+	        $whereArray['user_id']=parent::before();
+	        $userInfo=$authorUserService->getUserInfo($whereArray);
+	        if(empty($spare)){
+	            $orderData['spare']="用户：".$userInfo['name']."送个主播".$orderData['price']."个金币";
+	        }else{
+	            $orderData['spare']="用户：".$userInfo['name']."送个主播".$orderData['price']."个金币:".$spare;
+	        }
+
+	        if($userInfo['moneyCoin'] < $orderData['price']){
+	            echo '{"res":false,"msg":"打赏失败,金额不足","code":"003","userCoin":"'.$userInfo['moneyCoin'].'"}';
+	        }else{
+	            if($authorUserService->userGratuityOrder($orderData,$userInfo['moneyCoin'])){
+
+	                echo '{"res":true,"msg":"打赏成功","code":"000","spare":"'. $orderData['spare'].'"}';
+	            }else{
+	                echo '{"res":false,"msg":"打赏失败！","code":"002"}';
+	            }
+	        }
+	    }else{
+	        echo '{"res":false,"code":"001","msg":"用户信息失效,请重新登录"}';
+	    }
+
+	}
+	//发送评论
+	public function publishSpare() {
+	    //if($this->user_id){
+	        $spareData['book_id']=$this->controller->get_get("bid");
+	        $spareData['chapter_id']=$this->controller->get_get("cid");
+	        $spare=$this->controller->get_get('msg');
+	        $spareData['create_time']=time();
+	        $spareData['playtime']=$this->controller->get_get('time');
+            $spareData['disable']=false;
+	        //关键词过滤方法
+	        $booksService = InitPHP::getService("books");
+	        //$spareData['disable']=allowKeywords($spare);
+	        if ($this->user_id) {
+	           $spareData['user_id']=$this->user_id;
+	           $userService=InitPHP::getService("user");
+	           $userInfo=$userService->getUserInfo(array("id"=>$this->user_id));
+	           $spareData['user_name']=$userInfo['name'];
+	           $spareData['spare']= '用户 '.$userInfo['name'].':'.$spare;
+	        }else{
+	            $spareData['user_name']='null';
+	            $spareData['user_id']='0';
+	            $spareData['spare']='游客:'.$spare;
+	        }
+
+	        if ($booksService->insetSapre($spareData)) {
+	            echo '{"res":false,"code":"000","msg":"发送成功","spare":"'.$spareData['spare'].'"}';
+	        }else {
+	            echo '{"res":false,"code":"002","msg":"发送失败"}';
+	        }
+
+	   // }else{
+	   //     echo '{"res":false,"code":"001","msg":"用户信息失效,请重新登录"}';
+	   // }
+	}
 	public function userSafeDo(){
 		$userId=parent::before();
 		if($userId){
@@ -144,7 +233,7 @@ class doController extends BaseUserController{
 			}else{
 				$json='{"res":false,"code":2,"msg":"密保设置失败！"}';
 			}
-			
+
 		}else{
 			$json='{"res":false,"code":0,"msg":"请先登录！"}';
 		}
@@ -157,7 +246,7 @@ class doController extends BaseUserController{
 				$userPicb64=$this->controller->get_post('userPicb64');
 				$data['name']=$this->controller->get_post('name');
 				$data['sex']=$this->controller->get_post('sex');
-				if(preg_match('/^(data:\s*image\/(\w+);base64,)/',$userPicb64)){ 
+				if(preg_match('/^(data:\s*image\/(\w+);base64,)/',$userPicb64)){
 					$path="./upFile/userIco/";
 					$image= $this->getLibrary('image');
 					$data['headPic']=$image->base64ToPic($path,$userPicb64,$userId);
@@ -182,5 +271,17 @@ class doController extends BaseUserController{
 		$out_trade_no=$this->controller->get_post('tradeNo');
 		$result=$h5Pay->orderquery($out_trade_no);
 		echo $result['trade_state'];
+	}
+	public function danmu(){
+	    $this->view->set_tpl("public/replies");
+	    $this->view->display();
+	}
+	//关键词过滤
+	private function allowKeywords ($str) {
+	    if(empty($str)){
+	        return false;
+	    }
+
+	    return true;
 	}
 }

@@ -39,7 +39,12 @@ class mainController extends BaseAdminController{
 	    'userLook',
 	    'authorAudio',
 	    'cread',
-	    'error'
+	    'spareList',
+	    'error',
+	    'concern',
+	    'concernAdd',
+	    'concernEdit',
+	    'conPic'
 	);
 	public $publicFunction;
 	public $sessionDo;
@@ -102,12 +107,13 @@ class mainController extends BaseAdminController{
 		}
 		$userService = InitPHP::getService("user");
 		$list=$userService->bookOrderSumList($data,$bookId);
-
 		foreach($list as $k=>$v){
 			$orderCount=$userService->bookOrderUserCount($v['book_id'],$data);
+			$tipSum=$userService->bookTipSumList($data,$v['book_id']);
 			$bookInfo=$booksService->getBooks($v['book_id']);
 			$list[$k]['info']=$bookInfo;
 			$list[$k]['orderCount']=$orderCount;
+			$list[$k]['tipSum']=$tipSum;
 		}
 		$this->view->assign('book_name',$book_name);
 		$this->view->assign('data',$data);
@@ -192,7 +198,17 @@ class mainController extends BaseAdminController{
 		$this->view->set_tpl("main/erweima");
 		$this->view->display();
 	}
-
+	public function conPic(){
+	    if(!$this->admin_id){
+	        header("Location:".$this->doMain."index.php?c=login&a=index");die;
+	    }
+	    $id=$this->controller->get_get("id");
+	    $sourceService = InitPHP::getService("source");
+	    $info=$sourceService->getConcern($id);
+	    $this->view->assign('info',$info);
+	    $this->view->set_tpl("main/conPic");
+	    $this->view->display();
+	}
 	public function chapterList(){
 		if(!$this->admin_id){
 			header("Location:".$this->doMain."index.php?c=login&a=index");die;
@@ -241,6 +257,35 @@ class mainController extends BaseAdminController{
 		}else{
 			echo '{"res":false,"msg":"删除失败"}';
 		}
+	}
+	public function spareList(){
+	    if(!$this->admin_id){
+	        header("Location:".$this->doMain."index.php?c=login&a=index");die;
+	    }
+	    $p=$this->controller->get_get("page");
+	    $book_name=$this->controller->get_get("book_name");
+	    $pageNum=20;
+	    if(empty($p)){
+	        $p=1;
+	    }
+	    $where='1=1';
+	    $booksService = InitPHP::getService("books");
+	    if(!empty($book_name)){
+	        $url.="&book_name=".$book_name;
+	        $where2="1=1 and book_name like '%".$book_name."%'";
+	        $books = $booksService->getBooksList($pageNum,$where2,$p);
+	        $where .= " and book_id=".$books[0]['id'];
+	        $this->view->assign('book_name',$book_name);
+	    }
+
+	    $spareList=$booksService->getSpareList($pageNum,$where,$p);
+	    $spareCount=$booksService->getSpareCount();
+	    $pager= $this->getLibrary('pager'); //分页加载
+	    $page_html = $pager->pager($spareCount,$pageNum,$this->thisUrl,true);
+	    $this->view->assign('spareList',$spareList);
+	    $this->view->assign('page_html',$page_html);
+	    $this->view->set_tpl("main/spareList");
+	    $this->view->display();
 	}
 	public function slide(){
 		if(!$this->admin_id){
@@ -663,6 +708,39 @@ class mainController extends BaseAdminController{
 		$this->view->assign('chapterList',$chapterList);
 		$this->view->set_tpl("main/cread");
 		$this->view->display();
+	}
+	public function concern(){
+	    $sourceService = InitPHP::getService("source");
+	    $list = $sourceService->getConcernList();
+	    $booksService = InitPHP::getService("books");
+	    foreach($list as $k=>$v){
+	        $info=$sourceService->getSource($v['source_id']);
+	        $book=$booksService->getBooks($v['book_id']);
+	        $list[$k]['sourceName']=$info["name"]."_".$info['sourceKey'];
+	        $list[$k]['bookName']=$v['book_id']."_".$book['book_name'];
+	    }
+	    $this->view->assign('list', $list);
+	    $this->view->set_tpl("main/concern");
+	    $this->view->display();
+	}
+	public function concernAdd(){
+	    $id=$this->controller->get_get("id");
+	    $sourceService = InitPHP::getService("source");
+	    $info=$sourceService->getSource($id);
+	    $info['sourceName']=$info['name']."_".$info['sourceKey'];
+	    $this->view->assign('info',$info);
+	    $this->view->set_tpl("main/concernAdd");
+	    $this->view->display();
+	}
+	public function concernEdit(){
+	    $id=$this->controller->get_get("id");
+	    $sourceService = InitPHP::getService("source");
+	    $info=$sourceService->getConcern($id);
+	    $source=$sourceService->getSource($info['source_id']);
+	    $info['sourceName']=$source['name']."_".$source['sourceKey'];
+	    $this->view->assign('info',$info);
+	    $this->view->set_tpl("main/concernEdit");
+	    $this->view->display();
 	}
 	public function source(){
 		$sourceService = InitPHP::getService("source");

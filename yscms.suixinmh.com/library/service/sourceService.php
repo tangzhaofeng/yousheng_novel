@@ -29,6 +29,12 @@ class sourceService extends Service{
 		}
 		return $this->sourceDao->getSource($id);
 	}
+	public function getConcern($id){
+	    if ($id < 1) {
+	        return array();
+	    }
+	    return $this->sourceDao->getConcern($id);
+	}
 	public function getSourceUrl($id){
 		if ($id < 1) {
 			return array();
@@ -40,5 +46,17 @@ class sourceService extends Service{
 	}
 	public function getAllSourceUrl($sourceKey){
 		return $this->sourceDao->getAllSourceUrl($sourceKey);
+	}
+	public function getConcernList(){
+	    return $this->sourceDao->getConcernList();
+	}
+	public function setConcern($data){
+	    return $this->sourceDao->setConcern($data);
+	}
+	public function upConcern($id,$data) {
+	    return $this->sourceDao->upConcern($id,$data);
+	}
+	public function delConcern($id,$id_key = 'id'){
+	    return $this->booksDao->delConcern($id,$id_key = 'id');
 	}
 }

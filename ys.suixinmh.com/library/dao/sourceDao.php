@@ -1,4 +1,4 @@
-<?php 
+<?php
 class sourceDao extends Dao{
 	public $table_name = 'third_source_statistics';
 	private $fields = "only_key,source,user_terminal,pid,book_id,chapter_id,ip,count,week,day,month,year,create_time";
@@ -6,6 +6,8 @@ class sourceDao extends Dao{
 	private $fields_source = "name,sourceKey";
 	public $table_third_source_url = 'third_source_url';
 	private $fields_third_source_url = "sourceKey,book_id,chapter,start_time";
+	public $table_concern = 'concern';
+	private $fields_concern = 'book_id,chapter_id,audio_url,display,user_url,erweima_url';
 	/**
 	 * 新增动态
 	 * @param $user
@@ -45,5 +47,11 @@ class sourceDao extends Dao{
 	 */
 	public function getAllSql($sql){
 		return $this->init_db()->get_all_sql($sql);
+	}
+	public function getConcern($whereArray){
+	    if(empty($whereArray)){
+	        return array();
+	    }
+	    return $this->init_db()->get_one_by_field($whereArray,$this->table_concern);
 	}
 }

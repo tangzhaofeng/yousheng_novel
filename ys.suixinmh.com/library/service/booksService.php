@@ -127,6 +127,10 @@ class booksService extends Service{
 	public function insertHistory($data){
 		return $this->booksDao->insertHistory($data);
 	}
+	public function insetSapre($data){
+	    return $this->booksDao->insetSapre($data);
+	}
+
 	public function getHistoryList($userId){
 		return $this->booksDao->getHistoryList($userId);
 	}
@@ -143,6 +147,24 @@ class booksService extends Service{
 		return $list;
 	}
 
+	public function getSpareList($id,$chapter,$userid){
+	    if (empty($id)){
+	        return array();
+	    }
+	    if(empty($userid)){
+	        $userid=0;
+	    }
+	    return $this->booksDao->getSpareList($id,$chapter,$userid);
+	}
+	public function getTipList($id,$chapter,$userid){
+	    if (empty($id)){
+	        return array();
+	    }
+	    if(empty($userid)){
+	        $userid=0;
+	    }
+	    return $this->booksDao->getTipList($id,$chapter,$userid);
+	}
 	public function T($time){
 		//获取今天凌晨的时间戳
 		$day = strtotime(date('Y-m-d',time()));

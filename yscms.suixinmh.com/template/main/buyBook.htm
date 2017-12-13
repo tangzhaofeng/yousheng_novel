@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-	
+
 	<title>爱上听书管理平台</title>
     <meta name="keywords" content="爱上听书管理平台"/>
     <meta name="description" content="爱上听书管理平台"/>
@@ -42,6 +42,7 @@
 									<th>收藏次数</th>
 									<th>订阅次数</th>
 									<th>订阅总额</th>
+									<th>打赏总数</th>
 								</tr>
 							</thead>
 							<tbody id="id">
@@ -56,6 +57,7 @@
 									<td>
                                     <!--{echo $v['priceSum'];}-->币
                                     </td>
+                                    <td><!--{echo $v['tipSum'];}-->币</td>
 								</tr>
                             <!--{/foreach}-->
 							</tbody>

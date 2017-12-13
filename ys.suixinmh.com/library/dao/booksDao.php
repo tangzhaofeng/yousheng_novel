@@ -16,7 +16,10 @@ class booksDao extends Dao{
 	private $fields_history = "book_id,chapter_id,user_id,create_time";
 	public $table_slide = 'slide_img';
 	private $fields_slide = "title,url,image,sort";
-
+	public $table_spare = 'user_spare';
+	private $fields_spare = 'book_id,chapter_id,spare,create_time,playtime,user_id,disable,user_name';
+    public $table_tip = 'user_tip';
+    private $fields_tip = 'book_id,chapter_id,spare,create_time,playtime,user_id,disable,user_name,price';
 	public function getBookType($type){
 		$typeStr=str_replace("type","",$type);
 		$typeStr=str_replace("T_","",$typeStr);
@@ -147,6 +150,30 @@ class booksDao extends Dao{
 		}else{
 			return true;
 		}
+	}
+	public function insetSapre($data){
+	    if(empty($data)){
+	        return  false;
+	    }
+	    $info=$this->init_db()->get_one_by_field($data,$this->table_spare);
+	    if(empty($info)){
+	        $sparedata = $this->init_db()->build_key($data, $this->fields_spare);
+	        return $this->init_db()->insert($sparedata, $this->table_spare);
+	    }else{
+	        return true;
+	    }
+	}
+	public function insetTip($data){
+	    if(empty($data)){
+	        return  false;
+	    }
+	    $info=$this->init_db()->get_one_by_field($data,$this->table_tip);
+	    if(empty($info)){
+	        $sparedata = $this->init_db()->build_key($data, $this->fields_tip);
+	        return $this->init_db()->insert($sparedata, $this->table_tip);
+	    }else{
+	        return true;
+	    }
 	}
 	//点赞图书
 	public function getGiveList($userId){
@@ -313,6 +340,37 @@ class booksDao extends Dao{
 		}
 		return $list;
 	}
+	public function getSpareList($id,$chapter,$userid){
+	    if (empty($id) or empty($chapter)) {
+	        return array();
+	    }
+	    if ($userid != 0){
+	        $sql='select spare,playtime,user_id from '.$this->table_spare.' where (book_id='.$id.' and chapter_id='.$chapter.' and user_id='.$userid.') or (book_id='.$id.' and chapter_id='.$chapter.' and disable=1) order by playtime';
+
+	    }else{
+	        $sql='select spare,playtime,user_id from '.$this->table_spare.' where book_id='.$id.' and chapter_id='.$chapter.' and disable=1 order by playtime';
+
+	    }
+	    $list=$this->init_db()->get_all_sql($sql);
+
+	    return $list;
+	}
+	public function getTipList($id,$chapter,$userid){
+	    if (empty($id) or empty($chapter)) {
+	        return array();
+	    }
+	    if ($userid != 0){
+	        $sql='select spare,playtime,user_id,price from '.$this->table_tip.' where (book_id='.$id.' and chapter_id='.$chapter.' and user_id='.$userid.') or (book_id='.$id.' and chapter_id='.$chapter.' and disable=1) order by playtime';
+
+	    }else{
+	        $sql='select spare,playtime,user_id,price from '.$this->table_tip.' where book_id='.$id.' and chapter_id='.$chapter.' and disable=1 order by playtime';
+
+	    }
+	    $list=$this->init_db()->get_all_sql($sql);
+
+	    return $list;
+	}
+
 	public function isTimeFreeBooks($bookID){
 		$thisTime=time();
 		$sql='select book_id from '.$this->table_book_timefree.' where book_id='.$bookID.' and start_time<='.$thisTime.' and end_time>='.$thisTime.' ORDER BY sort ASC';

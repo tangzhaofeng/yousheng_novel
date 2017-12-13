@@ -2,7 +2,7 @@
 
 class indexController extends BaseUserController
 {
-    public $initphp_list = array('type','soSuo','bookInfo', 'bookList', 'chapterList','chapterShow','rank','pushBook', 'bookcase');
+    public $initphp_list = array('type','soSuo','bookInfo', 'bookList', 'chapterList','chapterShow','rank','pushBook', 'bookcase','test','follow');
     public $publicFunction;
     public $sessionDo;
     public $cookieDo;
@@ -18,6 +18,7 @@ class indexController extends BaseUserController
     public function __construct()
     {
         parent::__construct();
+        $this->user_id=parent::before();
         $this->configDo = InitPHP::getConfig();
         $this->publicFunction = $this->getLibrary('function');
         $this->sessionDo = $this->getUtil('session');
@@ -283,11 +284,13 @@ class indexController extends BaseUserController
         $this->view->display();
     }
 	public function chapterShow(){
+
 		$id = $this->controller->get_get('bookid');
         $cid = $this->controller->get_get('cid');//播放章节
         $play = $this->controller->get_get('play');//是否自动播放
         $playSTime = $this->controller->get_get('time');//从什么位置开始播放
         $song = $this->controller->get_get('song');//播放第几个，如果有该参数 那么参数cid将失效
+        $userid = $this->user_id;
 		$play=empty($play)?false:true;
 		$playSTime=empty($playSTime)?0:$playSTime;
 		$playSong=(empty($song) || $song=='-')?0:$song;//第几个开始播放
@@ -305,7 +308,10 @@ class indexController extends BaseUserController
 			$chapter[0][$k]['singer']='';//empty($v['is_vip'])?' ':"VIP";
 			$chapter[0][$k]['src']=$this->doMain."index.php?c=audio&a=one&id={$v['id']}&song={$k}&p={$p}&dc={$desc}";
 			$chapter[0][$k]['time']='00:00';
-			$chapter[0][$k]['erweima']=0;
+			$S=$booksService->getSpareList($id,$v['chapter'],$userid);
+			$T=$booksService->getTipList($id,$v['chapter'],$userid);
+			$chapter[0][$k]['spare']= array_merge($S,$T);
+			$chapter[0][$k]['erweima']=1;
 			if ($bookInfo['erweima_url'] != 0) {
 			    if ($bookInfo['visible_erweima_chapter']==0 or $v['sort']==$bookInfo['visible_erweima_chapter']) {
 			        $chapter[0][$k]['erweima']=1;
@@ -315,9 +321,18 @@ class indexController extends BaseUserController
 		}
 		if ($bookInfo['erweima_url'] != 0) {
 		    $erweima_url = $bookInfo['erweima_url'];
-		    $this->view->assign('erweima_url', $erweima_url);
+
+		}else{
+		    $erweima_url = "erweima.png";
+		}
+		if ($this->user_id){
+		    $authorUserService = InitPHP::getService("authorUser");
+		    $whereArray['user_id']=$this->user_id;
+		    $userInfo=$authorUserService->getUserInfo($whereArray);
 		}
 		$infoList=$booksService->getPushBook("chapRec",3,1);
+		$this->view->assign('userInfo', $userInfo);
+		$this->view->assign('erweima_url', $erweima_url);
         $this->view->assign('bookInfo', $bookInfo);
         $this->view->assign('infoList',$infoList);
         $this->view->assign('chapterList',json_encode($chapter));
@@ -328,6 +343,33 @@ class indexController extends BaseUserController
         $this->view->assign('title',$bookInfo['book_name']);
         $this->view->set_tpl("index/m_chapterShow");//设置模板
         $this->view->display();
+	}
+	public function follow(){//引导用户关注
+	    $where['book_id'] = $this->controller->get_get('bookId');
+	    $where['chapter_id'] = $this->controller->get_get('cid');
+	    $thisUrl = $this->controller->get_get('thisUrl');
+	    if(!empty($thisUrl)){
+	        $this->thisUrl=$thisUrl;
+	    }
+	    $authorUserService = InitPHP::getService("authorUser");
+	    $whereArray['user_id']=$this->user_id;
+	    $user=$authorUserService->getUserInfo($whereArray);
+	    if ($user['subscribe'] != '1'){
+
+	        $sourceService=InitPHP::getService("source");
+	        $info= $sourceService->getConcern($where);
+	        $this->view->assign('user_url', $info['user_url']);
+	        $this->view->assign('playerSrc', $info['audio_url']);
+	        $this->view->assign('bookId',$info['book_id']);
+	        $this->view->assign('erweima_url', $info['erweima_url']);
+	        $this->view->assign('cid',$info['chapter_id']);
+	        $this->view->assign('keyWord',"关注我们");
+	        $this->view->assign('title',"关注之后更精彩");
+	        $this->view->set_tpl("user/follow");
+	        $this->view->display();
+	    }else{
+	        header("Location:".$this->thisUrl);
+	    }
 	}
     public function rank(){
         $bigKey = $this->controller->get_get('bigKey');
@@ -375,6 +417,10 @@ class indexController extends BaseUserController
 		$booksService = InitPHP::getService("books");
         $this->view->assign('title', "书架");
         $this->view->set_tpl("index/m_bookcase");//设置模板
+        $this->view->display();
+    }
+    public function test(){
+        $this->view->set_tpl("index/test");
         $this->view->display();
     }
     public function getUrl($c, $a)

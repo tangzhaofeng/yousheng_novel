@@ -1,6 +1,5 @@
 <!--{layout:public/m_header}-->
 <style>
-.character360 {position:fixed;top:20px; left:50%;width: 160px;height: 160px; margin-left:-80px;background: no-repeat url("<!--{if(!empty($bookInfo['book_pic']))}-->http://yscms.suixinmh.com/Uploads/books/<!--{echo $bookInfo['book_pic'];}--><!--{else}-->Images/noBook.jpg<!--{/if}-->") left top;-webkit-background-size: 160px 160px;-moz-background-size: 160px 160px;background-size: 160px 160px;-webkit-border-radius:80px;border-radius:80px;border:5px solid #423047;}
 .cpaydh{animation: spin 6s linear infinite;}
 @keyframes spin{
 	0% {
@@ -10,11 +9,21 @@
 		transform:rotateZ(360deg);
 	}
 }
+.mp-button{
+	border: 0.5px solid #78617d;
+    background-color: #78617d;
+    width: 10%;
+    color: #afa998;
+    height: 80%;
+    text-align: center;
+    line-height: 170%;
+    border-radius: 3px;}
 </style>
 <body style=" padding:0px 0px 0px 0px;background-color:#4b3750;">
 <div class="pageBox">
+<!--{layout:public/m_danmu}-->
 
-<div class="pagHeader" style="background-color:#4b3750;">
+	<div class="pagHeader" style="background-color:#4b3750;">
         <div class="all">
             <div class="return" data-url="<!--{echo $doMain;}-->index.php?c=index&a=chapterList&bookid=<!--{echo $bookInfo['id'];}-->">目录</div>
             <h3 style="font-size:120%"><!--{$bookInfo['book_name']}--></h3>
@@ -22,72 +31,99 @@
             <div class="home"><a href="<!--{echo $doMain;}-->index.php"></a></div>
             <div class="search"><a href="<!--{echo $doMain;}-->index.php?c=index&a=soSuo"></a></div>
         </div>
-</div>
-<div class="character360 cpaydh" style="position:relative"></div>
-<div class="mp-list-box" style="display:none">
-    <div class="mp-list-table">
-        <ul class="mp-list"></ul>
-    </div>
-</div>
-<div class="mp" style="position:relative; top:20px; border:0; width:90%; margin:0px 5%;height:95px; padding:10px 0px">
-    <div class="mp-info">
-        <p class="mp-name">章节</p>
-        <p class="mp-singer" style="display:none">录音</p>
-        <p class="pTime" style="right:5%"><span class="mp-time-current">00:00</span>/<span class="mp-time-all">00:00</span></p>
-    </div>
-    <div class="mp-pro">
-		<div class="mp-pro-current"></div>
 	</div>
-    <div class="mp-btn">
-        <button class="mp-prev" title="上一首"></button>
-        <button class="mp-pause" title="播放"></button>
-        <button class="mp-next" title="下一首"></button>
-        <button class="mp-mode" title="播放模式" disabled="disabled"></button>
-        <button class="mp-vol-img" title="静音"></button>
-        <div class="mp-vol" style="display:none">
-			<div class="mp-vol-range" data-range_min="0" data-range_max="100" data-cur_min="80">
-				<div class="mp-vol-current"></div>
-				<div class="mp-vol-circle"></div>
-			</div>
+
+	<div class="mp-list-box" style="display:none">
+    	<div class="mp-list-table">
+        	<ul class="mp-list"></ul>
+    	</div>
+	</div>
+	<div class="mp" style="position:relative; border:0; width:90%; margin:0px 5%;height:95px; padding:10px 0px">
+    	<div class="mp-info">
+        	<p class="mp-name">章节</p>
+        	<p class="mp-singer" style="display:none">录音</p>
+        	<p class="pTime" style="right:5%"><span class="mp-time-current">00:00</span>/<span class="mp-time-all">00:00</span></p>
+    	</div>
+    	<div class="mp-pro">
+			<div class="mp-pro-current"></div>
 		</div>
-    </div>
+    	<div class="mp-btn">
+        	<button class="mp-prev" title="上一首"></button>
+        	<button class="mp-pause" title="播放"></button>
+        	<button class="mp-next" title="下一首"></button>
+        	<button class=" mp-button mp-tip" >打赏</button>
+        	<button class=" mp-button spare" >评论</button>
+        	<button class="mp-vol-img" title="静音"></button>
+        	<div class="mp-vol" style="display:none">
+				<div class="mp-vol-range" data-range_min="0" data-range_max="100" data-cur_min="80">
+					<div class="mp-vol-current"></div>
+					<div class="mp-vol-circle"></div>
+				</div>
+			</div>
+    	</div>
+	</div>
+
+	<div  style="position:relative;left:0%;width: 100%;height:175px; ">
+    	<div style="position:relative;height:30PX; line-height:30PX;font-size:12px; text-align:center; color:#686868;">点击播放进度条可以快进后退，如有疑问可联系下方客服QQ号</div>
+		<div style="left:0%;width: 100%;position:relative ">
+			<div class="paytltleBox indexIco" style="color:#78617d;border-top: 0.5px solid #78617d;border-bottom:none">看过这本书的人还看过</div>
+			<!--{foreach ($infoList as $k =>$v)}-->
+			<li style="padding-left:25px;padding-right:25px">
+				<a style="color:#78617d;font-size:12pt" href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
+				</br>
+				<span style="font-size:12px; color:#78617d"><!--{$v['book_title']}--></span>
+				<span style="float:right;color:#78617d"><!--{$v['book_case']}-->人在追</span>
+			</li>
+			<!--{/foreach}-->
+		</div>
+    	<div class="mp-erweima" style="position:relative; margin-top:5px;height:140PX; text-align:center; display:none">
+    		<div style="height:30PX; line-height:20PX;font-size:10px; text-align:center; color:#78617d;">喜欢这篇小说吗？敬请关注下方公众号</div>
+    		<img src="<!--{echo $erweimaMain,$erweima_url;}-->" style="width:100px; height:100px;">
+    	</div>
+    	<div style="position:relative;top:60px">
+    		<div class="line" style="text-align:center; color:#686868;">客服QQ：97066441</div>
+    		<div class="line" style="text-align:center; color:#686868;">工作时间：周一到周五（9:30-18:00）</div>
+    		<div class="line" style="text-align:center; color:#686868;"></div>
+    	</div>
+	</div>
 </div>
 
-<div  style="position:relative;top:12px;left:0%;width: 100%;height:175px; ">
-    <div style="position:relative;height:30PX; line-height:30PX;font-size:12px; text-align:center; color:#686868;">点击播放进度条可以快进后退，如有疑问可联系下方客服QQ号</div>
-	<div style="top:10px;left:0%;width: 100%;position:relative ">
-		<div class="paytltleBox indexIco" style="color:#78617d;border-top: 0.5px solid #78617d;height:35px;line-height:35px;border-bottom:none">看过这本书的人还看过</div>
-		<!--{foreach ($infoList as $k =>$v)}-->
-			<li style="padding-left:25px;padding-right:25px">
-			<a style="color:#78617d;line-height:35px;top:40px;font-size:12pt" href="<!--{echo $this->doMain;}-->index.php?c=index&a=bookInfo&id=<!--{echo $v['id'];}-->"><span><!--{echo $v['book_name'];}--></span></a>
-			</br>
-			<span style="font-size:12px; color:#78617d"><!--{$v['book_title']}--></span></br>
-			<div style=""><span style="font-size:12px; color:#78617d">分类：
-			<!--{foreach ($v['type'] as $kt=>$vt)}-->
-			<span class="bookType"><!--{echo $vt['typeName'];}--></span>
-            <!--{/foreach}-->
-            </span>
-            <span style="float:right;color:#78617d"><!--{$v['book_case']}-->人在追</span></div>
-		</li>
-		<!--{/foreach}-->
+<div id="fade" class="black_over"></div>
+
+<div id="MyDiv" class="white_content">
+	<div style="width:90vw">
+	<!--{layout:public/user_tip}-->
 	</div>
-    <div class="mp-erweima" style="position:relative;top:60px; margin-top:5px;height:140PX; text-align:center; display:none">
-    	<div style="height:30PX; line-height:20PX;font-size:10px; text-align:center; color:#78617d;">喜欢这篇小说吗？敬请关注下方公众号</div>
-    	<img src="<!--{echo $erweimaMain,$erweima_url;}-->" style="width:100px; height:100px;">
-    </div>
-    <div style="position:relative;top:60px">
-    	<div class="line" style="text-align:center; color:#686868;">客服QQ：97066441</div>
-    	<div class="line" style="text-align:center; color:#686868;">工作时间：周一到周五（9:30-18:00）</div>
-    	<div class="line" style="text-align:center; color:#686868;"></div>
-    </div>
 </div>
+
+<div id="UserSpare" class="white_content">
+<div style="width:90vw">
+	<!--{layout:public/user_spare}-->
+</div>
+</div>
+
+<div id="SendOut" class="white_content">
+<div style="width:90vw">
+	<div class="paytltleBox indexIco">提示
+	<div class="icon ai-close" style="float:right;padding-right:2%;padding-top:2%"></div>
+	</div>
+	<div class="payTexBox">
+		<div class="OutText"></div>
+		<div class="goPayBox" id="sure" style="cursor:pointer" disabled>确定</div>
+	</div>
+</div>
+</div>
+</body>
+
 <script src="Js/jquery.min.js"></script>
 <script src="Js/mplayer.js"></script>
 <script src="Js/mplayer-list.js"></script>
 <script src="Js/mplayer-functions.js"></script>
 <script src="Js/jquery.nstSlider.min.js"></script>
 <script src="Js/jquery.history.js"></script>
+<!-- 音乐播放器模块 -->
 <script>
+
 $(document).on('click','.return',function(){
 	var url=$(this).attr("data-url");
 	window.location.href=url;
@@ -143,6 +179,103 @@ var player = new MPlayer({
 $(document.body).append(player.audio);
 setEffects(player);
 </script>
-</div>
-</body>
+
+<!-- 模态框弹出 -->
+<script type="text/javascript">
+
+   //弹出隐藏层
+   function ShowDiv(show_div,bg_div){
+    $("#"+show_div).delay("fast").fadeIn();
+	$("#"+bg_div).delay("fast").fadeIn();
+    var _windowHeight = $(window).height(),//获取当前窗口高度
+      _windowWidth = $(window).width(),//获取当前窗口宽度
+      _popupHeight = $("#"+show_div).height(),//获取弹出层高度
+      _popupWeight = $("#"+show_div).width();//获取弹出层宽度
+    _posiTop = (_windowHeight - _popupHeight)/2;
+    _posiLeft = (_windowWidth - _popupWeight)/2;
+    $("#"+show_div).css({"left": _posiLeft + "px"});
+    $("#"+show_div).animate({"left": _posiLeft + "px","top":_posiTop + "px","display":"block"});//设置position
+   };
+   //关闭弹出层
+   function CloseDiv(show_div,bg_div)
+   {
+	$("#"+show_div).animate({"top":"1000px"});
+    $("#"+show_div).delay("fast").fadeOut();
+	$("#"+bg_div).delay("fast").fadeOut();
+   };
+
+   function setSendOut(outText){
+		var msg='<span id="stxt">'+outText+'</span>';
+		$(".OutText").prepend(msg);
+
+		ShowDiv('SendOut','fade');
+		setTimeout(function() {CloseDiv('SendOut','fade');},2000);
+		setTimeout(function() { $("#stxt").remove();},8000);
+	};
+   $(".mp-tip").click(function () {
+    var src = $(this).attr("src");
+    $("#showcont").attr("src",src);
+    ShowDiv('MyDiv','fade')
+   });
+   $("#fade,.ai-close,#sure").click(function () {
+    CloseDiv('MyDiv','fade')
+    CloseDiv('UserSpare','fade')
+    CloseDiv('SendOut','fade')
+   });
+   $(".spare").click(function(){
+	   var src = $(this).attr("src");
+	   $("#showcont").attr("src",src);
+	   ShowDiv('UserSpare','fade')
+   });
+
+ </script>
+ <!-- 弹幕模块 -->
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $("#submitBut").click(function(){
+        var msgtxt=$("#msg").val();
+        var colortxt = getReandomColor();
+        var topPos = generateMixed(2);
+        var newtxt = '<p style="position:absolute;z-index:11;top:'+topPos+'px; color:'+colortxt+'">'+$("#msg").val()+'</p>';
+        $(".ctxt").prepend(newtxt);
+        var addTextW = $(".ctxt").find("p").width();
+        $(".ctxt p").animate({left: '-'+addTextW+"%"}, 30000,function(){
+            $(this).hide();
+        });
+
+    });
+
+});
+function setdanmu(spare) {
+	 var msgtxt = spare;
+       var colortxt = '#FFF';
+       var topPos = generateMixed(2);
+
+       var newtxt = '<p style="top:'+topPos+'px;font-size:5px; color:'+colortxt+'">'+msgtxt+'</p>';
+       $(".ctxt").prepend(newtxt);
+       var addTextW = $(".ctxt").find("p").width();
+       $(".ctxt p").animate({left: '-'+addTextW+"%"}, 30000,function(){
+           $(this).hide();
+       });
+}
+//随机获取颜色值
+    function getReandomColor(){
+        return '#'+(function(h){
+        return new Array(7-h.length).join("0")+h
+        })((Math.random()*0x1000000<<0).toString(16))
+    }
+
+//生成随机数据。n表示位数
+    var jschars = ['0','1','2','3','4','5','6','7','8','9'];
+    function generateMixed(n) {
+        var res = "";
+        for(var i = 0; i < n ; i ++) {
+            var id = Math.ceil(Math.random()*9);
+            res += jschars[id];
+        }
+        return res;
+    }
+</script>
+
 </html>

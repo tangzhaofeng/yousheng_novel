@@ -40,6 +40,16 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<div class="form-title">头像上传：</div>
+							<div class="form-con i-col-4">
+                            <div class="booksLeftBox" id="bookImg" <!--{if($bookInfo['user_url']!= '')}--> style="background:url('Uploads/erweima/<!--{echo $bookInfo['user_url'];}-->') no-repeat center center;background-size:282px 282px;margin-bottom:10px;"<!--{/if}-->>
+                 				<input type="hidden" name="user_url" id="book_pic"  value="<!--{echo $bookInfo['user_url'];}-->" />
+                 				<input type="file" style="height:282px; width:282px; border:none; outline:none;font-size:12px;opacity:0; margin-bottom:10px;" id="imgUpload" name="imgUpload" accept="image/*" multiple/>
+							</div>
+                            	图片尺寸640*200像素,底色色值#92c41d
+						</div>
+                        </div>
+						<div class="form-group">
                             <div class="form-title">文件：</div>
 							<div class="form-con i-col-5" id="upPic">
                             <div class="demo">
@@ -117,6 +127,65 @@ $(function () {
 		});
 	});
 });
+</script>
+<script>
+var result,input,_showImg,_inptuFileImg;
+var maxWidth=600;
+var maxHeight=600;
+document.getElementById("imgUpload").addEventListener('change',readFile,false);
+function readFile(){
+	result = document.getElementById("result");
+	_showImg=document.getElementById("bookImg");
+	_inptuFileImg=document.getElementById("book_pic");
+    var file = this.files[0];
+    if(!/image\/\w+/.test(file.type)){
+        alert("文件必须为图片！");
+        return false;
+    }
+	var reader = new FileReader();
+	var imgType=file.type;
+	reader.onload = function(e){
+		var img = new Image();
+		img.src = e.target.result;
+		img.onerror = function(){
+			alert("图片加载错误!");
+		};
+		img.onload = function(){
+			drawImage(img,imgType);
+        };
+		img.remove();
+	}
+	reader.readAsDataURL(file);
+}
+function drawImage(img,imgType){
+	var b64;
+	var sw = img.width;
+	var sh = img.height;
+	var tw = img.width;
+	var th = img.height;
+	var scale =sw/sh;
+	if (sw >maxWidth){
+		tw = maxWidth;
+		th = Math.round(tw/scale);
+	}
+	if (sh>maxHeight){
+		th = maxHeight;
+		tw = Math.round(th*scale);
+	}
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+		canvas.width = tw;
+		canvas.height =th;
+		ctx.drawImage(img,0,0,img.width,img.height,0,0,tw,th);
+		b64=canvas.toDataURL(imgType);
+		bookImg
+	var bookImg = _showImg;
+	var book_pic = _inptuFileImg;
+		book_pic.value=b64;
+		bookImg.style.backgroundImage="url("+b64+")";
+		bookImg.style.backgroundSize="100%";
+		canvas.remove();
+}
 </script>
 </body>
 </html>

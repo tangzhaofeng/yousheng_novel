@@ -12,19 +12,21 @@
 <!--<div class="payTitle">选择充值面额</div>-->
 <ul class="payMoney clearfix">
     <li data="30"><div class="money ">￥30</div><span><!--{echo $scale*30;}-->+<font color="#FF0000"><!--{echo $scale*(30*$giveConf['give_scale_30']);}-->金币</font></span></li>
-    <li data="50"><div class="money hover">￥50</div><span><!--{echo $scale*50;}-->+<font color="#FF0000"><!--{echo $scale*(50*$giveConf['give_scale_50']);}-->金币</font></span></li>
+    <li data="50"><div class="money ">￥50</div><span><!--{echo $scale*50;}-->+<font color="#FF0000"><!--{echo $scale*(50*$giveConf['give_scale_50']);}-->金币</font></span></li>
     <li data="80"><div class="money ">￥80</div><span><!--{echo $scale*80;}-->+<font color="#FF0000"><!--{echo $scale*(80*$giveConf['give_scale_80']);}-->金币</font></span></li>
     <li data="100"><div class="money ">￥100</div><span><!--{echo $scale*100;}-->+<font color="#FF0000"><!--{echo $scale*(100*$giveConf['give_scale_100']);}-->金币</font></span></li>
     <li data="200"><div class="money ">￥200</div><span><!--{echo $scale*200;}-->+<font color="#FF0000"><!--{echo $scale*(200*$giveConf['give_scale_200']);}-->金币</font></span></li>
     <li data="500"><div class="money ">￥500</div><span><!--{echo $scale*500;}-->+<font color="#FF0000"><!--{echo $scale*(500*$giveConf['give_scale_500']);}-->金币</font></span></li>
 </ul>
-<div class="goPayBox" style="cursor:pointer">去支付</div>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
 var money=50;
 var payType='wx';
 var bookid='<!--{echo $bookId;}-->';
-var payUrl='<!--{echo $doMain;}-->index.php?c=user&a=wxPay&bookid=<!--{echo $bookId;}-->';
+var payUrl='<!--{echo $doMain;}-->index.php?c=user&a=wxPPay&bookid=<!--{echo $bookId;}-->';
 localStorage.setItem("manyuedu_toUrl","<!--{echo $thisUrl;}-->");
+var openid='<!--{echo openid;}-->';
 function setCookie(c_name,value,expiredays)
 {
 var exdate=new Date()
@@ -33,25 +35,63 @@ document.cookie=c_name+ "=" +escape(value)+
 ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
 };
 
-$(document).on("click",".payType li",function(){
-	$(this).siblings().attr("class","nochoice");
-	$(this).attr("class","choice");
-	var className=$(this).attr("class");
-	if(className=='choice'){
-		payType=$(this).attr("data-type");
+$(document).ready(function(){
+	var openid="<!--{echo $openid;}-->";
+	if(openid != ''){
+	var appId="<!--{echo $wxResult['appId'];}-->";
+	var timeStamp="<!--{echo $wxResult['timeStamp'];}-->";
+	var nonceStr="<!--{echo $wxResult['nonceStr'];}-->";
+	var package="<!--{echo $wxResult['package'];}-->";
+	var paySign="<!--{echo $wxResult['sign'];}-->";
+	var toUrl=localStorage.getItem("manyuedu_toUrl");
+	var bookid='<!--{echo $bookid}-->';
+	var returnUrl='<!--{echo $doMain;}-->index.php?c=user&a=playerMessage&bookid=<!--{echo $bookid;}-->&money=<!--{echo $money;}-->';
+	function onBridgeReady(){
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',{
+				"appId":appId,
+				"timeStamp":timeStamp,
+				"nonceStr":nonceStr, //随机串
+				"package":package,
+				"signType":"MD5",//微信签名方式：
+				"paySign":paySign //微信签名
+			},
+			function(res){
+				if(res.err_msg=="get_brand_wcpay_request:ok"){
+					window.location.replace(toUrl);
+				}
+				if(res.err_msg=="get_brand_wcpay_request:cancel" || res.err_msg=="get_brand_wcpay_request:fail"){
+					if(bookid=='') {
+						window.history.go(-1);
+					}else{
+						window.location.replace(returnUrl);
+					}
+				}
+			}
+		);
 	}
-	payUrl=$(this).attr("data-url");
+	function callpay(){
+		if (typeof WeixinJSBridge == "undefined"){
+			if(document.addEventListener){
+				document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+			}else if (document.attachEvent){
+				document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+				document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+			}
+		}else{
+			onBridgeReady();
+		}
+	}
+	callpay();
+	}
 });
+
+
 $(document).on("click",".payMoney li",function(){
 	$(this).parent().find("div").removeClass("hover");
 	var thisval=$(this).children("div").attr("class");
 	$(this).children("div").attr("class",thisval+" hover");
 	money=$(this).attr("data");
-});
-$(document).on("click",".goPayBox",function(){
-	if (typeof(money) == "undefined") {
-		money=50;
-	}
 	setCookie('bookid',bookid,1);
 	window.location=payUrl+"&money="+money+"&toUrl=<!--{echo urlencode($thisUrl);}-->";
 });
